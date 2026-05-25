@@ -1,4 +1,5 @@
-﻿using CAT_Engine.Core.SceneBase;
+﻿using CAT_Engine.Core.Rendering.Interfaces;
+using CAT_Engine.Core.SceneBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,22 +8,26 @@ using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.Rendering
 {
-    public class IsoRenderer
+    public class IsoRenderer : IsoRenderInterface
     {
         public IsoRenderer() { }
         public IsoRenderContext RenderContext { get; set; }
-        public void RenderScene(IsoScene scene) 
-        {
-            SetupRenderContext();
-            
-        }
 
-        public void SetupRenderContext()
+        // Render Interface Implementation
+
+
+        public IsoRenderContext GetRenderContext()
         {
             IsoRenderContextBuilder builder = new IsoRenderContextBuilder();
             builder.SetCamera(IsoSceneManager.activeCamera);
+            builder.SetScene(IsoSceneManager.activeScene);
 
-            RenderContext = builder.Build();
+            return builder.Build();
+        }
+
+        public void Render(IsoRenderContext ctx)
+        {
+            throw new NotImplementedException();
         }
     }
 }
