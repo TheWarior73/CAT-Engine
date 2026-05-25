@@ -19,8 +19,8 @@ namespace CAT_Engine.Core.Rendering
             position = startPosition;
         }
 
-        public Vector2 position;
-        public float zoom;
+        protected Vector2 position;
+        protected float zoom;
 
         public void SetPosition(Vector2 inPosition)
         {
