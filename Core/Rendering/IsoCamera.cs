@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.Rendering
 {
+
+    /**
+    * Isometric Camera Class
+    */
     public class IsoCamera
     {
-        public IsoCamera() 
+        public IsoCamera()
         {
             position = new Vector2(0, 0);
         }

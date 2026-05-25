@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.SceneBase
 {
+    /**
+     * Isometric Scene Manager, 
+     * chooses which scene to render, which camera to use...
+     */
     public static class IsoSceneManager
     {
         public static IsoScene activeScene = null;
