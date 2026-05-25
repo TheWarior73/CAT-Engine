@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CAT_Engine
 {
-    public class Game1 : Game
+    public class Engine : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public Game1()
+        public Engine()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

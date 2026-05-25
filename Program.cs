@@ -1,2 +1,2 @@
-﻿using var game = new CAT_Engine.Game1();
+﻿using var game = new CAT_Engine.Engine();
 game.Run();
