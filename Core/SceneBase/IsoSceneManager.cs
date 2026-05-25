@@ -7,30 +7,29 @@ using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.SceneBase
 {
-    public class IsoSceneManager
+    public static class IsoSceneManager
     {
-        public IsoSceneManager() { }
+        public static IsoScene activeScene = null;
+        public static IsoCamera activeCamera = null;
+        public static IsoRenderer activeRenderer = new();
 
-        public IsoScene currentScene = null;
-        public IsoCamera activeCamera = null;
-
-        public T LoadScene<T>() where T : IsoScene
+        public static T LoadScene<T>() where T : IsoScene
         {
-            if(currentScene != null)
+            if(activeScene != null)
             {
-                currentScene.Unload();
-                currentScene = null;
+                activeScene.Unload();
+                activeScene = null;
             }
 
             T sceneInstance = (T)(Activator.CreateInstance(typeof(T)));
             sceneInstance.Load();
 
-            currentScene = sceneInstance;
+            activeScene = sceneInstance;
 
             return sceneInstance;
         }
 
-        public void Init()
+        public static void Init()
         {
             
         }
