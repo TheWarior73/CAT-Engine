@@ -43,7 +43,6 @@ namespace CAT_Engine.Core.Tiles
         public IntVector2 chunkPosition;
 
         // Dict of tiles in the chunk
-        // 
         public Dictionary<IntVector3, IsoTileSquare> tiles;
     }
 }
