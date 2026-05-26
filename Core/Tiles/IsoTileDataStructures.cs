@@ -1,4 +1,5 @@
 ﻿using CAT_Engine.Core.Tiles.TileComponents;
+using CAT_Engine.Core.Tiles.TileObjects;
 using CAT_Engine.Core.Utility;
 using System;
 using System.Collections.Generic;
@@ -10,27 +11,17 @@ using System.Threading.Tasks;
 namespace CAT_Engine.Core.Tiles
 {
     /// <summary>
-    /// Represents an Isometric Tile
-    /// A Tile Object contains a list of <see cref="IsoTileComponent"/>'s
-    /// </summary>
-    public class IsoTileObject
-    {
-        IsoTileObject() {}
-
-        public string id;
-        public List<IsoTileComponent> components;
-    }
-
-    /// <summary>
     /// Represents an Isometric Tile Square
     /// A Square contains a List of <see cref="IsoTileObject"/>
     /// </summary>
     public class IsoTileSquare
     {
-        public IsoTileSquare() {}
+        public IsoTileSquare() { }
         public List<IsoTileObject> objects = new List<IsoTileObject>();
 
         // TODO: Add/Remove an object from the square
+
+        //TODO from jemko: Call OnAddedToSquare on IsoTileObject when added to square :3
     }
 
     /// <summary>
@@ -44,7 +35,7 @@ namespace CAT_Engine.Core.Tiles
         public static byte ZSTACK_MAX_X = 96;
         public static byte ZSTACK_MAX_Y= 96;
 
-        public IsoTileSquare[,] tiles = new IsoTileSquare[ZSTACK_MAX_X, ZSTACK_MAX_Y];
+        public IsoTileSquare[,] squares = new IsoTileSquare[ZSTACK_MAX_X, ZSTACK_MAX_Y];
 
         /// <summary>
         /// Converts the global coordinates of a square to a local chunk coordinate
@@ -73,9 +64,9 @@ namespace CAT_Engine.Core.Tiles
             IntVector2 chunkPos = CalculateSquareCoordinatesInZstack(globalPos);
 
             // If there is no square on the coordinates, we add it.
-            if (tiles[chunkPos.x, chunkPos.y] == null) {
+            if (squares[chunkPos.x, chunkPos.y] == null) {
                 newTileSquare = new IsoTileSquare();
-                tiles[chunkPos.x, chunkPos.y] = newTileSquare;
+                squares[chunkPos.x, chunkPos.y] = newTileSquare;
             } else // There is already a square !
             {
                 throw new Exception("CreateTileSquare: A TileSquare already exists at (global)Pos (" + globalPos.x + ", " + globalPos.y + ")");
@@ -92,7 +83,7 @@ namespace CAT_Engine.Core.Tiles
         {
             IntVector2 chunkPos = CalculateSquareCoordinatesInZstack(globalPos);
 
-            tiles[chunkPos.x, chunkPos.y] = null;
+            squares[chunkPos.x, chunkPos.y] = null;
         }
 
         /// <summary>
@@ -100,7 +91,7 @@ namespace CAT_Engine.Core.Tiles
         /// </summary>
         public void ClearStack()
         {
-            tiles = new IsoTileSquare[ZSTACK_MAX_X, ZSTACK_MAX_Y];
+            squares = new IsoTileSquare[ZSTACK_MAX_X, ZSTACK_MAX_Y];
         }
 
     }
