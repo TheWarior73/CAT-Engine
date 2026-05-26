@@ -14,6 +14,14 @@ x64/
 [Bb]in/
 [Oo]bj/
 
+# DONT ignore engine content
+!Core/
+!Core/*
+!Content/
+!Content/*
+!Core/Debug/
+!Core/Debug/*
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
