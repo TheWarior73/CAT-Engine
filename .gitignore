@@ -17,8 +17,6 @@ x64/
 # DONT ignore engine content
 !Core/
 !Core/*
-!Content/
-!Content/*
 !Core/Debug/
 !Core/Debug/*
 
