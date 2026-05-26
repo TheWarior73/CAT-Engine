@@ -9,11 +9,11 @@ namespace CAT_Engine.Core.Tiles.TileComponents
 {
     public class IsoOpenableTileComponent : IsoTileComponent, IsoTileComponentInterface
     {
-        public bool isOpen;
-        public string openedTexture;
-        public string closedTexture;
+        public bool isOpen = false;
+        public string openedTexture = "window_open";
+        public string closedTexture = "window_closed";
 
         // Interface implementation
-        public string GetTexture() => isOpen ? openedTexture : closedTexture;
+        public string GetTextureID() => isOpen ? openedTexture : closedTexture;
     }
 }
