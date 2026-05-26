@@ -15,6 +15,6 @@ namespace CAT_Engine.Core.Tiles.Interfaces
         /// Should retrieve the texture of the current tile component
         /// </summary>
         /// <returns>The current tile component's texture</returns>
-        public string GetTexture();
+        public string GetTextureID();
     }
 }
