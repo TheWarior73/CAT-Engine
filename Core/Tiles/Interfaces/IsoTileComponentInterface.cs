@@ -9,7 +9,15 @@ namespace CAT_Engine.Core.Tiles.Interfaces
     /// <summary>
     /// Interface that include anything that every TileComponent needs
     /// </summary>
-    internal interface IsoTileComponentInterface
+    public interface IsoTileComponentInterface
+    {
+        
+    }
+
+    /// <summary>
+    /// Interface for the <see cref="IsoRenderableTileComponent"/>
+    /// </summary>
+    public interface IsoRenderableTileComponentInterface
     {
         /// <summary>
         /// Should retrieve the texture of the current tile component
