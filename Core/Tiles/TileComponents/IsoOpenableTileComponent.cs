@@ -7,7 +7,7 @@ using CAT_Engine.Core.Tiles.Interfaces;
 
 namespace CAT_Engine.Core.Tiles.TileComponents
 {
-    public class IsoOpenableTileComponent : IsoTileComponent, IsoTileComponentInterface
+    public class IsoOpenableTileComponent : IsoRenderableTileComponentInterface
     {
         public bool isOpen = false;
         public string openedTexture = "window_open";
