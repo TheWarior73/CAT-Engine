@@ -30,6 +30,19 @@ namespace CAT_Engine.Core.Utility
         {
             return obj is IntVector2 v && v.x == x && v.y == y;
         }
+
+        // ----------
+        // Operators
+
+        public static bool operator ==(IntVector2 left, IntVector2 right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(IntVector2 left, IntVector2 right)
+        {
+            return !(left == right);
+        }
     }
 
     public struct IntVector3
@@ -57,6 +70,19 @@ namespace CAT_Engine.Core.Utility
         public override bool Equals(object obj)
         {
             return obj is IntVector3 v && v.x == x && v.y == y && v.z == z;
+        }
+
+        // ----------
+        // Operators
+
+        public static bool operator ==(IntVector3 left, IntVector3 right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(IntVector3 left, IntVector3 right)
+        {
+            return !(left == right);
         }
     }
 }
