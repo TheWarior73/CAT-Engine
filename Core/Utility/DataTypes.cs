@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.Utility
 {
+    /// <summary>
+    /// Represents a Vector with 2 dimentions: x and y.<br></br>
+    /// Basic comparision operations can be performed, such as == and !=
+    /// </summary>
     public struct IntVector2
     {
         public int x;
@@ -18,7 +22,10 @@ namespace CAT_Engine.Core.Utility
             this.y = y;
         }
 
+        /// <summary>Represents the zero Vector2: (0, 0)</summary>
         public static IntVector2 Zero() => new IntVector2(0, 0);
+
+        /// <summary>Represents the Identity Vector2: (1, 1)</summary>
         //public static IntVector2 Identity() => new IntVector2(1, 1);
 
         public override int GetHashCode()
@@ -45,6 +52,10 @@ namespace CAT_Engine.Core.Utility
         }
     }
 
+    /// <summary>
+    /// Represents a Vector with 3 dimentions: x, y and z.<br></br>
+    /// Basic comparision operations can be performed, such as == and !=
+    /// </summary>
     public struct IntVector3
     {
         public int x;
@@ -59,8 +70,11 @@ namespace CAT_Engine.Core.Utility
             this.z = z;
         }
 
+        /// <summary>Represents the Zero Vector3: (0, 0, 0)</summary>
         public static IntVector3 Zero() => new IntVector3(0, 0, 0);
-        //public static IntVector3 Identity() => new IntVector2(1, 1, 1);
+
+        /// <summary>Represents the Identity Vector3: (1, 1, 1)</summary>
+        //public static IntVector3 Identity() => new IntVector3(1, 1, 1);
 
         public override int GetHashCode()
         {
