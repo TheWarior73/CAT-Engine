@@ -3,12 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.Assets
 {
@@ -41,6 +36,11 @@ namespace CAT_Engine.Core.Assets
         public Texture2D LoadTileTexture(string tileId)
         {
             return LoadAsset<Texture2D>(tileTexturePath +  tileId);
+        }
+
+        public string GetRootDirectoryPath(bool absolute = true)
+        {
+            return absolute? Path.GetFullPath(contentManager.RootDirectory) : contentManager.RootDirectory;
         }
     }
 }

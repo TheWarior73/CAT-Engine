@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace CAT_Engine.Core.Debug
 {
@@ -13,13 +14,25 @@ namespace CAT_Engine.Core.Debug
 
         public enum ELogVerbosity
         {
+            /// <summary>Always prints and triggers a debug assertion. Use for unrecoverable errors.</summary>
             Fatal,
+            /// <summary>Something went wrong but the game can continue. Use for missing assets, bad state etc.</summary>
             Error,
+            /// <summary>Something unexpected happened but it's not breaking. Use for fallbacks and edge cases.</summary>
             Warning,
+            /// <summary>General info about what the engine is doing. Use for system events like init, shutdown.</summary>
             Log,
+            /// <summary>Info intended to be seen during normal play. Use for game events like level load, player actions.</summary>
             Display,
+            /// <summary>Detailed info for debugging specific systems. Noisy, disable unless investigating.</summary>
             Verbose,
+            /// <summary>Extremely detailed, per-frame level info. Only enable when hunting a VERY specific bug.</summary>
             VeryVerbose
+        }
+
+        public static void SetVerbosity(ELogVerbosity newVerbosity)
+        {
+            currentVerbosity = newVerbosity;
         }
 
         /// <summary>
@@ -28,20 +41,29 @@ namespace CAT_Engine.Core.Debug
         /// <param name="format">Format of the message</param>
         /// <param name="verbosity">Verbosity, will not show up if <see cref="currentVerbosity"/> is at a lower level than the input verbosity</param>
         /// <param name="args"></param>
-        
+
         [Conditional("DEBUG")]
         public static void Log(string format, ELogVerbosity verbosity = ELogVerbosity.Display, params object?[]? args)
         {
-            if (currentVerbosity <= verbosity) return;
+            if (verbosity > currentVerbosity) return;
 
             string verbosityString = string.Format("[{0}]: ", verbosity.ToString());
             string formattedString = string.Format(format, args);
             string logString = verbosityString + formattedString;
 
             System.Diagnostics.Debug.Assert(verbosity != ELogVerbosity.Fatal);
-            System.Diagnostics.Debug.WriteLine(logString);
+            SimpleWriteLine(logString);
 
             //@TODO: in release and debug later, write log to file.
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="Log(string, ELogVerbosity, object?[]?)"/>
+        /// </summary>
+        [Conditional("DEBUG")]
+        public static void Log(string format, params object?[]? args)
+        {
+            Log(format, ELogVerbosity.Display, args);
         }
 
         /// <summary>
@@ -70,9 +92,15 @@ namespace CAT_Engine.Core.Debug
             string formattedString = string.Format(format, args);
             string logString = verbosityString + formattedString;
 
-            System.Diagnostics.Debug.WriteLine(logString);
+            SimpleWriteLine(logString);
 
             throw new Exception(logString);
+        }
+
+        private static void SimpleWriteLine(string message)
+        {
+            //System.Diagnostics.Debug.WriteLine(message);
+            System.Diagnostics.Trace.WriteLine(message);
         }
     }
 }
