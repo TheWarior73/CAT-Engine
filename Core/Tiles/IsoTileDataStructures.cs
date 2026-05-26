@@ -31,6 +31,17 @@ namespace CAT_Engine.Core.Tiles
         public List<IsoTileObject> objects = new List<IsoTileObject>();
     }
 
+    public class IsoTileZStack
+    {
+        public IsoTileZStack() {}
+
+        //96x96 = 9.216 TOTAL Tiles in a Stack
+        public static byte ZSTACK_WIDTH = 96;
+        public static byte ZSTACK_HEIGHT = 96;
+
+        public IsoTileSquare[,] tiles = new IsoTileSquare[ZSTACK_WIDTH, ZSTACK_HEIGHT];
+    }
+
     /// <summary>
     /// Represents an Isometric Tile Chunk
     /// A Chunk contains a List of <see cref="IsoTileSquare"/>'s
@@ -46,6 +57,6 @@ namespace CAT_Engine.Core.Tiles
         public IntVector2 chunkPosition;
 
         // Dict of tiles in the chunk
-        public Dictionary<IntVector3, IsoTileSquare> tiles;
+        public Dictionary<int, IsoTileZStack> stacks;
     }
 }
