@@ -21,11 +21,11 @@ namespace CAT_Engine.Core.Assets
 
         public AssetManager()
         {
+            using var _ = new IsoScopeStat("AssetManager.Constructor");
+
             service = new GameServiceContainer();
             contentManager = new ContentManager(service);
             contentManager.RootDirectory = "Content";
-
-            IsoLogger.IsoLog("Asset Manager Initialized.");
         }
 
         public T LoadAsset<T>(string assetName)

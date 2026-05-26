@@ -1,4 +1,6 @@
 ﻿using CAT_Engine.Core.Assets;
+using CAT_Engine.Core.Debug;
+using CAT_Engine.Core.Debug.Profiling;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,7 +21,12 @@ namespace CAT_Engine
 
         protected override void Initialize()
         {
+            using var _ = new IsoScopeStat("Engine.Init");
+
             assetManager = new AssetManager();
+            Window.Title = "CAT ENGINE";
+            Window.AllowUserResizing = true;
+
             base.Initialize();
         }
 
@@ -34,6 +41,9 @@ namespace CAT_Engine
             {
                 Exit();
             }
+
+            IsoProfiler.Dump();
+            IsoProfiler.Reset();
         }
 
         protected override void Draw(GameTime gameTime)
