@@ -56,7 +56,8 @@ namespace CAT_Engine.Core.Tiles
         // Pos of the chunk in the world
         public IntVector2 chunkPosition;
 
-        // Dict of tiles in the chunk
+        // Dict of stacks in the chunk
+        // Int key = Z Height
         public Dictionary<int, IsoTileZStack> stacks;
     }
 }
