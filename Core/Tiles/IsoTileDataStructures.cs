@@ -11,6 +11,7 @@ namespace CAT_Engine.Core.Tiles
 {
     /// <summary>
     /// Represents an Isometric Tile
+    /// A Tile Object contains a list of <see cref="IsoTileComponent"/>'s
     /// </summary>
     public class IsoTileObject
     {
@@ -22,6 +23,7 @@ namespace CAT_Engine.Core.Tiles
 
     /// <summary>
     /// Represents an Isometric Tile Square
+    /// A Square contains a List of <see cref="IsoTileObject"/>
     /// </summary>
     public class IsoTileSquare
     {
@@ -31,6 +33,7 @@ namespace CAT_Engine.Core.Tiles
 
     /// <summary>
     /// Represents an Isometric Tile Chunk
+    /// A Chunk contains a List of <see cref="IsoTileSquare"/>'s
     /// </summary>
     public class IsoTileChunk
     {
