@@ -1,4 +1,8 @@
-﻿using CAT_Engine.Core.Utility;
+﻿using CAT_Engine.Core.Debug;
+using CAT_Engine.Core.Rendering;
+using CAT_Engine.Core.Rendering.Interfaces;
+using CAT_Engine.Core.Tiles.TileObjects;
+using CAT_Engine.Core.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +14,7 @@ namespace CAT_Engine.Core.Tiles
     /// <summary>
     /// Represents an Isometric Tile Map made of Tile Chunks
     /// </summary>
-    public class IsoTilemap
+    public class IsoTilemap : IsoRenderInterface
     {
         public IsoTilemap() { }
 
@@ -27,6 +31,17 @@ namespace CAT_Engine.Core.Tiles
             chunks.Add(ChunkPosition, newChunk);
 
             return newChunk;
+        }
+
+        public void Render(IsoRenderContext ctx)
+        {
+            using var _ = new IsoScopeCycleStat("Tilemap.Render");
+            return;
+        }
+
+        public IsoRenderContext GetRenderContext()
+        {
+            throw new NotImplementedException();
         }
     }
 }
