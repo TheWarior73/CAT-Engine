@@ -7,4 +7,7 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.*" />
   </ItemGroup>
+    <ItemGroup>
+		<Compile Remove="Games\**" />
+    </ItemGroup>
 </Project>
