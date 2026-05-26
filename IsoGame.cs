@@ -7,16 +7,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CAT_Engine
 {
-    public class Engine : Game
+    public class IsoGame : Game
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         public AssetManager assetManager;
 
-        public Engine()
+        public IsoGame()
         {
             graphics = new GraphicsDeviceManager(this);
-            
         }
 
         protected override void Initialize()
@@ -24,7 +23,7 @@ namespace CAT_Engine
             using var _ = new IsoScopeCycleStat("Engine.Init");
 
             assetManager = new AssetManager();
-            Window.Title = "CAT ENGINE";
+            Window.Title = "IsoBase Game - CAT Engine";
             Window.AllowUserResizing = true;
 
             base.Initialize();
