@@ -12,6 +12,6 @@ namespace CAT_Engine.Core.Tiles.TileComponents
         public string openedTexture;
         public string closedTexture;
 
-        string GetTexture() => isOpen ? openedTexture : closedTexture;
+        public string GetTexture() => isOpen ? openedTexture : closedTexture;
     }
 }
