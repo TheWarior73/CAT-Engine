@@ -21,7 +21,7 @@ namespace CAT_Engine.Core.Assets
 
         public AssetManager()
         {
-            using var _ = new IsoScopeStat("AssetManager.Constructor");
+            using var _ = new IsoScopeCycleStat("AssetManager.Constructor");
 
             service = new GameServiceContainer();
             contentManager = new ContentManager(service);

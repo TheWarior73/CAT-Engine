@@ -17,13 +17,13 @@ namespace CAT_Engine.Core.Debug
     /// </code>
     /// </example>
     /// </summary>
-    public struct IsoScopeStat : IDisposable
+    public struct IsoScopeCycleStat : IDisposable
     {
         private readonly string name;
         private readonly long start;
         public int calls = 0;
 
-        public IsoScopeStat(string name)
+        public IsoScopeCycleStat(string name)
         {
             this.name = name;
             start = Stopwatch.GetTimestamp();

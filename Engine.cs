@@ -21,7 +21,7 @@ namespace CAT_Engine
 
         protected override void Initialize()
         {
-            using var _ = new IsoScopeStat("Engine.Init");
+            using var _ = new IsoScopeCycleStat("Engine.Init");
 
             assetManager = new AssetManager();
             Window.Title = "CAT ENGINE";

@@ -17,7 +17,7 @@ namespace CAT_Engine.Core.Debug.Profiling
     }
 
     /// <summary>
-    /// Static profiler that accumulates timing data from <see cref="IsoScopeStat"/> instances.
+    /// Static profiler that accumulates timing data from <see cref="IsoScopeCycleStat"/> instances.
     /// Call <see cref="Dump"/> to print all recorded stats.
     /// <param name="name">The name of the stat to record</param>
     /// <param name="name">The elapsed time to add.</param>
