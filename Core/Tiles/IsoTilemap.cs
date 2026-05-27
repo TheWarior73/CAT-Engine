@@ -1,7 +1,7 @@
 ﻿using CAT_Engine.Core.Debug;
 using CAT_Engine.Core.Rendering;
 using CAT_Engine.Core.Rendering.Interfaces;
-using CAT_Engine.Core.SceneBase;
+using CAT_Engine.Core.Tiles.Exceptions;
 using CAT_Engine.Core.Tiles.TileObjects;
 using CAT_Engine.Core.Utility;
 using System;
@@ -64,7 +64,8 @@ namespace CAT_Engine.Core.Tiles
             {
                 currentChunk = CreateChunk(chunkPos);
                 chunks.Add(chunkPos, currentChunk);
-            } else
+            }
+            else
             {
                 currentChunk = foundChunk;
             }
@@ -74,7 +75,8 @@ namespace CAT_Engine.Core.Tiles
             if (!currentChunk.stacks.TryGetValue(globalPos.z, out IsoTileZStack foundStack))
             {
                 currentStack = currentChunk.CreateZStack(globalPos.z);
-            } else
+            }
+            else
             {
                 currentStack = foundStack;
             }
@@ -84,7 +86,8 @@ namespace CAT_Engine.Core.Tiles
             if (currentStack.squares[localPos.x, localPos.y] != null)
             {
                 currentSquare = currentStack.CreateTileSquare(globalPos);
-            } else
+            }
+            else
             {
                 currentSquare = currentStack.squares[localPos.x, localPos.y];
             }
@@ -98,9 +101,64 @@ namespace CAT_Engine.Core.Tiles
         /// </summary>
         /// <param name="obj">The TileObject to be removed from the map</param>
         /// <param name="globalPos">The Global Position of the object to be removed</param>
-        public void RemoveObject(IsoTileObject obj, IntVector3 globalPos) 
-        { 
-            
+        public void RemoveObject(IsoTileObject obj, IntVector3 globalPos)
+        {
+            // Get Chunk, ZStack, Square and finally Object.
+            IntVector2 chunkPos = IsoTileChunk.CalculateChunkCoords(globalPos);
+            IntVector2 localPos = IsoTileZStack.CalculateSquareCoordinatesInZstack(globalPos);
+
+            IsoTileChunk currentChunk = chunks[chunkPos];
+            IsoTileZStack currentStack = null;
+            IsoTileSquare currentSquare = null;
+
+            // ---
+            if (currentChunk != null)
+            {
+                currentStack = currentChunk.stacks[globalPos.z];
+                if (currentStack != null)
+                {
+                    currentSquare = currentStack.squares[localPos.x, localPos.y];
+
+                    if (currentSquare != null)
+                    {
+                        if (currentSquare.objects.Contains(obj))
+                        {
+                            currentSquare.objects.Remove(obj);
+                        }
+                    } 
+                    else
+                    {
+                        throw new SquareNotFoundException("IsoTilemap - RemoveObject : Square not found");
+                    }
+                }
+                else
+                {
+                    throw new ZStackNotFoundException("IsoTilemap - RemoveObject : Stack not found");
+                }
+            } else
+            {
+                throw new ChunkNotFoundException("IsoTilemap - RemoveObject : Chunk not found");
+            }
+
+            // If Square is empty, remove
+            if (currentSquare.isEmpty())
+            {
+                currentStack.RemoveTileSquare(globalPos);
+            }
+
+            // If ZStack is empty, remove
+            if (currentStack.isEmpty())
+            {
+                currentChunk.RemoveZStack(globalPos.z);
+            }
+
+            // If Chunk  is empty, remove
+            if (currentChunk.isEmpty())
+            {
+                chunks.Remove(chunkPos);
+            }
+
+            // End;
         }
     }
 }

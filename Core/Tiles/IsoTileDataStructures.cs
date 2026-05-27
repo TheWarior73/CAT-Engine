@@ -22,6 +22,9 @@ namespace CAT_Engine.Core.Tiles
         public void AddTileObject(IsoTileObject obj)
         {
             objects.Add(obj);
+
+            // Let the object know that it's parent has been updated
+            obj.OnAddedToSquare(this);
         }
 
         /// <summary>
@@ -30,13 +33,7 @@ namespace CAT_Engine.Core.Tiles
         /// <returns></returns>
         public IsoTileObject CreateTileObject()
         {
-            IsoTileObject tileObject = new();
-            objects.Add(tileObject);
-
-            // Let the object know that it's parent has been updated
-            tileObject.OnAddedToSquare(this);
-            
-            return tileObject;
+            return new IsoTileObject();
         }
 
         /// <summary>
