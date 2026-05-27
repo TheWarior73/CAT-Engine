@@ -4,7 +4,6 @@ using CAT_Engine.Core.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +16,7 @@ namespace CAT_Engine.Core.Tiles
     public class IsoTileSquare
     {
         public IsoTileSquare() { }
-        public List<IsoTileObject> objects = new List<IsoTileObject>();
+        public List<IsoTileObject> objects = new();
 
         public void AddTileObject(IsoTileObject obj)
         {
@@ -43,6 +42,23 @@ namespace CAT_Engine.Core.Tiles
         public void RemoveTileObject(IsoTileObject obj)
         {
             objects.Remove(obj);
+        }
+
+        /// <summary>
+        /// Clears the square from it's objects
+        /// </summary>
+        public void ClearSquare()
+        {
+            objects.Clear();
+        }
+
+        /// <summary>
+        /// Checks if the Square is empty
+        /// </summary>
+        /// <returns>The check result (True if empty, False otherwise)</returns>
+        public bool IsEmpty()
+        {
+            return objects.Count == 0;
         }
     }
 
@@ -109,11 +125,20 @@ namespace CAT_Engine.Core.Tiles
         }
 
         /// <summary>
-        /// Clears an IsoTileZstack
+        /// Clears the ZStack's square list.
         /// </summary>
         public void ClearStack()
         {
             squares = new IsoTileSquare[ZSTACK_MAX_X, ZSTACK_MAX_Y];
+        }
+
+        /// <summary>
+        /// Checks if the ZStack is empty
+        /// </summary>
+        /// <returns>The check result (True if empty, False otherwise)</returns>
+        public bool IsEmpty()
+        {
+            return squares.Length == 0;
         }
 
     }
@@ -171,6 +196,23 @@ namespace CAT_Engine.Core.Tiles
         public void RemoveZStack(int zIndex)
         {
             stacks?.Remove(zIndex); // Will throw an exception is the index does not exist in the stack
+        }
+
+        /// <summary>
+        /// Clears the chunk Stacks
+        /// </summary>
+        public void ClearChunk()
+        {
+            stacks = new Dictionary<int, IsoTileZStack>();
+        }
+
+        /// <summary>
+        /// Checks if the chunk is empty
+        /// </summary>
+        /// <returns>The check result (True if empty, False otherwise)</returns>
+        public bool IsEmpty()
+        {
+            return stacks?.Count == 0;
         }
     }
 }

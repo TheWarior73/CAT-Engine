@@ -141,19 +141,19 @@ namespace CAT_Engine.Core.Tiles
             }
 
             // If Square is empty, remove
-            if (currentSquare.isEmpty())
+            if (currentSquare.IsEmpty())
             {
                 currentStack.RemoveTileSquare(globalPos);
             }
 
             // If ZStack is empty, remove
-            if (currentStack.isEmpty())
+            if (currentStack.IsEmpty())
             {
                 currentChunk.RemoveZStack(globalPos.z);
             }
 
             // If Chunk  is empty, remove
-            if (currentChunk.isEmpty())
+            if (currentChunk.IsEmpty())
             {
                 chunks.Remove(chunkPos);
             }
