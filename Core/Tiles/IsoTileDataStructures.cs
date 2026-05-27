@@ -42,7 +42,7 @@ namespace CAT_Engine.Core.Tiles
         /// </summary>
         /// <param name="globalPos">The global position of the square</param>
         /// <returns></returns>
-        public static IntVector2 CalculateSquareCoordinatesInZstack(IntVector2 globalPos)
+        public static IntVector2 CalculateSquareCoordinatesInZstack(IntVector3 globalPos)
         {
             IntVector2 stackPos = new();
             stackPos.x = globalPos.x % ZSTACK_MAX_X;
@@ -57,7 +57,7 @@ namespace CAT_Engine.Core.Tiles
         /// <param name="globalPos">The global position of the square to be created</param>
         /// <returns>The newly created square</returns>
         /// <exception cref="Exception"></exception>
-        public IsoTileSquare CreateTileSquare(IntVector2 globalPos)
+        public IsoTileSquare CreateTileSquare(IntVector3 globalPos)
         {
             IsoTileSquare newTileSquare = null;
 
@@ -79,7 +79,7 @@ namespace CAT_Engine.Core.Tiles
         /// Removes a <see cref="IsoTileSquare"/> from a <see cref="IsoTileZStack"/>
         /// </summary>
         /// <param name="globalPos">The global position of the square to be removed</param>
-        public void RemoveTileSquare(IntVector2 globalPos)
+        public void RemoveTileSquare(IntVector3 globalPos)
         {
             IntVector2 chunkPos = CalculateSquareCoordinatesInZstack(globalPos);
 
@@ -119,7 +119,7 @@ namespace CAT_Engine.Core.Tiles
         /// </summary>
         /// <param name="globalPos"></param>
         /// <returns></returns>
-        public static IntVector2 CalculateChunkCoords(IntVector2 globalPos)
+        public static IntVector2 CalculateChunkCoords(IntVector3 globalPos)
         {
             IntVector2 chunkPos = new();
 
