@@ -19,9 +19,34 @@ namespace CAT_Engine.Core.Tiles
         public IsoTileSquare() { }
         public List<IsoTileObject> objects = new List<IsoTileObject>();
 
-        // TODO: Add/Remove an object from the square
+        public void AddTileObject(IsoTileObject obj)
+        {
+            objects.Add(obj);
+        }
 
-        //TODO from jemko: Call OnAddedToSquare on IsoTileObject when added to square :3
+        /// <summary>
+        /// Creates and adds a new Tile Object to a Tile Square
+        /// </summary>
+        /// <returns></returns>
+        public IsoTileObject CreateTileObject()
+        {
+            IsoTileObject tileObject = new();
+            objects.Add(tileObject);
+
+            // Let the object know that it's parent has been updated
+            tileObject.OnAddedToSquare(this);
+            
+            return tileObject;
+        }
+
+        /// <summary>
+        /// Removes a specified Tile Object from a square
+        /// </summary>
+        /// <param name="obj">The object to be removed from the square</param>
+        public void RemoveTileObject(IsoTileObject obj)
+        {
+            objects.Remove(obj);
+        }
     }
 
     /// <summary>
