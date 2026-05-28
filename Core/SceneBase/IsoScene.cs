@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CAT_Engine.Core.Rendering.Interfaces.Renderables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,19 @@ namespace CAT_Engine.Core.SceneBase
     {
         public IsoScene() { }
 
+        private List<IsoRenderableInterface> renderableObjects = new();
+
         public virtual void Load() { }
         public virtual void Unload() { }
 
+        public void AddRenderableObject(IsoRenderableInterface newRenderable)
+        {
+            renderableObjects.Add(newRenderable);
+        }
+
+        public virtual List<IsoRenderableInterface> GetRenderableObjects()
+        {
+            return renderableObjects;
+        }
     }
 }

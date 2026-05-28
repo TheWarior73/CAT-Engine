@@ -1,9 +1,7 @@
-﻿using CAT_Engine.Core.Rendering;
+﻿using CAT_Engine.Core.Debug;
+using CAT_Engine.Core.Rendering;
+using CAT_Engine.Core.Rendering.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.SceneBase
 {
@@ -13,19 +11,29 @@ namespace CAT_Engine.Core.SceneBase
      */
     public static class IsoSceneManager
     {
-        public static IsoScene activeScene = null;
-        public static IsoCamera activeCamera = null;
-        public static IsoRenderer activeRenderer = new();
+        public static IsoScene activeScene { get; private set; } = null;
+        public static IsoCamera activeCamera { get; private set; } = null;
+
+        /// <summary>
+        /// Current Render Interface, reason we are using the interface is because the Scene Manager should not care if this is 
+        /// IsoRenderer or IsoDebugRenderer or IsoVulkanRenderer or anything. It just needs to know "this has a render function"
+        /// </summary>
+        internal static IsoRenderInterface activeRenderer { get; private set; } = null;
+
+        internal static void PreInit()
+        {
+            activeRenderer = new IsoRenderer();
+        }
 
         public static T LoadScene<T>() where T : IsoScene
         {
-            if(activeScene != null)
+            if (activeScene != null)
             {
                 activeScene.Unload();
                 activeScene = null;
             }
 
-            T sceneInstance = (T)(Activator.CreateInstance(typeof(T)));
+            T sceneInstance = Activator.CreateInstance<T>();
             sceneInstance.Load();
 
             activeScene = sceneInstance;
@@ -33,9 +41,29 @@ namespace CAT_Engine.Core.SceneBase
             return sceneInstance;
         }
 
-        public static void Init()
+        public static void SetActiveCamera(IsoCamera camera)
         {
-            
+            activeCamera = camera;
+        }
+
+        public static void RenderActiveScene()
+        {
+            if (activeRenderer == null)
+            {
+                IsoLogger.Log(
+                    "Cannot render active scene because active renderer is null!",
+                    IsoLogger.ELogVerbosity.Warning
+                );
+
+                return;
+            }
+
+            IsoRenderContext context = new IsoRenderContextBuilder()
+                .SetCamera(activeCamera)
+                .SetScene(activeScene)
+                .Build();
+
+            activeRenderer.Render(context);
         }
     }
 }

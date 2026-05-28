@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -97,6 +98,49 @@ namespace CAT_Engine.Core.Utility
         public static bool operator !=(IntVector3 left, IntVector3 right)
         {
             return !(left == right);
+        }
+    }
+
+    /// <summary>
+    /// Represents a 2D Transform
+    /// </summary>
+    public struct IsoTransform2
+    {
+        public Vector2 position;
+
+        /// <summary>
+        /// rotation in degrees, not radiants
+        /// </summary>
+        public float rotation;
+        public Vector2 scale;
+
+        public IsoTransform2(Vector2 position, float rotation, Vector2 scale)
+        {
+            this.position = position;
+            this.rotation = rotation;
+            this.scale = scale;
+        }
+
+        public static IsoTransform2 Identity = new IsoTransform2();
+
+        public static bool operator ==(IsoTransform2 lvalue, IsoTransform2 rvalue)
+        {
+            return lvalue.position == rvalue.position && lvalue.rotation == rvalue.rotation && lvalue.scale == rvalue.scale;
+        }
+
+        public static bool operator !=(IsoTransform2 lvalue, IsoTransform2 rvalue)
+        {
+            return !(lvalue == rvalue);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(position.X, position.Y, rotation, scale.X, scale.Y);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this == (IsoTransform2)obj;
         }
     }
 }
