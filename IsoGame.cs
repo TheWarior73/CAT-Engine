@@ -1,6 +1,8 @@
 ﻿using CAT_Engine.Core.Assets;
 using CAT_Engine.Core.Debug;
 using CAT_Engine.Core.Debug.Profiling;
+using CAT_Engine.Core.Rendering;
+using CAT_Engine.Core.SceneBase;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,7 +15,7 @@ namespace CAT_Engine
         private SpriteBatch spriteBatch;
         private Color graphicsDeviceClearColor = Color.Red;
 
-        public AssetManager assetManager;
+        public static AssetManager assetManager;
 
         public IsoGame()
         {
@@ -26,11 +28,11 @@ namespace CAT_Engine
             using var _ = new IsoScopeCycleStat("Engine.Init");
 
             assetManager = new AssetManager();
-            Window.Title = "IsoBase Game - CAT Engine";
-            Window.AllowUserResizing = true;
+            Window.Title = "CAT Engine";
+
+            IsoSceneManager.PreInit();
 
             base.Initialize();
-
             OnInitializeWindow(Window);
         }
 
@@ -57,7 +59,11 @@ namespace CAT_Engine
 
         protected sealed override void Draw(GameTime gameTime)
         {
+            using var _ = new IsoScopeCycleStat("Engine.Draw");
+
             GraphicsDevice.Clear(graphicsDeviceClearColor);
+
+            IsoSceneManager.RenderActiveScene();
         }
 
         //This is what the game hooks into:
