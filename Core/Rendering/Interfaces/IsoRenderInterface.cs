@@ -10,14 +10,8 @@ namespace CAT_Engine.Core.Rendering.Interfaces
     {
 
         /**
-         * Called when a component needs to be rendered
+         * Called when a object needs to be rendered
          */
         public void Render(IsoRenderContext ctx);
-
-        /**
-         * Retrieves the isometric render context
-         */
-        public IsoRenderContext GetRenderContext();
-
     }
 }
