@@ -1,5 +1,6 @@
 ﻿using CAT_Engine;
 using CAT_Engine.Core.Debug;
+using CATSandboxGame.Scenes;
 using Microsoft.Xna.Framework;
 
 namespace CATSandboxGame
@@ -18,6 +19,8 @@ namespace CATSandboxGame
         protected override void OnInitializeGame()
         {
             SetGraphicsDeviceClearColor(Color.Blue);
+            GameScene scene = new GameScene();
+            scene.testMap();
         }
 
         protected override void OnAssetManagerReady()

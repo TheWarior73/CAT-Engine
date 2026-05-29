@@ -9,9 +9,10 @@ namespace CAT_Engine.Core.Rendering.Interfaces
     internal interface IsoRenderInterface
     {
 
-        /**
-         * Called when a object needs to be rendered
-         */
+        /// <summary>
+        /// Called whenever something needs to be rendered.
+        /// </summary>
+        /// <param name="ctx">An Isometric Render Context</param>
         public void Render(IsoRenderContext ctx);
     }
 }
