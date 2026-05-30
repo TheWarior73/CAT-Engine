@@ -20,8 +20,9 @@ namespace CATSandboxGame
         protected override void OnInitializeGame()
         {
             SetGraphicsDeviceClearColor(Color.Blue);
-            GameScene scene = new GameScene();
-            scene.testMap();
+
+            GameScene scene = IsoSceneManager.CreateScene<GameScene>();
+            IsoSceneManager.LoadScene(scene);
         }
 
         protected override void OnAssetManagerReady()

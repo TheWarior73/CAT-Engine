@@ -15,11 +15,14 @@ namespace CAT_Engine.Core.Tiles
     /// <summary>
     /// Represents an Isometric Tile Map made of Tile Chunks
     /// </summary>
-    public class IsoTilemap : IsoRenderInterface
+    public class IsoTilemap
     {
         public IsoTilemap() { }
 
         public Dictionary<IntVector2, IsoTileChunk> chunks = new();
+
+        public const int TILE_WIDTH = 32;
+        public const int TILE_HEIGHT = 32;
 
         /// <summary>
         /// Creates a chunk on the TileMap to the given coordinates and returns it
@@ -31,13 +34,6 @@ namespace CAT_Engine.Core.Tiles
             IsoTileChunk newChunk = new IsoTileChunk(ChunkPosition);
 
             return newChunk;
-        }
-
-        // IsoRenderInterface Implementation
-        public void Render(IsoRenderContext ctx)
-        {
-            using var _ = new IsoScopeCycleStat("Tilemap.Render");
-            return;
         }
 
         public IsoRenderContext GetRenderContext()
@@ -92,7 +88,7 @@ namespace CAT_Engine.Core.Tiles
             }
 
             // Finally, Add the Object to the square
-            currentSquare.objects.Add(obj);
+            currentSquare.AddTileObject(obj);
         }
 
         /// <summary>

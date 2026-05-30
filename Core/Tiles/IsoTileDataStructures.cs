@@ -120,7 +120,7 @@ namespace CAT_Engine.Core.Tiles
             {
                 newTileSquare = new IsoTileSquare();
                 squares[chunkPos.x, chunkPos.y] = newTileSquare;
-                squareCount++;
+                occupiedSquareCount++;
             }
             else // There is already a square !
             {
@@ -139,7 +139,7 @@ namespace CAT_Engine.Core.Tiles
             IntVector2 chunkPos = CalculateSquareCoordinatesInZstack(globalPos);
 
             squares[chunkPos.x, chunkPos.y] = null;
-            squareCount--;
+            occupiedSquareCount--;
         }
 
         /// <summary>

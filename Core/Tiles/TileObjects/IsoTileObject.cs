@@ -54,7 +54,7 @@ namespace CAT_Engine.Core.Tiles.TileObjects
         {
             StringBuilder sb = new();
             sb.AppendLine("id: " + id);
-            sb.AppendLine("Parent: " + parentSquare);
+            sb.AppendLine("Parent: " + parentSquare.GetType().ToString());
 
             sb.AppendLine("Components in square:");
             foreach (IsoTileComponent component in components)

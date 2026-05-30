@@ -1,5 +1,6 @@
 ﻿using CAT_Engine.Core.Debug;
 using CAT_Engine.Core.SceneBase;
+using CAT_Engine.Core.SceneBase.SceneObjects.Entity;
 using CAT_Engine.Core.Tiles;
 using CAT_Engine.Core.Tiles.TileObjects;
 using CAT_Engine.Core.Utility;
@@ -14,11 +15,18 @@ namespace CATSandboxGame.Scenes
 {
     public class GameScene : IsoScene
     {
-        public GameScene() { }
-
         public IsoTilemap tilemap = new IsoTilemap();
 
-        public void testMap()
+        public GameScene(SceneToken token) : base(token)
+        {
+        }
+
+        public override void BeginPlay()
+        {
+            TestMap();
+        }
+
+        private void TestMap()
         {
             using var _ = new IsoScopeCycleStat("map Test");
 
@@ -34,10 +42,10 @@ namespace CATSandboxGame.Scenes
 
             IsoTileObject obj2 = new IsoTileObject();
             obj2.id = "objectTwo";
-            
+
             IsoTileObject obj3 = new IsoTileObject();
             obj3.id = "objectThree";
-            
+
             IsoTileObject obj4 = new IsoTileObject();
             obj4.id = "objectFour";
 
@@ -60,6 +68,8 @@ namespace CATSandboxGame.Scenes
 
             IsoLogger.Log("Tilemap after removal: {0}", tilemap.ToString());
 
+            IsoEntity e = SpawnEntity<IsoEntity>();
+            e.sprite.SetTextureFromAsset("entities/entity");
         }
     }
 }

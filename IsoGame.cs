@@ -6,39 +6,56 @@ using CAT_Engine.Core.SceneBase;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Globalization;
 
 namespace CAT_Engine
 {
     public class IsoGame : Game
     {
+        public static IsoGame Instance { get; private set; }
+
+        protected IsoGame()
+        {
+            graphics = new GraphicsDeviceManager(this);
+            graphics.ApplyChanges();
+            Instance = this;
+        }
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private Color graphicsDeviceClearColor = Color.Red;
 
         public static AssetManager assetManager;
 
-        public IsoGame()
-        {
-            graphics = new GraphicsDeviceManager(this);
-        }
-
         //Base functions are sealed as to not disturb the IsoGame engine initialization
         protected sealed override void Initialize()
         {
             using var _ = new IsoScopeCycleStat("Engine.Init");
 
+            SetLocaleDefaults();
+
             assetManager = new AssetManager();
             Window.Title = "CAT Engine";
 
+            IsoSceneManager.graphicsDevice = graphics.GraphicsDevice;
             IsoSceneManager.PreInit();
 
             base.Initialize();
             OnInitializeWindow(Window);
         }
 
+        private void SetLocaleDefaults()
+        {
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+        }
+
         protected sealed override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            IsoSceneManager.spriteBatch = spriteBatch;
+            IsoSceneManager.graphicsDevice = GraphicsDevice;
 
             OnInitializeGame();
             OnAssetManagerReady();
@@ -54,7 +71,10 @@ namespace CAT_Engine
             IsoProfiler.Dump();
             IsoProfiler.Reset();
 
-            OnUpdate((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            IsoSceneManager.Update(deltaTime);
+            OnUpdate(deltaTime);
         }
 
         protected sealed override void Draw(GameTime gameTime)
