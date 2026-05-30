@@ -1,4 +1,5 @@
-﻿using CAT_Engine.Core.SceneBase;
+﻿using CAT_Engine.Core.Debug;
+using CAT_Engine.Core.SceneBase;
 using CAT_Engine.Core.Tiles;
 using CAT_Engine.Core.Tiles.TileObjects;
 using CAT_Engine.Core.Utility;
@@ -19,6 +20,8 @@ namespace CATSandboxGame.Scenes
 
         public void testMap()
         {
+            using var _ = new IsoScopeCycleStat("map Test");
+
             // Create a tile object
             // Add this object to 0,0,0
             // Add another object to 0,0,1
@@ -43,6 +46,8 @@ namespace CATSandboxGame.Scenes
             tilemap.AddObject(obj3, new IntVector3(0, 0, 1));
             tilemap.AddObject(obj4, new IntVector3(100, 100, 0));
 
+            IsoLogger.Log("Tilemap after addition: {0}", tilemap.ToString());
+
             // Remove the 0,0,0 obj
             // Remove the other 0,0,0 obj
             // Remove the 0,0,1 obj
@@ -52,6 +57,9 @@ namespace CATSandboxGame.Scenes
             tilemap.RemoveObject(obj2, new IntVector3(0, 0, 1));
             tilemap.RemoveObject(obj3, new IntVector3(0, 0, 1));
             tilemap.RemoveObject(obj4, new IntVector3(100, 100, 0));
+
+            IsoLogger.Log("Tilemap after removal: {0}", tilemap.ToString());
+
         }
     }
 }

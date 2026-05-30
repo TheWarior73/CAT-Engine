@@ -19,7 +19,7 @@ namespace CAT_Engine.Core.Tiles.TileObjects
 
         public IsoTileSquare parentSquare = null;
         public string id;
-        public List<IsoTileComponent> components;
+        public List<IsoTileComponent> components = new();
 
         /// <summary>
         /// Gets a component of a certain type attached to this <see cref="IsoTileObject"/>
@@ -48,6 +48,21 @@ namespace CAT_Engine.Core.Tiles.TileObjects
         public virtual void OnAddedToSquare(IsoTileSquare square)
         {
             parentSquare = square;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("id: " + id);
+            sb.AppendLine("Parent: " + parentSquare);
+
+            sb.AppendLine("Components in square:");
+            foreach (IsoTileComponent component in components)
+            {
+                sb.AppendLine(component.ToString());
+            }
+
+            return sb.ToString();
         }
     }
 }

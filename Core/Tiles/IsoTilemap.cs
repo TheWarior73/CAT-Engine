@@ -29,7 +29,6 @@ namespace CAT_Engine.Core.Tiles
         public IsoTileChunk CreateChunk(IntVector2 ChunkPosition)
         {
             IsoTileChunk newChunk = new IsoTileChunk(ChunkPosition);
-            chunks.Add(ChunkPosition, newChunk);
 
             return newChunk;
         }
@@ -74,16 +73,16 @@ namespace CAT_Engine.Core.Tiles
             IsoTileZStack currentStack = null;
             if (!currentChunk.stacks.TryGetValue(globalPos.z, out IsoTileZStack foundStack))
             {
-                currentStack = currentChunk.CreateZStack(globalPos.z);
+                currentStack = currentChunk.CreateZStack(globalPos.z);    
             }
-            else
+            else 
             {
                 currentStack = foundStack;
             }
 
             // Get/Create the Square
             IsoTileSquare currentSquare = null;
-            if (currentStack.squares[localPos.x, localPos.y] != null)
+            if (currentStack.squares[localPos.x, localPos.y] == null)
             {
                 currentSquare = currentStack.CreateTileSquare(globalPos);
             }
@@ -159,6 +158,21 @@ namespace CAT_Engine.Core.Tiles
             }
 
             // End;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+
+            sb.AppendLine("Chunks in tileMap:");
+
+            foreach (var chunk in chunks)
+            {
+                sb.Append("Key: " + chunk.Key);
+                sb.AppendLine(", Value: " + chunk.Value.ToString());
+            }
+
+            return sb.ToString();
         }
     }
 }

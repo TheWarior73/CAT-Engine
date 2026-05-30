@@ -51,6 +51,15 @@ namespace CAT_Engine.Core.Utility
         {
             return !(left == right);
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+
+            sb.Append("(" + x + ", " + y + ")");
+
+            return sb.ToString();
+        }
     }
 
     /// <summary>
@@ -99,6 +108,14 @@ namespace CAT_Engine.Core.Utility
         {
             return !(left == right);
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("(" + x + ", " + y + ", " + z + ")");
+
+            return sb.ToString();
+        }
     }
 
     /// <summary>
@@ -141,6 +158,16 @@ namespace CAT_Engine.Core.Utility
         public override bool Equals(object obj)
         {
             return this == (IsoTransform2)obj;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("Position: " + position);
+            sb.AppendLine("Rotation: " + rotation);
+            sb.AppendLine("Scale   : " + scale);
+
+            return sb.ToString();
         }
     }
 }

@@ -60,6 +60,19 @@ namespace CAT_Engine.Core.Tiles
         {
             return objects.Count == 0;
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("Objects in Square");
+
+            foreach (IsoTileObject obj in objects)
+            {
+                sb.AppendLine(obj.ToString());
+            }
+
+            return sb.ToString();
+        }
     }
 
     /// <summary>
@@ -67,11 +80,11 @@ namespace CAT_Engine.Core.Tiles
     /// </summary>
     public class IsoTileZStack
     {
-        public IsoTileZStack() {}
+        public IsoTileZStack() { }
 
         //96x96 = 9.216 TOTAL Tiles in a Stack
         public static byte ZSTACK_MAX_X = 96;
-        public static byte ZSTACK_MAX_Y= 96;
+        public static byte ZSTACK_MAX_Y = 96;
 
         public IsoTileSquare[,] squares = new IsoTileSquare[ZSTACK_MAX_X, ZSTACK_MAX_Y];
 
@@ -139,6 +152,21 @@ namespace CAT_Engine.Core.Tiles
         public bool IsEmpty()
         {
             return squares.Length == 0;
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("Squares in ZStack:");
+
+            foreach (var square in squares)
+            {
+                if (square != null)
+                {
+                    sb.AppendLine(square.ToString());
+                }
+            }
+
+            return sb.ToString();
         }
 
     }
@@ -159,7 +187,7 @@ namespace CAT_Engine.Core.Tiles
 
         // Dict of stacks in the chunk
         // Int key = Z Height
-        public Dictionary<int, IsoTileZStack> stacks;
+        public Dictionary<int, IsoTileZStack> stacks = new();
 
         /// <summary>
         /// Calculates the chunk coordinates in the world relative to a global position
@@ -179,13 +207,14 @@ namespace CAT_Engine.Core.Tiles
         public IsoTileZStack CreateZStack(int zIndex)
         {
             IsoTileZStack newZStack = null;
-            
+
             // If stack is free at this index, we create a new stack and add it
-            if (!stacks?.ContainsKey(zIndex) ?? false)
+            if (stacks != null || (!stacks?.ContainsKey(zIndex) ?? false))
             {
                 newZStack = new();
                 stacks[zIndex] = newZStack;
-            } else // If stack is not free, we throw an Exception
+            }
+            else // If stack is not free, we throw an Exception
             {
                 throw new Exception("CreateZStack: zStack already has a member at index " + zIndex);
             }
@@ -213,6 +242,21 @@ namespace CAT_Engine.Core.Tiles
         public bool IsEmpty()
         {
             return stacks?.Count == 0;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("Chunk Pos: " + chunkPosition.ToString());
+            sb.AppendLine("Stacks in chunk:");
+
+            foreach (var stack in stacks) 
+            {
+                sb.Append("Key (z-index): " + stack.Key);
+                sb.AppendLine(", Value: " + stack.Value.ToString());
+            }
+
+            return sb.ToString();
         }
     }
 }
