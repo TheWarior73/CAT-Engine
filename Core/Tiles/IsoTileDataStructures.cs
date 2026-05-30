@@ -86,6 +86,7 @@ namespace CAT_Engine.Core.Tiles
         public static byte ZSTACK_MAX_X = 96;
         public static byte ZSTACK_MAX_Y = 96;
 
+        private int occupiedSquareCount= 0;
         public IsoTileSquare[,] squares = new IsoTileSquare[ZSTACK_MAX_X, ZSTACK_MAX_Y];
 
         /// <summary>
@@ -115,10 +116,13 @@ namespace CAT_Engine.Core.Tiles
             IntVector2 chunkPos = CalculateSquareCoordinatesInZstack(globalPos);
 
             // If there is no square on the coordinates, we add it.
-            if (squares[chunkPos.x, chunkPos.y] == null) {
+            if (squares[chunkPos.x, chunkPos.y] == null)
+            {
                 newTileSquare = new IsoTileSquare();
                 squares[chunkPos.x, chunkPos.y] = newTileSquare;
-            } else // There is already a square !
+                squareCount++;
+            }
+            else // There is already a square !
             {
                 throw new Exception("CreateTileSquare: A TileSquare already exists at (global)Pos (" + globalPos.x + ", " + globalPos.y + ")");
             }
@@ -135,6 +139,7 @@ namespace CAT_Engine.Core.Tiles
             IntVector2 chunkPos = CalculateSquareCoordinatesInZstack(globalPos);
 
             squares[chunkPos.x, chunkPos.y] = null;
+            squareCount--;
         }
 
         /// <summary>
@@ -151,7 +156,8 @@ namespace CAT_Engine.Core.Tiles
         /// <returns>The check result (True if empty, False otherwise)</returns>
         public bool IsEmpty()
         {
-            return squares.Length == 0;
+            return occupiedSquareCount== 0;
+        }
 
         public override string ToString()
         {
