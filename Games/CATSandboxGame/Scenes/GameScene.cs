@@ -54,7 +54,7 @@ namespace CATSandboxGame.Scenes
             tilemap.AddObject(obj3, new IntVector3(0, 0, 1));
             tilemap.AddObject(obj4, new IntVector3(100, 100, 0));
 
-            IsoLogger.Log("Tilemap after addition: {0}", tilemap.ToString());
+            IsoLogger.Log("Tilemap after addition:\n{0}", tilemap.ToString());
 
             // Remove the 0,0,0 obj
             // Remove the other 0,0,0 obj
@@ -66,7 +66,7 @@ namespace CATSandboxGame.Scenes
             tilemap.RemoveObject(obj3, new IntVector3(0, 0, 1));
             tilemap.RemoveObject(obj4, new IntVector3(100, 100, 0));
 
-            IsoLogger.Log("Tilemap after removal: {0}", tilemap.ToString());
+            IsoLogger.Log("Tilemap after removal:\n{0}", tilemap.ToString());
 
             IsoEntity e = SpawnEntity<IsoEntity>();
             e.sprite.SetTextureFromAsset("entities/entity");

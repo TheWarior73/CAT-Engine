@@ -159,15 +159,23 @@ namespace CAT_Engine.Core.Tiles
         public override string ToString()
         {
             StringBuilder sb = new();
-
             sb.AppendLine("Chunks in tileMap:");
 
+            int count = 0;
             foreach (var chunk in chunks)
             {
-                sb.Append("Key: " + chunk.Key);
-                sb.AppendLine(", Value: " + chunk.Value.ToString());
+                sb.AppendLine("(" + count++ + ")");
+                sb.AppendLine("- Key: " + chunk.Key);
+                sb.AppendLine("- Value:");
+
+                // Grab the string and indent all internal newlines
+                string valueStr = chunk.Value?.ToString() ?? "null";
+                valueStr = valueStr.Replace("\n", "\n\t");
+
+                sb.AppendLine("\t" + valueStr);
             }
 
+            sb.Replace("\n", "\n\t");
             return sb.ToString();
         }
     }

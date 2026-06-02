@@ -57,9 +57,20 @@ namespace CAT_Engine.Core.Tiles.TileObjects
             sb.AppendLine("Parent: " + parentSquare.GetType().ToString());
 
             sb.AppendLine("Components in square:");
-            foreach (IsoTileComponent component in components)
+
+            if (components.Count > 0)
             {
-                sb.AppendLine(component.ToString());
+                foreach (IsoTileComponent component in components)
+                {
+                    string valueStr = component.ToString();
+                    valueStr = valueStr.Replace("\n", "\n\t");
+
+                    sb.Append(valueStr);
+                }
+            } 
+            else
+            {
+                sb.Append("\tnull");
             }
 
             return sb.ToString();

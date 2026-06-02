@@ -1,11 +1,8 @@
-﻿using CAT_Engine.Core.Tiles.TileComponents;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using CAT_Engine.Core.Tiles.TileObjects;
 using CAT_Engine.Core.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.Tiles
 {
@@ -64,13 +61,21 @@ namespace CAT_Engine.Core.Tiles
         public override string ToString()
         {
             StringBuilder sb = new();
-            sb.AppendLine("Objects in Square");
+            sb.AppendLine("- Objects in Square:");
 
+            int count = 0;
             foreach (IsoTileObject obj in objects)
             {
-                sb.AppendLine(obj.ToString());
+                sb.AppendLine("(" + count++ + ")");
+                sb.AppendLine("- Value:");
+
+                string valueStr = obj.ToString();
+                valueStr = valueStr.Replace("\n", "\n\t");
+
+                sb.AppendLine("\t" + valueStr);
             }
 
+            sb.Replace("\n", "\n\t");
             return sb.ToString();
         }
     }
@@ -86,7 +91,7 @@ namespace CAT_Engine.Core.Tiles
         public static byte ZSTACK_MAX_X = 96;
         public static byte ZSTACK_MAX_Y = 96;
 
-        private int occupiedSquareCount= 0;
+        private int occupiedSquareCount = 0;
         public IsoTileSquare[,] squares = new IsoTileSquare[ZSTACK_MAX_X, ZSTACK_MAX_Y];
 
         /// <summary>
@@ -156,19 +161,39 @@ namespace CAT_Engine.Core.Tiles
         /// <returns>The check result (True if empty, False otherwise)</returns>
         public bool IsEmpty()
         {
-            return occupiedSquareCount== 0;
+            return occupiedSquareCount == 0;
         }
 
         public override string ToString()
         {
             StringBuilder sb = new();
-            sb.AppendLine("Squares in ZStack:");
+            sb.AppendLine("- Occupied Square Count: " + occupiedSquareCount);
+            sb.AppendLine("- Squares in ZStack:");
 
-            foreach (var square in squares)
+            int count = 0;
+
+            for (int i = 0; i < ZSTACK_MAX_X; i++)
             {
-                if (square != null)
+                for (int j = 0; j < ZSTACK_MAX_Y; j++)
                 {
-                    sb.AppendLine(square.ToString());
+                    IsoTileSquare square = squares[i, j];
+
+                    if (square != null)
+                    {
+                        StringBuilder tempBuilder = new();
+
+                        tempBuilder.AppendLine("(" + count++ + ")");
+                        tempBuilder.AppendLine("- Position: " + new IntVector2(i, j).ToString());
+                        tempBuilder.AppendLine("- Value:");
+
+                        string valueStr = square.ToString();
+                        valueStr = valueStr.Replace("\n", "\n\t");
+
+                        tempBuilder.Append("\t" + valueStr);
+
+                        tempBuilder.Replace("\n", "\n\t");
+                        sb.AppendLine("\t" + tempBuilder.ToString());
+                    }
                 }
             }
 
@@ -253,13 +278,27 @@ namespace CAT_Engine.Core.Tiles
         public override string ToString()
         {
             StringBuilder sb = new();
-            sb.AppendLine("Chunk Pos: " + chunkPosition.ToString());
-            sb.AppendLine("Stacks in chunk:");
 
-            foreach (var stack in stacks) 
+            // Optional, depends on usage really.
+            sb.AppendLine("- Position: " + chunkPosition.ToString());
+            sb.AppendLine("- Stacks in chunk:");
+
+            int count = 0;
+            foreach (var stack in stacks)
             {
-                sb.Append("Key (z-index): " + stack.Key);
-                sb.AppendLine(", Value: " + stack.Value.ToString());
+                StringBuilder tempBuilder = new();
+
+                tempBuilder.AppendLine("(" + count++ + ")");
+                tempBuilder.AppendLine("- Key (z-index): " + stack.Key);
+                tempBuilder.AppendLine("- Value:");
+
+                // Grab the string and indent all internal newlines
+                string valueStr = stack.Value?.ToString() ?? "null";
+                valueStr = valueStr.Replace("\n", "\n\t");
+
+                tempBuilder.Append("\t" + valueStr);
+                tempBuilder.Replace("\n", "\n\t");
+                sb.AppendLine("\t" + tempBuilder.ToString());
             }
 
             return sb.ToString();
