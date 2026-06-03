@@ -31,16 +31,18 @@ namespace CAT_Engine.Core.Tiles
         /// <returns>The newly created Chunk</returns>
         public IsoTileChunk CreateChunk(IntVector2 ChunkPosition)
         {
-            IsoTileChunk newChunk = new IsoTileChunk(ChunkPosition);
+            IsoTileChunk newChunk = new(ChunkPosition);
 
             return newChunk;
         }
 
+        // TODO!
         public IsoRenderContext GetRenderContext()
         {
             throw new NotImplementedException();
         }
 
+        #region Addition/Removal of objects
         // Add/Remove of an Object to the map
 
         /// <summary>
@@ -155,6 +157,7 @@ namespace CAT_Engine.Core.Tiles
 
             // End;
         }
+        #endregion
 
         public override string ToString()
         {
@@ -168,7 +171,6 @@ namespace CAT_Engine.Core.Tiles
                 sb.AppendLine("- Key: " + chunk.Key);
                 sb.AppendLine("- Value:");
 
-                // Grab the string and indent all internal newlines
                 string valueStr = chunk.Value?.ToString() ?? "null";
                 valueStr = valueStr.Replace("\n", "\n\t");
 

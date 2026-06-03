@@ -24,11 +24,12 @@ namespace CATSandboxGame.Scenes
         public override void BeginPlay()
         {
             TestMap();
+            TestEntity();
         }
 
         private void TestMap()
         {
-            using var _ = new IsoScopeCycleStat("map Test");
+            using var _ = new IsoScopeCycleStat("GameScene.TestMap");
 
             // Create a tile object
             // Add this object to 0,0,0
@@ -67,6 +68,11 @@ namespace CATSandboxGame.Scenes
             tilemap.RemoveObject(obj4, new IntVector3(100, 100, 0));
 
             IsoLogger.Log("Tilemap after removal:\n{0}", tilemap.ToString());
+        }
+
+        private void TestEntity()
+        {
+            using var _ = new IsoScopeCycleStat("GameScene.TestEntity");
 
             IsoEntity e = SpawnEntity<IsoEntity>();
             e.sprite.SetTextureFromAsset("entities/entity");
