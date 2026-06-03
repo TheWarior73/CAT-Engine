@@ -1,4 +1,5 @@
 ﻿using CAT_Engine.Core.Debug;
+using CAT_Engine.Core.SceneBase;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +19,7 @@ namespace CAT_Engine.Core.Assets
         {
             using var _ = new IsoScopeCycleStat("AssetManager.Constructor");
 
-            service = new GameServiceContainer();
+            service = IsoGame.Instance.Services ?? throw new InvalidOperationException("IsoGame must be initialized before AssetManager.");
             contentManager = new ContentManager(service);
             contentManager.RootDirectory = "Content";
         }

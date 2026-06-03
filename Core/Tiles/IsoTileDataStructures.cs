@@ -1,11 +1,8 @@
-﻿using CAT_Engine.Core.Tiles.TileComponents;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using CAT_Engine.Core.Tiles.TileObjects;
 using CAT_Engine.Core.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.Tiles
 {
@@ -60,6 +57,27 @@ namespace CAT_Engine.Core.Tiles
         {
             return objects.Count == 0;
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("- Objects in Square:");
+
+            int count = 0;
+            foreach (IsoTileObject obj in objects)
+            {
+                sb.AppendLine("(" + count++ + ")");
+                sb.AppendLine("- Value:");
+
+                string valueStr = obj.ToString();
+                valueStr = valueStr.Replace("\n", "\n\t");
+
+                sb.AppendLine("\t" + valueStr);
+            }
+
+            sb.Replace("\n", "\n\t");
+            return sb.ToString();
+        }
     }
 
     /// <summary>
@@ -67,12 +85,13 @@ namespace CAT_Engine.Core.Tiles
     /// </summary>
     public class IsoTileZStack
     {
-        public IsoTileZStack() {}
+        public IsoTileZStack() { }
 
         //96x96 = 9.216 TOTAL Tiles in a Stack
         public static byte ZSTACK_MAX_X = 96;
-        public static byte ZSTACK_MAX_Y= 96;
+        public static byte ZSTACK_MAX_Y = 96;
 
+        private int occupiedSquareCount = 0;
         public IsoTileSquare[,] squares = new IsoTileSquare[ZSTACK_MAX_X, ZSTACK_MAX_Y];
 
         /// <summary>
@@ -102,10 +121,13 @@ namespace CAT_Engine.Core.Tiles
             IntVector2 chunkPos = CalculateSquareCoordinatesInZstack(globalPos);
 
             // If there is no square on the coordinates, we add it.
-            if (squares[chunkPos.x, chunkPos.y] == null) {
+            if (squares[chunkPos.x, chunkPos.y] == null)
+            {
                 newTileSquare = new IsoTileSquare();
                 squares[chunkPos.x, chunkPos.y] = newTileSquare;
-            } else // There is already a square !
+                occupiedSquareCount++;
+            }
+            else // There is already a square !
             {
                 throw new Exception("CreateTileSquare: A TileSquare already exists at (global)Pos (" + globalPos.x + ", " + globalPos.y + ")");
             }
@@ -122,6 +144,7 @@ namespace CAT_Engine.Core.Tiles
             IntVector2 chunkPos = CalculateSquareCoordinatesInZstack(globalPos);
 
             squares[chunkPos.x, chunkPos.y] = null;
+            occupiedSquareCount--;
         }
 
         /// <summary>
@@ -138,7 +161,43 @@ namespace CAT_Engine.Core.Tiles
         /// <returns>The check result (True if empty, False otherwise)</returns>
         public bool IsEmpty()
         {
-            return squares.Length == 0;
+            return occupiedSquareCount == 0;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("- Occupied Square Count: " + occupiedSquareCount);
+            sb.AppendLine("- Squares in ZStack:");
+
+            int count = 0;
+
+            for (int i = 0; i < ZSTACK_MAX_X; i++)
+            {
+                for (int j = 0; j < ZSTACK_MAX_Y; j++)
+                {
+                    IsoTileSquare square = squares[i, j];
+
+                    if (square != null)
+                    {
+                        StringBuilder tempBuilder = new();
+
+                        tempBuilder.AppendLine("(" + count++ + ")");
+                        tempBuilder.AppendLine("- Position: " + new IntVector2(i, j).ToString());
+                        tempBuilder.AppendLine("- Value:");
+
+                        string valueStr = square.ToString();
+                        valueStr = valueStr.Replace("\n", "\n\t");
+
+                        tempBuilder.Append("\t" + valueStr);
+
+                        tempBuilder.Replace("\n", "\n\t");
+                        sb.AppendLine("\t" + tempBuilder.ToString());
+                    }
+                }
+            }
+
+            return sb.ToString();
         }
 
     }
@@ -159,7 +218,7 @@ namespace CAT_Engine.Core.Tiles
 
         // Dict of stacks in the chunk
         // Int key = Z Height
-        public Dictionary<int, IsoTileZStack> stacks;
+        public Dictionary<int, IsoTileZStack> stacks = new();
 
         /// <summary>
         /// Calculates the chunk coordinates in the world relative to a global position
@@ -179,13 +238,14 @@ namespace CAT_Engine.Core.Tiles
         public IsoTileZStack CreateZStack(int zIndex)
         {
             IsoTileZStack newZStack = null;
-            
+
             // If stack is free at this index, we create a new stack and add it
-            if (!stacks?.ContainsKey(zIndex) ?? false)
+            if (stacks != null || (!stacks?.ContainsKey(zIndex) ?? false))
             {
                 newZStack = new();
                 stacks[zIndex] = newZStack;
-            } else // If stack is not free, we throw an Exception
+            }
+            else // If stack is not free, we throw an Exception
             {
                 throw new Exception("CreateZStack: zStack already has a member at index " + zIndex);
             }
@@ -213,6 +273,35 @@ namespace CAT_Engine.Core.Tiles
         public bool IsEmpty()
         {
             return stacks?.Count == 0;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+
+            // Optional, depends on usage really.
+            sb.AppendLine("- Position: " + chunkPosition.ToString());
+            sb.AppendLine("- Stacks in chunk:");
+
+            int count = 0;
+            foreach (var stack in stacks)
+            {
+                StringBuilder tempBuilder = new();
+
+                tempBuilder.AppendLine("(" + count++ + ")");
+                tempBuilder.AppendLine("- Key (z-index): " + stack.Key);
+                tempBuilder.AppendLine("- Value:");
+
+                // Grab the string and indent all internal newlines
+                string valueStr = stack.Value?.ToString() ?? "null";
+                valueStr = valueStr.Replace("\n", "\n\t");
+
+                tempBuilder.Append("\t" + valueStr);
+                tempBuilder.Replace("\n", "\n\t");
+                sb.AppendLine("\t" + tempBuilder.ToString());
+            }
+
+            return sb.ToString();
         }
     }
 }

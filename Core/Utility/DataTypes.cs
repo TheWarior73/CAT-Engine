@@ -51,6 +51,15 @@ namespace CAT_Engine.Core.Utility
         {
             return !(left == right);
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+
+            sb.Append("IntVector2(" + x + ", " + y + ")");
+
+            return sb.ToString();
+        }
     }
 
     /// <summary>
@@ -99,6 +108,14 @@ namespace CAT_Engine.Core.Utility
         {
             return !(left == right);
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("IntVector3(" + x + ", " + y + ", " + z + ")");
+
+            return sb.ToString();
+        }
     }
 
     /// <summary>
@@ -141,6 +158,76 @@ namespace CAT_Engine.Core.Utility
         public override bool Equals(object obj)
         {
             return this == (IsoTransform2)obj;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("IsoTransform2: Position: " + position);
+            sb.AppendLine("IsoTransform2: Rotation: " + rotation);
+            sb.AppendLine("IsoTransform2: Scale   : " + scale);
+
+            return sb.ToString();
+        }
+    }
+
+    /// <summary>
+    /// Represents a 3D Transform
+    /// </summary>
+    public struct IsoTransform3
+    {
+        public Vector3 position;
+
+        /// <summary>
+        /// rotation in degrees, not radiants
+        /// </summary>
+        public float rotation;
+        public Vector3 scale;
+
+        public IsoTransform3(Vector3 position, float rotation, Vector3 scale)
+        {
+            this.position = position;
+            this.rotation = rotation;
+            this.scale = scale;
+        }
+
+        public IsoTransform3(float x = 0, float y = 0, float z = 0, float rotation = 0, float sx = 1, float sy = 1, float sz = 1)
+        {
+            this.position = new(x,y,z);
+            this.rotation = rotation;
+            this.scale = new(sx,sy,sz);
+        }
+
+        public static IsoTransform3 Identity = new IsoTransform3(0, 0, 0, 0, 1, 1, 1);
+
+        public static bool operator ==(IsoTransform3 lvalue, IsoTransform3 rvalue)
+        {
+            return lvalue.position == rvalue.position && lvalue.rotation == rvalue.rotation && lvalue.scale == rvalue.scale;
+        }
+
+        public static bool operator !=(IsoTransform3 lvalue, IsoTransform3 rvalue)
+        {
+            return !(lvalue == rvalue);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(position.X, position.Y, position.Z, rotation, scale.X, scale.Y, scale.Z);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this == (IsoTransform3)obj;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("IsoTransform3: Position: " + position);
+            sb.AppendLine("IsoTransform3: Rotation: " + rotation);
+            sb.AppendLine("IsoTransform3: Scale   : " + scale);
+
+            return sb.ToString();
         }
     }
 }

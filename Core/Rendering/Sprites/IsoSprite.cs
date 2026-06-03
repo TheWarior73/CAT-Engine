@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.Rendering.Sprites
 {
-    public class IsoSprite
+    public class IsoSprite : IDisposable
     {
         public Texture2D texture { get; set; }
 
@@ -26,6 +26,27 @@ namespace CAT_Engine.Core.Rendering.Sprites
         public void SetTextureFromAsset(string assetPath)
         {
             texture = IsoGame.assetManager.LoadAsset<Texture2D>(assetPath);
+        }
+
+        public void Draw(IsoRenderContext ctx, Rectangle destinationRectangle)
+        {
+            if (texture == null) return;
+
+            ctx.spriteBatch.Draw(
+                texture,
+                destinationRectangle,
+                sourceRectangle,
+                color * opacity,
+                0f,
+                origin,
+                effects,
+                0f
+            );
+        }
+
+        public virtual void Dispose()
+        {
+            texture.Dispose();
         }
     }
 }

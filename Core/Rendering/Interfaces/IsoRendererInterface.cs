@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.Rendering.Interfaces
 {
-    internal interface IsoRenderInterface
+    internal interface IsoRendererInterface
     {
-
-        /**
-         * Called when a object needs to be rendered
-         */
         public void Render(IsoRenderContext ctx);
     }
 }

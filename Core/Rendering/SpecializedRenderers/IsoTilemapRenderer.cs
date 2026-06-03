@@ -9,9 +9,10 @@ namespace CAT_Engine.Core.Rendering.SpecializedRenderers
 {
     public class IsoTilemapRenderer
     {
-        public void Render(IsoTilemap tileMap, IsoRenderContext ctx)
+        public void RenderTilemap(IsoTilemap tileMap, IsoRenderContext ctx)
         {
             //TODO: Add tile map rendering logic
+            
         }
     }
 }

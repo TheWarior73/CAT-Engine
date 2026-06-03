@@ -46,11 +46,9 @@ namespace CAT_Engine.Core.Debug
         public static void Log(string format, ELogVerbosity verbosity = ELogVerbosity.Display, params object?[]? args)
         {
             if (verbosity > currentVerbosity) return;
-
-            string verbosityString = string.Format("[{0}]: ", verbosity.ToString());
-            string formattedString = string.Format(format, args);
+            string verbosityString = $"[{verbosity}]: ";
+            string formattedString = (args != null && args.Length > 0) ? string.Format(format, args) : format;
             string logString = verbosityString + formattedString;
-
             System.Diagnostics.Debug.Assert(verbosity != ELogVerbosity.Fatal);
             SimpleWriteLine(logString);
 

@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.Rendering.Interfaces.Renderables
 {
-    public interface IsoRenderableInterface
+    public interface IsoRenderableObjectInterface
     {
         bool visible { get; }
         EIsoRenderLayer renderLayer { get; }
         int sortOrder { get; }
+        void Draw(IsoRenderContext ctx);
     }
 }
