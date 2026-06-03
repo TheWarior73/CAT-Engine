@@ -1,6 +1,7 @@
 ﻿using CAT_Engine.Core.Assets;
 using CAT_Engine.Core.Debug;
 using CAT_Engine.Core.Debug.Profiling;
+using CAT_Engine.Core.Input;
 using CAT_Engine.Core.Rendering;
 using CAT_Engine.Core.SceneBase;
 using Microsoft.Xna.Framework;
@@ -27,6 +28,7 @@ namespace CAT_Engine
         private Color graphicsDeviceClearColor = Color.Red;
 
         public static AssetManager assetManager;
+        internal InputManager inputManager;
 
         //Base functions are sealed as to not disturb the IsoGame engine initialization
         protected sealed override void Initialize()
@@ -40,6 +42,9 @@ namespace CAT_Engine
 
             IsoSceneManager.graphicsDevice = graphics.GraphicsDevice;
             IsoSceneManager.PreInit();
+
+            inputManager = new InputManager();
+            inputManager.Initialize();
 
             base.Initialize();
             OnInitializeWindow(Window);
@@ -73,7 +78,10 @@ namespace CAT_Engine
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
+            inputManager.Update(deltaTime);
+
             IsoSceneManager.Update(deltaTime);
+
             OnUpdate(deltaTime);
         }
 
