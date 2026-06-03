@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
+using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 
 namespace CAT_Engine.Core.Debug
 {
@@ -70,9 +68,15 @@ namespace CAT_Engine.Core.Debug
         /// <param name="condition"></param>
         /// <param name="format"></param>
         /// <param name="args"></param>
-        public static void Assert(bool condition, string format, params object?[]? args)
+        public static void Assert(bool condition, string format, [CallerMemberName] string callerMember = "", [CallerFilePath] string callerFile = "", [CallerLineNumber] int callerLine = 0, params object?[]? args)
         {
-            System.Diagnostics.Debug.Assert(condition, string.Format(format, args));
+            string formattedMessage = string.Format(format, args);
+            string formattedCallStack = string.Format("Function: {0}\nFile: {1}\nLine: {2}", callerMember, callerFile, callerLine);
+            string msgBoxText = string.Format("{0}: {1}\nIn:\n{2}", "Assertion Failed", formattedMessage, formattedCallStack);
+
+            MessageBox.Show(msgBoxText, "Assertion Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            throw new Exception(msgBoxText);
         }
 
         /// <summary>
