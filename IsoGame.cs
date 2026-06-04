@@ -1,4 +1,6 @@
 ﻿using CAT_Engine.Core.Assets;
+using CAT_Engine.Core.Config;
+using CAT_Engine.Core.Config.Ini;
 using CAT_Engine.Core.Debug;
 using CAT_Engine.Core.Debug.Profiling;
 using CAT_Engine.Core.Rendering;
@@ -33,18 +35,30 @@ namespace CAT_Engine
         {
             using var _ = new IsoScopeCycleStat("Engine.Init");
 
+            InitializeConfiguration();
             SetLocaleDefaults();
 
             assetManager = new AssetManager();
             Window.Title = "CAT Engine";
 
             IsoSceneManager.graphicsDevice = graphics.GraphicsDevice;
-            IsoSceneManager.PreInit();
+            IsoSceneManager.InitializeRenderer(Window);
 
             base.Initialize();
             OnInitializeWindow(Window);
         }
 
+        private void InitializeConfiguration()
+        {
+            IniFile defaultEngineIni = ConfigurationManager.GetEngineConfigFile("DefaultEngine.ini");
+
+            string logLevel = defaultEngineIni.Read("Verbosity", "Logging");
+
+            bool parsingResult = Enum.TryParse(logLevel, out IsoLogger.ELogVerbosity parsedVerbosity);
+            IsoLogger.Assert(parsingResult, "Failed to parse Engine Config");
+
+            IsoLogger.currentVerbosity = parsedVerbosity;
+        }
         private void SetLocaleDefaults()
         {
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;

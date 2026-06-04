@@ -2,6 +2,7 @@
 using CAT_Engine.Core.Interfaces;
 using CAT_Engine.Core.Rendering;
 using CAT_Engine.Core.Rendering.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,9 @@ namespace CAT_Engine.Core.SceneBase
         /// </summary>
         internal static IsoRendererInterface activeRenderer { get; private set; } = null;
 
-        internal static void PreInit()
+        internal static void InitializeRenderer(GameWindow window)
         {
-            activeRenderer = new IsoRenderer();
+            activeRenderer = new IsoRenderer(window);
         }
 
         /// <summary>

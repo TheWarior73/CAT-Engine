@@ -10,4 +10,9 @@
     <ItemGroup>
 		<Compile Remove="Games\**" />
     </ItemGroup>
+	<ItemGroup>
+		<Content Include="Config\**\*">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 </Project>
