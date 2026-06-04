@@ -79,8 +79,91 @@ namespace CAT_Engine.Core.Input
         }
         #endregion
 
-        // Axis Mapping
-        Dictionary<string, InputChord[]> _AxisMapping;
+        #region Axis Mapping
+
+        public struct Axis
+        {
+            public float scale;
+            public InputChord[] keybinds;
+        }
+
+        Dictionary<string, Axis> _AxisMapping;
+
+        /// <summary>
+        /// Adds a list of <see cref="InputChord"/> to the Axis Mapping dictionary
+        /// </summary>
+        /// <param name="AxisName">The Axis name, ex: "Interact", "Menu"...</param>
+        /// <param name="AxisKeybind">The Axis to be added</param>
+        public void AddAxisMapping(string AxisName, Axis AxisKeybind)
+        {
+            bool status = _AxisMapping.TryAdd(AxisName, AxisKeybind);
+
+            if (!status)
+            {
+                IsoLogger.Log($"Axis already exists in AxisMapping : {AxisName}", IsoLogger.ELogVerbosity.Warning);
+            }
+        }
+
+        /// <summary>
+        /// Removes an Axis from the AxisMapping dictionary completely.
+        /// </summary>
+        /// <param name="AxisName">The Axis name in the Dictionary</param>
+        public void RemoveAxisMapping(string AxisName)
+        {
+            bool status = _AxisMapping.Remove(AxisName);
+
+            if (!status)
+            {
+                IsoLogger.Log($"Axis not found in Axis Mapping : {AxisName}", IsoLogger.ELogVerbosity.Warning);
+            }
+        }
+
+        /// <summary>
+        /// Rebinds a specific inputChord set for a given Axis
+        /// </summary>
+        /// <param name="AxisName">The Axis to edit</param>
+        /// <param name="newKey">The key that will replace an existing key</param>
+        /// <param name="keyIndex">The position of the key in the Axis keybind list</param>
+        public void RebindAxisMapping(string AxisName, InputChord newKey, int keyIndex)
+        {
+            _AxisMapping[AxisName].keybinds[keyIndex] = newKey;
+        }
+
+        /// <summary>
+        /// Rebinds a whole inputChord (keybind) set for a given Axis
+        /// </summary>
+        /// <param name="AxisName"></param>
+        /// <param name="newKeys"></param>
+        public void RebindAxisMapping(string AxisName, InputChord[] newKeys)
+        {
+            // Get
+            Axis updatedAxis = _AxisMapping[AxisName];
+
+            // Update
+            updatedAxis.keybinds = newKeys;
+
+            // Set
+            _AxisMapping[AxisName] = updatedAxis;
+        }
+
+        /// <summary>
+        /// Retrieves the <see cref="InputChord"/> (keybind) list associated with the given name
+        /// </summary>
+        /// <param name="AxisName">The Axis Name in the dictionary</param>
+        /// <returns>The <see cref="InputChord"/> list if found, null otherwise</returns>
+        public Axis GetAxisMapping(string AxisName)
+        {
+            bool status = _AxisMapping.TryGetValue(AxisName, out var axis);
+
+            if (!status)
+            {
+                IsoLogger.Log($"Axis not found in Axis Mapping : {AxisName}", IsoLogger.ELogVerbosity.Warning);
+
+                axis = new Axis(); // explicitely set the axis to empty to let the caller know that nothing was found.
+            }
+            return axis;
+        }
+        #endregion
 
         // KeyboardState
         public InputChord CurrentKey { get; private set; } = new InputChord();
