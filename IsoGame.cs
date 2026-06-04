@@ -51,8 +51,8 @@ namespace CAT_Engine
         private void InitializeConfiguration()
         {
             IniFile defaultEngineIni = ConfigurationManager.GetEngineConfigFile("DefaultEngine.ini");
-
-            string logLevel = defaultEngineIni.Read("Verbosity", "Logging");
+            
+            string logLevel = defaultEngineIni.Read("Verbosity", "Core.Logging");
 
             bool parsingResult = Enum.TryParse(logLevel, out IsoLogger.ELogVerbosity parsedVerbosity);
             IsoLogger.Assert(parsingResult, "Failed to parse Engine Config");
