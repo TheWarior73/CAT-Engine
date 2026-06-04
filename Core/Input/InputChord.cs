@@ -15,7 +15,7 @@ namespace CAT_Engine.Core.Input
 
     public struct InputChord
     {
-        private Keys Key { get; set; }
+        public Keys Key { get; set; }
         private byte modifiers;
 
         public InputChord()
