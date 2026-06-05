@@ -161,8 +161,40 @@ namespace CAT_Engine.Core.Input
         // KeyboardState
         public InputChord CurrentKey { get; private set; } = new InputChord();
         public InputChord PreviousKey { get; private set; } = new InputChord();
+        #region KeyboardState
+        public KeyboardState _currentState { get; private set; } = new();
+        public KeyboardState _previousState { get; private set; } = new();
+        
+        /// <summary>
+        /// Checks if a key is newly pressed.
+        /// </summary>
+        /// <param name="key">the key to evaluate</param>
+        /// <returns>true if keydown now and not before, otherwise false</returns>
+        public bool IsKeyPressed(Keys key)
+        {
+            return _currentState.IsKeyDown(key) && _previousState.IsKeyUp(key);
+        }
 
+        /// <summary>
+        /// Checks if a key if being held
+        /// </summary>
+        /// <param name="key">the key to evaluate</param>
+        /// <returns>true if current and previous states of the key are pressed, otherwise false</returns>
+        public bool IsKeyHeld(Keys key)
+        {
+            return _currentState.IsKeyDown(key) && _previousState.IsKeyUp(key);
+        }
 
+        /// <summary>
+        /// Checks if a key is being released
+        /// </summary>
+        /// <param name="key">the key to evaluate</param>
+        /// <returns>true if the current key is up and the previous key is down, otherwise false</returns>
+        public bool IsKeyReleased(Keys key)
+        {
+            return _currentState.IsKeyUp(key) && _previousState.IsKeyDown(key);
+        }
+        #endregion
 
         public void Initialize()
         {
