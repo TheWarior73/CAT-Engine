@@ -44,7 +44,6 @@ namespace CAT_Engine
             IsoSceneManager.PreInit();
 
             inputManager = new InputManager();
-            inputManager.Initialize();
 
             base.Initialize();
             OnInitializeWindow(Window);
