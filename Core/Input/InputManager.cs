@@ -80,13 +80,6 @@ namespace CAT_Engine.Core.Input
         #endregion
 
         #region Axis Mapping
-
-        public struct Axis
-        {
-            public float scale;
-            public InputChord[] keybinds;
-        }
-
         Dictionary<string, Axis> _AxisMapping;
 
         /// <summary>
