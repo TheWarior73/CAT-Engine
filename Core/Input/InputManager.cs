@@ -158,9 +158,6 @@ namespace CAT_Engine.Core.Input
         }
         #endregion
 
-        // KeyboardState
-        public InputChord CurrentKey { get; private set; } = new InputChord();
-        public InputChord PreviousKey { get; private set; } = new InputChord();
         #region KeyboardState
         public KeyboardState _currentState { get; private set; } = new();
         public KeyboardState _previousState { get; private set; } = new();
@@ -196,16 +193,28 @@ namespace CAT_Engine.Core.Input
         }
         #endregion
 
-        public void Initialize()
+        /// <summary>
+        /// Initialises the InputManager
+        /// </summary>
+        public InputManager()
         {
+            using var _ = new IsoScopeCycleStat("InputManager.Constructor");
+
+            _currentState = Keyboard.GetState();
+            _previousState = new KeyboardState();
+            _AxisMapping = new();
+            _ActionMapping = new();
         }
 
         public void Update(float delta)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Z))
-            {
-                IsoLogger.Assert(false, "I have been pressed yay!");
-            }
+            // Keyboard state
+            _previousState = _currentState;
+            _currentState = Keyboard.GetState();
+
+            // TODO :
+            // Check for matches in Action && Axis Mappings
+            // And send an event (somehow)
         }
     }
 }
