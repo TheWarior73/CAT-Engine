@@ -24,6 +24,18 @@ namespace CAT_Engine.Core.Input
             modifiers = (byte) Modifiers.None;
         }
 
+        public InputChord(Keys key)
+        {
+            this.Key = key;
+            modifiers = (byte) Modifiers.None;
+        }
+
+        public InputChord(Keys key, Modifiers mods)
+        {
+            this.Key = key;
+            modifiers = (byte) mods;
+        }
+
         #region Modifiers
         public readonly bool GetModifier(Modifiers mod)
         {
