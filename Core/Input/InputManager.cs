@@ -10,7 +10,7 @@ namespace CAT_Engine.Core.Input
     public class InputManager : IsoUpdateableInterface
     {
         #region Action Mapping
-        Dictionary<string, InputChord[]> _ActionMapping;
+        Dictionary<string, InputChord[]> _actionMapping;
 
         /// <summary>
         /// Adds a list of <see cref="InputChord"/> to the Action Mapping dictionary
@@ -19,7 +19,7 @@ namespace CAT_Engine.Core.Input
         /// <param name="ActionKeybind">The list of <see cref="InputChord"/> that will trigger the Action</param>
         public void AddActionMapping(string ActionName, InputChord[] ActionKeybind)
         {
-            bool status = _ActionMapping.TryAdd(ActionName, ActionKeybind);
+            bool status = _actionMapping.TryAdd(ActionName, ActionKeybind);
 
             if (!status)
             {
@@ -33,7 +33,7 @@ namespace CAT_Engine.Core.Input
         /// <param name="ActionName">The action name in the Dictionary</param>
         public void RemoveActionMapping(string ActionName)
         {
-            bool status = _ActionMapping.Remove(ActionName);
+            bool status = _actionMapping.Remove(ActionName);
 
             if (!status)
             {
@@ -49,7 +49,7 @@ namespace CAT_Engine.Core.Input
         /// <param name="keyIndex">The position of the key in the action InputChord list</param>
         public void RebindActionMapping(string ActionName, InputChord newKey, int keyIndex)
         {
-            _ActionMapping[ActionName][keyIndex] = newKey;
+            _actionMapping[ActionName][keyIndex] = newKey;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace CAT_Engine.Core.Input
         /// <param name="newKeys"></param>
         public void RebindActionMapping(string ActionName, InputChord[] newKeys)
         {
-            _ActionMapping[ActionName] = newKeys;
+            _actionMapping[ActionName] = newKeys;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace CAT_Engine.Core.Input
         /// <returns>The <see cref="InputChord"/> list if found, null otherwise</returns>
         public InputChord[] GetActionMapping(string ActionName)
         {
-            bool status = _ActionMapping.TryGetValue(ActionName, out var inputList);
+            bool status = _actionMapping.TryGetValue(ActionName, out var inputList);
 
             if (!status)
             {
@@ -82,7 +82,7 @@ namespace CAT_Engine.Core.Input
         #endregion
 
         #region Axis Mapping
-        Dictionary<string, Axis> _AxisMapping;
+        Dictionary<string, Axis> _axisMapping;
 
         /// <summary>
         /// Adds a list of <see cref="InputChord"/> to the Axis Mapping dictionary
@@ -91,7 +91,7 @@ namespace CAT_Engine.Core.Input
         /// <param name="AxisKeybind">The Axis to be added</param>
         public void AddAxisMapping(string AxisName, Axis AxisKeybind)
         {
-            bool status = _AxisMapping.TryAdd(AxisName, AxisKeybind);
+            bool status = _axisMapping.TryAdd(AxisName, AxisKeybind);
 
             if (!status)
             {
@@ -105,7 +105,7 @@ namespace CAT_Engine.Core.Input
         /// <param name="AxisName">The Axis name in the Dictionary</param>
         public void RemoveAxisMapping(string AxisName)
         {
-            bool status = _AxisMapping.Remove(AxisName);
+            bool status = _axisMapping.Remove(AxisName);
 
             if (!status)
             {
@@ -121,7 +121,7 @@ namespace CAT_Engine.Core.Input
         /// <param name="keyIndex">The position of the key in the Axis keybind list</param>
         public void RebindAxisMapping(string AxisName, InputChord newKey, int keyIndex)
         {
-            _AxisMapping[AxisName].keybinds[keyIndex] = newKey;
+            _axisMapping[AxisName].keybinds[keyIndex] = newKey;
         }
 
         /// <summary>
@@ -132,13 +132,13 @@ namespace CAT_Engine.Core.Input
         public void RebindAxisMapping(string AxisName, InputChord[] newKeys)
         {
             // Get
-            Axis updatedAxis = _AxisMapping[AxisName];
+            Axis updatedAxis = _axisMapping[AxisName];
 
             // Update
             updatedAxis.keybinds = newKeys;
 
             // Set
-            _AxisMapping[AxisName] = updatedAxis;
+            _axisMapping[AxisName] = updatedAxis;
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace CAT_Engine.Core.Input
         /// <returns>The <see cref="InputChord"/> list if found, null otherwise</returns>
         public Axis GetAxisMapping(string AxisName)
         {
-            bool status = _AxisMapping.TryGetValue(AxisName, out var axis);
+            bool status = _axisMapping.TryGetValue(AxisName, out var axis);
 
             if (!status)
             {
@@ -178,10 +178,10 @@ namespace CAT_Engine.Core.Input
         /// Checks if a key if being held
         /// </summary>
         /// <param name="key">the key to evaluate</param>
-        /// <returns>true if current and previous states of the key are pressed, otherwise false</returns>
+        /// <returns>true if current state of the key is pressed, otherwise false</returns>
         public bool IsKeyHeld(Keys key)
         {
-            return _currentState.IsKeyDown(key) && _previousState.IsKeyUp(key);
+            return _currentState.IsKeyDown(key);
         }
 
         /// <summary>
@@ -204,17 +204,17 @@ namespace CAT_Engine.Core.Input
 
             _currentState = Keyboard.GetState();
             _previousState = new();
-            _AxisMapping = new();
-            _ActionMapping = new();
+            _axisMapping = new();
+            _actionMapping = new();
         }
 
         #region Event Handling
         // Fired on action press
-        public event Action<string> OnActionPressed;
-        public event Action<string> OnActionReleased;
+        public event Action<string> onActionPressed;
+        public event Action<string> onActionReleased;
 
         // Constantly updates the axis (keyboards have 3 values: -1, 0, 1. controlers have a range [-1, 1])
-        public event Action<string, float> OnAxisUpdated;
+        public event Action<string, float> onAxisUpdated;
         #endregion
 
         /// <summary>
@@ -231,7 +231,7 @@ namespace CAT_Engine.Core.Input
             _currentState = Keyboard.GetState();
 
             // Action eval
-            foreach (var currentAction in _ActionMapping)
+            foreach (var currentAction in _actionMapping)
             {
                 string actionName = currentAction.Key;
 
@@ -239,12 +239,12 @@ namespace CAT_Engine.Core.Input
                 {
                     if (IsKeyPressed(chord.Key))
                     {
-                        OnActionPressed?.Invoke(actionName);
+                        onActionPressed?.Invoke(actionName);
                         break;
                     }
                     if (IsKeyReleased(chord.Key))
                     {
-                        OnActionReleased?.Invoke(actionName);
+                        onActionReleased?.Invoke(actionName);
                         break;
                     }
                 }
@@ -252,7 +252,7 @@ namespace CAT_Engine.Core.Input
             }
 
             // Axis eval
-            foreach (var currentAxis in _AxisMapping)
+            foreach (var currentAxis in _axisMapping)
             {
                 string axisName = currentAxis.Key;
                 Axis axis = currentAxis.Value;
@@ -266,10 +266,8 @@ namespace CAT_Engine.Core.Input
                     }
                 }
 
-                if (axisValue != 0f)
-                {
-                    OnAxisUpdated?.Invoke(axisName, axisValue);
-                }
+                //axes should fire even if the axis value is 0 so were not stuck forever moving
+                onAxisUpdated?.Invoke(axisName, axisValue);
             }
         }
     }
