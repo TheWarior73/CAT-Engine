@@ -23,11 +23,11 @@ namespace CATSandboxGame.Scenes
 
         public override void BeginPlay()
         {
-            TestMap();
+            TestMap(false);
             TestEntity();
         }
 
-        private void TestMap()
+        private void TestMap(bool removeTest)
         {
             using var _ = new IsoScopeCycleStat("GameScene.TestMap");
 
@@ -39,16 +39,16 @@ namespace CATSandboxGame.Scenes
             // *Map should have 2 chunks, 3 Zlayers, 3 Squares, 4 Objects
 
             IsoTileObject obj1 = new IsoTileObject();
-            obj1.id = "objectOne";
+            obj1.id = "f.grass";
 
             IsoTileObject obj2 = new IsoTileObject();
-            obj2.id = "objectTwo";
+            obj2.id = "f.grass";
 
             IsoTileObject obj3 = new IsoTileObject();
-            obj3.id = "objectThree";
+            obj3.id = "f.grass";
 
             IsoTileObject obj4 = new IsoTileObject();
-            obj4.id = "objectFour";
+            obj4.id = "f.grass";
 
             tilemap.AddObject(obj1, new IntVector3(0, 0, 0));
             tilemap.AddObject(obj2, new IntVector3(0, 0, 1));
@@ -56,6 +56,11 @@ namespace CATSandboxGame.Scenes
             tilemap.AddObject(obj4, new IntVector3(100, 100, 0));
 
             IsoLogger.Log("Tilemap after addition:\n{0}", tilemap.ToString());
+
+            if(!removeTest)
+            {
+                return;
+            }
 
             // Remove the 0,0,0 obj
             // Remove the other 0,0,0 obj
