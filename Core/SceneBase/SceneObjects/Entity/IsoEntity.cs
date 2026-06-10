@@ -50,7 +50,9 @@ namespace CAT_Engine.Core.SceneBase.SceneObjects.Entity
         public override void Update(float delta)
         {
             transform.position.X += delta / 100.0f;
-            IsoLogger.Log(transform.ToString());
+
+            
+            //IsoLogger.Log(transform.ToString());
         }
     }
 }

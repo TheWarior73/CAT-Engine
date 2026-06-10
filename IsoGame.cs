@@ -49,30 +49,30 @@ namespace CAT_Engine
             inputManager.AddActionMapping("Jump", new[] { new InputChord(Keys.Space) });
             inputManager.AddActionMapping("Interact", new[] { new InputChord(Keys.F) });
 
-            // Z = Forward (+1), S = Backward (-1)
-            inputManager.AddAxisMapping("MoveForward", new Axis { scale = 1.0f, keybinds = new[] { new InputChord(Keys.Z) } });
-            inputManager.AddAxisMapping("MoveBackward", new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.S) } });
+            // W = Forward (+1), S = Backward (-1)
+            inputManager.AddAxisMapping("MoveForward", new Axis { scale = 1.0f, keybinds = new[] { new InputChord(Keys.W) } });
+            inputManager.AddAxisMapping("MoveForward", new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.S) } });
 
-            // Q = Left (-1), D = Right (+1)
-            inputManager.AddAxisMapping("MoveLeft", new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.Q) } });
+            // A = Left (-1), D = Right (+1)
             inputManager.AddAxisMapping("MoveRight", new Axis { scale = 1.0f, keybinds = new[] { new InputChord(Keys.D) } });
+            inputManager.AddAxisMapping("MoveRight", new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.A) } });
 
             // --- 3. SUBSCRIBE THE ISOLOGGER ---
 
             // Hook up Action Pressed
-            inputManager.OnActionPressed += (actionName) =>
+            inputManager.onActionPressed += (actionName) =>
             {
                 IsoLogger.Log($"ACTION PRESSED: {actionName}", IsoLogger.ELogVerbosity.Warning);
             };
 
             // Hook up Action Released
-            inputManager.OnActionReleased += (actionName) =>
+            inputManager.onActionReleased += (actionName) =>
             {
                 IsoLogger.Log($"ACTION RELEASED: {actionName}", IsoLogger.ELogVerbosity.Warning);
             };
 
             // Hook up Axis Holding
-            inputManager.OnAxisUpdated += (axisName, value) =>
+            inputManager.onAxisUpdated += (axisName, value) =>
             {
                 // This will spam your console every frame the key is held, 
                 // which is exactly what you want for testing!
