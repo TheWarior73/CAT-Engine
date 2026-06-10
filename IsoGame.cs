@@ -45,6 +45,41 @@ namespace CAT_Engine
 
             inputManager = new InputManager();
 
+            #region InputMGR test (to be removed)
+            inputManager.AddActionMapping("Jump", new[] { new InputChord(Keys.Space) });
+            inputManager.AddActionMapping("Interact", new[] { new InputChord(Keys.F) });
+
+            // Z = Forward (+1), S = Backward (-1)
+            inputManager.AddAxisMapping("MoveForward", new Axis { scale = 1.0f, keybinds = new[] { new InputChord(Keys.Z) } });
+            inputManager.AddAxisMapping("MoveBackward", new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.S) } });
+
+            // Q = Left (-1), D = Right (+1)
+            inputManager.AddAxisMapping("MoveLeft", new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.Q) } });
+            inputManager.AddAxisMapping("MoveRight", new Axis { scale = 1.0f, keybinds = new[] { new InputChord(Keys.D) } });
+
+            // --- 3. SUBSCRIBE THE ISOLOGGER ---
+
+            // Hook up Action Pressed
+            inputManager.OnActionPressed += (actionName) =>
+            {
+                IsoLogger.Log($"ACTION PRESSED: {actionName}", IsoLogger.ELogVerbosity.Warning);
+            };
+
+            // Hook up Action Released
+            inputManager.OnActionReleased += (actionName) =>
+            {
+                IsoLogger.Log($"ACTION RELEASED: {actionName}", IsoLogger.ELogVerbosity.Warning);
+            };
+
+            // Hook up Axis Holding
+            inputManager.OnAxisUpdated += (axisName, value) =>
+            {
+                // This will spam your console every frame the key is held, 
+                // which is exactly what you want for testing!
+                IsoLogger.Log($"AXIS HOLD: {axisName} | Value: {value}", IsoLogger.ELogVerbosity.Warning);
+            };
+            #endregion
+
             base.Initialize();
             OnInitializeWindow(Window);
         }
