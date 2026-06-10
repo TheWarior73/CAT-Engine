@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using CAT_Engine.Core.Debug;
 using CAT_Engine.Core.Interfaces;
 using Microsoft.Xna.Framework.Input;
@@ -161,7 +163,7 @@ namespace CAT_Engine.Core.Input
         #region KeyboardState
         public KeyboardState _currentState { get; private set; } = new();
         public KeyboardState _previousState { get; private set; } = new();
-        
+
         /// <summary>
         /// Checks if a key is newly pressed.
         /// </summary>
@@ -201,20 +203,74 @@ namespace CAT_Engine.Core.Input
             using var _ = new IsoScopeCycleStat("InputManager.Constructor");
 
             _currentState = Keyboard.GetState();
-            _previousState = new KeyboardState();
+            _previousState = new();
             _AxisMapping = new();
             _ActionMapping = new();
         }
 
+        #region Event Handling
+        // Fired on action press
+        public event Action<string> OnActionPressed;
+        public event Action<string> OnActionReleased;
+
+        // Constantly updates the axis (keyboards have 3 values: -1, 0, 1. controlers have a range [-1, 1])
+        public event Action<string, float> OnAxisUpdated;
+        #endregion
+
+        /// <summary>
+        /// Fired whenever the InputManager needs to update itself<br/>
+        /// Will fire events depending on the registered action and axis mappings.
+        /// </summary>
+        /// <param name="delta"></param>
         public void Update(float delta)
         {
+            //using var _ = new IsoScopeCycleStat("InputManager.Update");
+
             // Keyboard state
             _previousState = _currentState;
             _currentState = Keyboard.GetState();
 
-            // TODO :
-            // Check for matches in Action && Axis Mappings
-            // And send an event (somehow)
+            // Action eval
+            foreach (var currentAction in _ActionMapping)
+            {
+                string actionName = currentAction.Key;
+
+                foreach (var chord in currentAction.Value)
+                {
+                    if (IsKeyPressed(chord.Key))
+                    {
+                        OnActionPressed?.Invoke(actionName);
+                        break;
+                    }
+                    if (IsKeyReleased(chord.Key))
+                    {
+                        OnActionReleased?.Invoke(actionName);
+                        break;
+                    }
+                }
+
+            }
+
+            // Axis eval
+            foreach (var currentAxis in _AxisMapping)
+            {
+                string axisName = currentAxis.Key;
+                Axis axis = currentAxis.Value;
+                float axisValue = 0f;
+
+                foreach (var chord in axis.keybinds)
+                {
+                    if (IsKeyHeld(chord.Key))
+                    {
+                        axisValue += axis.scale;
+                    }
+                }
+
+                if (axisValue != 0f)
+                {
+                    OnAxisUpdated?.Invoke(axisName, axisValue);
+                }
+            }
         }
     }
 }
