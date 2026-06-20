@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace CAT_Engine.Core.Input
 {
@@ -53,7 +53,7 @@ namespace CAT_Engine.Core.Input
         public InputChord()
         {
             Key = Keys.None;
-            modifiers = (byte) Modifiers.None;
+            modifiers = (byte)Modifiers.None;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace CAT_Engine.Core.Input
         public InputChord(Keys key)
         {
             this.Key = key;
-            modifiers = (byte) Modifiers.None;
+            modifiers = (byte)Modifiers.None;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace CAT_Engine.Core.Input
         public InputChord(Keys key, Modifiers mods)
         {
             this.Key = key;
-            modifiers = (byte) mods;
+            modifiers = (byte)mods;
         }
 
         #region Modifiers
@@ -85,7 +85,7 @@ namespace CAT_Engine.Core.Input
         /// <returns>the status of the modifier as a boolean</returns>
         public readonly bool GetModifier(Modifiers mod)
         {
-            return (modifiers & (byte) mod) != 0;
+            return (modifiers & (byte)mod) != 0;
         }
 
         /// <summary>
@@ -93,7 +93,8 @@ namespace CAT_Engine.Core.Input
         /// </summary>
         /// <param name="mod">the modifier to edit</param>
         /// <param name="value">the value to be set</param>
-        public void SetModifier(Modifiers mod, bool value) {
+        public void SetModifier(Modifiers mod, bool value)
+        {
             if (value)
             {
                 modifiers |= (byte)mod;

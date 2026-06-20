@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using CAT_Engine.Core.Debug;
+﻿using CAT_Engine.Core.Debug;
 using CAT_Engine.Core.Interfaces;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 
 namespace CAT_Engine.Core.Input
 {
@@ -222,7 +222,7 @@ namespace CAT_Engine.Core.Input
         /// Event fired when an Action is Pressed
         /// </summary>
         public event Action<string> onActionPressed;
-        
+
         /// <summary>
         /// Event fired when an Action is Released
         /// </summary>
