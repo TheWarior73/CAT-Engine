@@ -2,12 +2,10 @@
 using CAT_Engine.Core.Debug;
 using CAT_Engine.Core.Debug.Profiling;
 using CAT_Engine.Core.Input;
-using CAT_Engine.Core.Rendering;
 using CAT_Engine.Core.SceneBase;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Globalization;
 
 namespace CAT_Engine
@@ -50,8 +48,6 @@ namespace CAT_Engine
             inputManager.AddActionMapping("Interact", new[] { new InputChord(Keys.F) });
 
             // W = Forward (+1), S = Backward (-1)
-            inputManager.AddAxisMapping("MoveForward", new Axis { scale = 1.0f, keybinds = new[] { new InputChord(Keys.W) } });
-            inputManager.AddAxisMapping("MoveForward", new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.S) } });
             inputManager.AddAxisMapping("MoveForward", new[] {
                 new Axis { scale = 1.0f, keybinds = new[] { new InputChord(Keys.W) } },
                 new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.S) } }
