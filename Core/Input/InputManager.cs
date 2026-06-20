@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using CAT_Engine.Core.Debug;
 using CAT_Engine.Core.Interfaces;
 using Microsoft.Xna.Framework.Input;
 
 namespace CAT_Engine.Core.Input
 {
+    /// <summary>
+    /// Input Manager that handles input detection, then handles action and axis mappings and dispatches events corresponding to the hit keybind.
+    /// </summary>
     public class InputManager : IsoUpdateableInterface
     {
         #region Action Mapping
@@ -161,7 +163,14 @@ namespace CAT_Engine.Core.Input
         #endregion
 
         #region KeyboardState
+        /// <summary>
+        /// The current state of the keyboard
+        /// </summary>
         public KeyboardState _currentState { get; private set; } = new();
+
+        /// <summary>
+        /// The previous state of the keyboard
+        /// </summary>
         public KeyboardState _previousState { get; private set; } = new();
 
         /// <summary>
@@ -209,11 +218,19 @@ namespace CAT_Engine.Core.Input
         }
 
         #region Event Handling
-        // Fired on action press
+        /// <summary>
+        /// Event fired when an Action is Pressed
+        /// </summary>
         public event Action<string> onActionPressed;
+        
+        /// <summary>
+        /// Event fired when an Action is Released
+        /// </summary>
         public event Action<string> onActionReleased;
 
-        // Constantly updates the axis (keyboards have 3 values: -1, 0, 1. controlers have a range [-1, 1])
+        /// <summary>
+        /// Constantly updates the axis (keyboards have 3 values: -1, 0, 1. controlers have a range [-1, 1])
+        /// </summary>
         public event Action<string, float> onAxisUpdated;
         #endregion
 
