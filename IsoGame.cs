@@ -52,32 +52,42 @@ namespace CAT_Engine
             // W = Forward (+1), S = Backward (-1)
             inputManager.AddAxisMapping("MoveForward", new Axis { scale = 1.0f, keybinds = new[] { new InputChord(Keys.W) } });
             inputManager.AddAxisMapping("MoveForward", new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.S) } });
+            inputManager.AddAxisMapping("MoveForward", new[] {
+                new Axis { scale = 1.0f, keybinds = new[] { new InputChord(Keys.W) } },
+                new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.S) } }
+            });
 
             // A = Left (-1), D = Right (+1)
-            inputManager.AddAxisMapping("MoveRight", new Axis { scale = 1.0f, keybinds = new[] { new InputChord(Keys.D) } });
-            inputManager.AddAxisMapping("MoveRight", new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.A) } });
+            inputManager.AddAxisMapping("MoveRight", new[] {
+                new Axis { scale = 1.0f, keybinds = new[] { new InputChord(Keys.D) } },
+                new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.S) } }
+            });
 
             // --- 3. SUBSCRIBE THE ISOLOGGER ---
 
-            // Hook up Action Pressed
-            inputManager.onActionPressed += (actionName) =>
+            // Hook up "Jump" Pressed
+            inputManager.RegisterActionPressed("Jump", 0, (e) =>
             {
-                IsoLogger.Log($"ACTION PRESSED: {actionName}", IsoLogger.ELogVerbosity.Warning);
-            };
+                IsoLogger.Log($"ACTION PRESSED: {e.actionName}", IsoLogger.ELogVerbosity.Warning);
+            });
 
-            // Hook up Action Released
-            inputManager.onActionReleased += (actionName) =>
+            // Hook up "Jump" Released
+            inputManager.RegisterActionReleased("Jump", 0, (e) =>
             {
-                IsoLogger.Log($"ACTION RELEASED: {actionName}", IsoLogger.ELogVerbosity.Warning);
-            };
+                IsoLogger.Log($"ACTION RELEASED: {e.actionName}", IsoLogger.ELogVerbosity.Warning);
+            });
 
-            // Hook up Axis Holding
-            inputManager.onAxisUpdated += (axisName, value) =>
+            // Hook up "MoveForward" Axis
+            inputManager.RegisterAxisUpdated("MoveForward", 0, (e) =>
             {
-                // This will spam your console every frame the key is held, 
-                // which is exactly what you want for testing!
-                IsoLogger.Log($"AXIS HOLD: {axisName} | Value: {value}", IsoLogger.ELogVerbosity.Warning);
-            };
+                IsoLogger.Log($"AXIS HOLD: {e.axisName} | Value: {e.value}", IsoLogger.ELogVerbosity.Warning);
+            });
+
+            // Hook up "MoveRight" Axis
+            inputManager.RegisterAxisUpdated("MoveRight", 0, (e) =>
+            {
+                IsoLogger.Log($"AXIS HOLD: {e.axisName} | Value: {e.value}", IsoLogger.ELogVerbosity.Warning);
+            });
             #endregion
 
             base.Initialize();
