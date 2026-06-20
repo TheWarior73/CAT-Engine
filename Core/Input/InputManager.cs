@@ -84,14 +84,14 @@ namespace CAT_Engine.Core.Input
         #endregion
 
         #region Axis Mapping
-        Dictionary<string, Axis> _axisMapping;
+        Dictionary<string, Axis[]> _axisMapping;
 
         /// <summary>
         /// Adds a list of <see cref="InputChord"/> to the Axis Mapping dictionary
         /// </summary>
         /// <param name="AxisName">The Axis name, ex: "Interact", "Menu"...</param>
         /// <param name="AxisKeybind">The Axis to be added</param>
-        public void AddAxisMapping(string AxisName, Axis AxisKeybind)
+        public void AddAxisMapping(string AxisName, Axis[] AxisKeybind)
         {
             bool status = _axisMapping.TryAdd(AxisName, AxisKeybind);
 
@@ -119,28 +119,21 @@ namespace CAT_Engine.Core.Input
         /// Rebinds a specific inputChord set for a given Axis
         /// </summary>
         /// <param name="AxisName">The Axis to edit</param>
-        /// <param name="newKey">The key that will replace an existing key</param>
-        /// <param name="keyIndex">The position of the key in the Axis keybind list</param>
-        public void RebindAxisMapping(string AxisName, InputChord newKey, int keyIndex)
+        /// <param name="newAxis">The axis that will replace an existing axis</param>
+        /// <param name="axisIndex">The position of the axis in the Axis keybind list</param>
+        public void RebindAxisMapping(string AxisName, Axis newAxis, int axisIndex)
         {
-            _axisMapping[AxisName].keybinds[keyIndex] = newKey;
+            _axisMapping[AxisName][axisIndex] = newAxis;
         }
 
         /// <summary>
         /// Rebinds a whole inputChord (keybind) set for a given Axis
         /// </summary>
-        /// <param name="AxisName"></param>
-        /// <param name="newKeys"></param>
-        public void RebindAxisMapping(string AxisName, InputChord[] newKeys)
+        /// <param name="AxisName">The axis name to be rebound</param>
+        /// <param name="newAxises">The list of new axises to be associated with the axis name</param>
+        public void RebindAxisMapping(string AxisName, Axis[] newAxises)
         {
-            // Get
-            Axis updatedAxis = _axisMapping[AxisName];
-
-            // Update
-            updatedAxis.keybinds = newKeys;
-
-            // Set
-            _axisMapping[AxisName] = updatedAxis;
+            _axisMapping[AxisName] = newAxises;
         }
 
         /// <summary>
@@ -148,7 +141,7 @@ namespace CAT_Engine.Core.Input
         /// </summary>
         /// <param name="AxisName">The Axis Name in the dictionary</param>
         /// <returns>The <see cref="InputChord"/> list if found, null otherwise</returns>
-        public Axis GetAxisMapping(string AxisName)
+        public Axis[] GetAxisMapping(string AxisName)
         {
             bool status = _axisMapping.TryGetValue(AxisName, out var axis);
 
@@ -156,7 +149,7 @@ namespace CAT_Engine.Core.Input
             {
                 IsoLogger.Log($"Axis not found in Axis Mapping : {AxisName}", IsoLogger.ELogVerbosity.Warning);
 
-                axis = new Axis(); // explicitely set the axis to empty to let the caller know that nothing was found.
+                axis = []; // explicitely set the axis to empty to let the caller know that nothing was found.
             }
             return axis;
         }
@@ -213,25 +206,149 @@ namespace CAT_Engine.Core.Input
 
             _currentState = Keyboard.GetState();
             _previousState = new();
-            _axisMapping = new();
-            _actionMapping = new();
+            _axisMapping = [];
+            _actionMapping = [];
+            _actionPressedListeners = [];
+            _actionReleasedListeners = [];
         }
 
         #region Event Handling
+
+        #region actionPressed
         /// <summary>
-        /// Event fired when an Action is Pressed
+        /// Priority list for action Pressed events. HIGHEST priority starts at 0, then lessens the higher the value
         /// </summary>
-        public event Action<string> onActionPressed;
+        private Dictionary<string, List<(int Priority, Action<InputActionEvent> Callback)>> _actionPressedListeners = new();
 
         /// <summary>
-        /// Event fired when an Action is Released
+        /// Subscribes an action to the priority list with it's subsequent priority<br/>
+        /// The list is also sorted in priority order during this step.
         /// </summary>
-        public event Action<string> onActionReleased;
+        /// <param name="priority">The priority level. 0 is the HIGHEST priority, then it goes up.</param>
+        /// <param name="callback">The callback function when the action is pressed</param>
+        /// <param name="actionName">The action name</param>
+        public void RegisterActionPressed(string actionName, int priority, Action<InputActionEvent> callback)
+        {
+            if (!_actionPressedListeners.ContainsKey(actionName))
+            {
+                _actionPressedListeners[actionName] = new();
+            }
+
+            _actionPressedListeners[actionName].Add((priority, callback));
+
+            _actionPressedListeners[actionName].Sort((a, b) => a.Priority.CompareTo(b.Priority));
+        }
 
         /// <summary>
-        /// Constantly updates the axis (keyboards have 3 values: -1, 0, 1. controlers have a range [-1, 1])
+        /// Unsubscribes all actions with the same callback from the priority list. (see <see cref="RegisterActionPressed(int, Action{InputActionEvent})"/> to subscribe instead)
         /// </summary>
-        public event Action<string, float> onAxisUpdated;
+        /// <param name="actionName">The action name</param>
+        /// <param name="callback">The callback function associated in the priority list.</param>
+        public void UnregisterActionPressed(string actionName, Action<InputActionEvent> callback)
+        {
+            if (_actionPressedListeners.TryGetValue(actionName, out var targetListeners))
+            {
+                targetListeners.RemoveAll(x => x.Callback == callback);
+
+                // Delete the list if emptied by this removal
+                if (targetListeners.Count == 0)
+                {
+                    _actionPressedListeners.Remove(actionName);
+                }
+            }
+        }
+        #endregion
+
+        // * * * - - - - - - - - - - - - - * * * //
+
+        #region action Released
+        /// <summary>
+        /// Priority list for action Released events. HIGHEST priority starts at 0, then lessens the higher the value.
+        /// </summary>
+        private Dictionary<string, List<(int Priority, Action<InputActionEvent> Callback)>> _actionReleasedListeners = new();
+
+        /// <summary>
+        /// Subscribes an event to the action released priority list
+        /// </summary>
+        /// <param name="actionName">The action Name</param>
+        /// <param name="priority">The priority level. 0 is the HITGHEST priority.</param>
+        /// <param name="callback">The callback</param>
+        public void RegisterActionReleased(string actionName, int priority, Action<InputActionEvent> callback)
+        {
+            if (!_actionReleasedListeners.ContainsKey(actionName))
+            {
+                _actionReleasedListeners[actionName] = new();
+            }
+
+            _actionReleasedListeners[actionName].Add((priority, callback));
+
+            _actionReleasedListeners[actionName].Sort((a, b) => a.Priority.CompareTo(b.Priority));
+        }
+
+        /// <summary>
+        /// Unsubscribes all events with the same callback from the action released priority list
+        /// </summary>
+        /// <param name="actionName">The action name</param>
+        /// <param name="callback">The callback.</param>
+        public void UnregisterActionReleased(string actionName, Action<InputActionEvent> callback)
+        {
+            if (_actionReleasedListeners.TryGetValue(actionName, out var targetListeners))
+            {
+                targetListeners.RemoveAll(x => x.Callback == callback);
+
+                // Delete the list if emptied by this removal
+                if (targetListeners.Count == 0)
+                {
+                    _actionReleasedListeners.Remove(actionName);
+                }
+            }
+        }
+
+        #endregion
+
+        // * * * - - - - - - - - - - - - - * * * //
+
+        #region axis Updated
+        /// <summary>
+        /// Priority list for axisUpdated events. HIGHEST priority starts at 0, then lessens the higher the value.
+        /// </summary>
+        private Dictionary<string, List<(int Priority, Action<InputAxisEvent> Callback)>> _axisUpdatedListeners = new();
+
+        /// <summary>
+        /// Subscribed an event to the axis Updated priority list
+        /// </summary>
+        /// <param name="priority">The priority. 0 is the HIGHEST priority.</param>
+        /// <param name="callback">the callback.</param>
+        public void RegisterAxisUpdated(string actionName, int priority, Action<InputAxisEvent> callback)
+        {
+            if (!_axisUpdatedListeners.ContainsKey(actionName))
+            {
+                _axisUpdatedListeners[actionName] = new();
+            }
+
+            _axisUpdatedListeners[actionName].Add((priority, callback));
+        }
+
+        /// <summary>
+        /// Unsubscribes all events with the same callback from the axis updated priority list
+        /// </summary>
+        /// <param name="actionName">The action name</param>
+        /// <param name="callback">The callback.</param>
+        public void UnregisterAxisUpdated(string actionName, Action<InputActionEvent> callback)
+        {
+            if (_actionPressedListeners.TryGetValue(actionName, out var targetListeners))
+            {
+                targetListeners.RemoveAll(x => x.Callback == callback);
+
+                // Delete the list if emptied by this removal
+                if (targetListeners.Count == 0)
+                {
+                    _actionPressedListeners.Remove(actionName);
+                }
+            }
+        }
+        #endregion
+
         #endregion
 
         /// <summary>
@@ -256,12 +373,39 @@ namespace CAT_Engine.Core.Input
                 {
                     if (IsKeyPressed(chord.Key))
                     {
-                        onActionPressed?.Invoke(actionName);
+                        if (_actionPressedListeners.TryGetValue(actionName, out var targetListener))
+                        {
+                            var inputEvent = new InputActionEvent(actionName);
+
+                            foreach (var listener in targetListener)
+                            {
+                                listener.Callback.Invoke(inputEvent);
+
+                                if (inputEvent.isConsumed)
+                                {
+                                    break;
+                                }
+                            }
+                        }
                         break;
                     }
                     if (IsKeyReleased(chord.Key))
                     {
-                        onActionReleased?.Invoke(actionName);
+                        if (_actionReleasedListeners.TryGetValue(actionName, out var targetListener))
+                        {
+
+                            var releaseEvent = new InputActionEvent(actionName);
+
+                            foreach (var listener in targetListener)
+                            {
+                                listener.Callback.Invoke(releaseEvent);
+
+                                if (releaseEvent.isConsumed)
+                                {
+                                    break;
+                                }
+                            }
+                        }
                         break;
                     }
                 }
@@ -269,22 +413,39 @@ namespace CAT_Engine.Core.Input
             }
 
             // Axis eval
-            foreach (var currentAxis in _axisMapping)
+            foreach (var currentAxisList in _axisMapping)
             {
-                string axisName = currentAxis.Key;
-                Axis axis = currentAxis.Value;
+                string axisName = currentAxisList.Key;
+                Axis[] axisList = currentAxisList.Value;
                 float axisValue = 0f;
 
-                foreach (var chord in axis.keybinds)
+                foreach (var axis in axisList)
                 {
-                    if (IsKeyHeld(chord.Key))
+                    foreach (var chord in axis.keybinds)
                     {
-                        axisValue += axis.scale;
+                        if (IsKeyHeld(chord.Key))
+                        {
+                            axisValue += axis.scale;
+                        }
                     }
                 }
 
                 //axes should fire even if the axis value is 0 so were not stuck forever moving
-                onAxisUpdated?.Invoke(axisName, axisValue);
+
+                if (_axisUpdatedListeners.TryGetValue(axisName, out var targetListener))
+                {
+
+                    var axisEvent = new InputAxisEvent(axisName, axisValue);
+                    foreach (var listener in targetListener)
+                    {
+                        listener.Callback.Invoke(axisEvent);
+
+                        if (axisEvent.isConsumed)
+                        {
+                            break;
+                        }
+                    }
+                }
             }
         }
     }

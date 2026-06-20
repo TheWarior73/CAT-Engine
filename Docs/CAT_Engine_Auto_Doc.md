@@ -3,6 +3,10 @@
 
 ## Contents
 
+- [Axis](#T-CAT_Engine-Core-Input-Axis 'CAT_Engine.Core.Input.Axis')
+  - [#ctor()](#M-CAT_Engine-Core-Input-Axis-#ctor 'CAT_Engine.Core.Input.Axis.#ctor')
+  - [keybinds](#F-CAT_Engine-Core-Input-Axis-keybinds 'CAT_Engine.Core.Input.Axis.keybinds')
+  - [scale](#P-CAT_Engine-Core-Input-Axis-scale 'CAT_Engine.Core.Input.Axis.scale')
 - [ChunkNotFoundException](#T-CAT_Engine-Core-Tiles-Exceptions-ChunkNotFoundException 'CAT_Engine.Core.Tiles.Exceptions.ChunkNotFoundException')
 - [ELogVerbosity](#T-CAT_Engine-Core-Debug-IsoLogger-ELogVerbosity 'CAT_Engine.Core.Debug.IsoLogger.ELogVerbosity')
   - [Display](#F-CAT_Engine-Core-Debug-IsoLogger-ELogVerbosity-Display 'CAT_Engine.Core.Debug.IsoLogger.ELogVerbosity.Display')
@@ -12,10 +16,33 @@
   - [Verbose](#F-CAT_Engine-Core-Debug-IsoLogger-ELogVerbosity-Verbose 'CAT_Engine.Core.Debug.IsoLogger.ELogVerbosity.Verbose')
   - [VeryVerbose](#F-CAT_Engine-Core-Debug-IsoLogger-ELogVerbosity-VeryVerbose 'CAT_Engine.Core.Debug.IsoLogger.ELogVerbosity.VeryVerbose')
   - [Warning](#F-CAT_Engine-Core-Debug-IsoLogger-ELogVerbosity-Warning 'CAT_Engine.Core.Debug.IsoLogger.ELogVerbosity.Warning')
+- [InputActionEvent](#T-CAT_Engine-Core-Input-InputActionEvent 'CAT_Engine.Core.Input.InputActionEvent')
+  - [#ctor(actionName)](#M-CAT_Engine-Core-Input-InputActionEvent-#ctor-System-String- 'CAT_Engine.Core.Input.InputActionEvent.#ctor(System.String)')
+  - [actionName](#P-CAT_Engine-Core-Input-InputActionEvent-actionName 'CAT_Engine.Core.Input.InputActionEvent.actionName')
+  - [isConsumed](#P-CAT_Engine-Core-Input-InputActionEvent-isConsumed 'CAT_Engine.Core.Input.InputActionEvent.isConsumed')
+  - [Consume()](#M-CAT_Engine-Core-Input-InputActionEvent-Consume 'CAT_Engine.Core.Input.InputActionEvent.Consume')
+- [InputAxisEvent](#T-CAT_Engine-Core-Input-InputAxisEvent 'CAT_Engine.Core.Input.InputAxisEvent')
+  - [#ctor(AxisName,axisValue)](#M-CAT_Engine-Core-Input-InputAxisEvent-#ctor-System-String,System-Single- 'CAT_Engine.Core.Input.InputAxisEvent.#ctor(System.String,System.Single)')
+  - [axisName](#P-CAT_Engine-Core-Input-InputAxisEvent-axisName 'CAT_Engine.Core.Input.InputAxisEvent.axisName')
+  - [isConsumed](#P-CAT_Engine-Core-Input-InputAxisEvent-isConsumed 'CAT_Engine.Core.Input.InputAxisEvent.isConsumed')
+  - [value](#P-CAT_Engine-Core-Input-InputAxisEvent-value 'CAT_Engine.Core.Input.InputAxisEvent.value')
+  - [Consume()](#M-CAT_Engine-Core-Input-InputAxisEvent-Consume 'CAT_Engine.Core.Input.InputAxisEvent.Consume')
+- [InputChord](#T-CAT_Engine-Core-Input-InputChord 'CAT_Engine.Core.Input.InputChord')
+  - [#ctor()](#M-CAT_Engine-Core-Input-InputChord-#ctor 'CAT_Engine.Core.Input.InputChord.#ctor')
+  - [#ctor(key)](#M-CAT_Engine-Core-Input-InputChord-#ctor-Microsoft-Xna-Framework-Input-Keys- 'CAT_Engine.Core.Input.InputChord.#ctor(Microsoft.Xna.Framework.Input.Keys)')
+  - [#ctor(key,mods)](#M-CAT_Engine-Core-Input-InputChord-#ctor-Microsoft-Xna-Framework-Input-Keys,CAT_Engine-Core-Input-Modifiers- 'CAT_Engine.Core.Input.InputChord.#ctor(Microsoft.Xna.Framework.Input.Keys,CAT_Engine.Core.Input.Modifiers)')
+  - [Key](#P-CAT_Engine-Core-Input-InputChord-Key 'CAT_Engine.Core.Input.InputChord.Key')
+  - [GetModifier(mod)](#M-CAT_Engine-Core-Input-InputChord-GetModifier-CAT_Engine-Core-Input-Modifiers- 'CAT_Engine.Core.Input.InputChord.GetModifier(CAT_Engine.Core.Input.Modifiers)')
+  - [SetModifier(mod,value)](#M-CAT_Engine-Core-Input-InputChord-SetModifier-CAT_Engine-Core-Input-Modifiers,System-Boolean- 'CAT_Engine.Core.Input.InputChord.SetModifier(CAT_Engine.Core.Input.Modifiers,System.Boolean)')
 - [InputManager](#T-CAT_Engine-Core-Input-InputManager 'CAT_Engine.Core.Input.InputManager')
   - [#ctor()](#M-CAT_Engine-Core-Input-InputManager-#ctor 'CAT_Engine.Core.Input.InputManager.#ctor')
+  - [_actionPressedListeners](#F-CAT_Engine-Core-Input-InputManager-_actionPressedListeners 'CAT_Engine.Core.Input.InputManager._actionPressedListeners')
+  - [_actionReleasedListeners](#F-CAT_Engine-Core-Input-InputManager-_actionReleasedListeners 'CAT_Engine.Core.Input.InputManager._actionReleasedListeners')
+  - [_axisUpdatedListeners](#F-CAT_Engine-Core-Input-InputManager-_axisUpdatedListeners 'CAT_Engine.Core.Input.InputManager._axisUpdatedListeners')
+  - [_currentState](#P-CAT_Engine-Core-Input-InputManager-_currentState 'CAT_Engine.Core.Input.InputManager._currentState')
+  - [_previousState](#P-CAT_Engine-Core-Input-InputManager-_previousState 'CAT_Engine.Core.Input.InputManager._previousState')
   - [AddActionMapping(ActionName,ActionKeybind)](#M-CAT_Engine-Core-Input-InputManager-AddActionMapping-System-String,CAT_Engine-Core-Input-InputChord[]- 'CAT_Engine.Core.Input.InputManager.AddActionMapping(System.String,CAT_Engine.Core.Input.InputChord[])')
-  - [AddAxisMapping(AxisName,AxisKeybind)](#M-CAT_Engine-Core-Input-InputManager-AddAxisMapping-System-String,CAT_Engine-Core-Input-Axis- 'CAT_Engine.Core.Input.InputManager.AddAxisMapping(System.String,CAT_Engine.Core.Input.Axis)')
+  - [AddAxisMapping(AxisName,AxisKeybind)](#M-CAT_Engine-Core-Input-InputManager-AddAxisMapping-System-String,CAT_Engine-Core-Input-Axis[]- 'CAT_Engine.Core.Input.InputManager.AddAxisMapping(System.String,CAT_Engine.Core.Input.Axis[])')
   - [GetActionMapping(ActionName)](#M-CAT_Engine-Core-Input-InputManager-GetActionMapping-System-String- 'CAT_Engine.Core.Input.InputManager.GetActionMapping(System.String)')
   - [GetAxisMapping(AxisName)](#M-CAT_Engine-Core-Input-InputManager-GetAxisMapping-System-String- 'CAT_Engine.Core.Input.InputManager.GetAxisMapping(System.String)')
   - [IsKeyHeld(key)](#M-CAT_Engine-Core-Input-InputManager-IsKeyHeld-Microsoft-Xna-Framework-Input-Keys- 'CAT_Engine.Core.Input.InputManager.IsKeyHeld(Microsoft.Xna.Framework.Input.Keys)')
@@ -23,10 +50,16 @@
   - [IsKeyReleased(key)](#M-CAT_Engine-Core-Input-InputManager-IsKeyReleased-Microsoft-Xna-Framework-Input-Keys- 'CAT_Engine.Core.Input.InputManager.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys)')
   - [RebindActionMapping(ActionName,newKey,keyIndex)](#M-CAT_Engine-Core-Input-InputManager-RebindActionMapping-System-String,CAT_Engine-Core-Input-InputChord,System-Int32- 'CAT_Engine.Core.Input.InputManager.RebindActionMapping(System.String,CAT_Engine.Core.Input.InputChord,System.Int32)')
   - [RebindActionMapping(ActionName,newKeys)](#M-CAT_Engine-Core-Input-InputManager-RebindActionMapping-System-String,CAT_Engine-Core-Input-InputChord[]- 'CAT_Engine.Core.Input.InputManager.RebindActionMapping(System.String,CAT_Engine.Core.Input.InputChord[])')
-  - [RebindAxisMapping(AxisName,newKey,keyIndex)](#M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-InputChord,System-Int32- 'CAT_Engine.Core.Input.InputManager.RebindAxisMapping(System.String,CAT_Engine.Core.Input.InputChord,System.Int32)')
-  - [RebindAxisMapping(AxisName,newKeys)](#M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-InputChord[]- 'CAT_Engine.Core.Input.InputManager.RebindAxisMapping(System.String,CAT_Engine.Core.Input.InputChord[])')
+  - [RebindAxisMapping(AxisName,newAxis,axisIndex)](#M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-Axis,System-Int32- 'CAT_Engine.Core.Input.InputManager.RebindAxisMapping(System.String,CAT_Engine.Core.Input.Axis,System.Int32)')
+  - [RebindAxisMapping(AxisName,newAxises)](#M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-Axis[]- 'CAT_Engine.Core.Input.InputManager.RebindAxisMapping(System.String,CAT_Engine.Core.Input.Axis[])')
+  - [RegisterActionPressed(priority,callback,actionName)](#M-CAT_Engine-Core-Input-InputManager-RegisterActionPressed-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputActionEvent}- 'CAT_Engine.Core.Input.InputManager.RegisterActionPressed(System.String,System.Int32,System.Action{CAT_Engine.Core.Input.InputActionEvent})')
+  - [RegisterActionReleased(actionName,priority,callback)](#M-CAT_Engine-Core-Input-InputManager-RegisterActionReleased-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputActionEvent}- 'CAT_Engine.Core.Input.InputManager.RegisterActionReleased(System.String,System.Int32,System.Action{CAT_Engine.Core.Input.InputActionEvent})')
+  - [RegisterAxisUpdated(priority,callback)](#M-CAT_Engine-Core-Input-InputManager-RegisterAxisUpdated-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputAxisEvent}- 'CAT_Engine.Core.Input.InputManager.RegisterAxisUpdated(System.String,System.Int32,System.Action{CAT_Engine.Core.Input.InputAxisEvent})')
   - [RemoveActionMapping(ActionName)](#M-CAT_Engine-Core-Input-InputManager-RemoveActionMapping-System-String- 'CAT_Engine.Core.Input.InputManager.RemoveActionMapping(System.String)')
   - [RemoveAxisMapping(AxisName)](#M-CAT_Engine-Core-Input-InputManager-RemoveAxisMapping-System-String- 'CAT_Engine.Core.Input.InputManager.RemoveAxisMapping(System.String)')
+  - [UnregisterActionPressed(actionName,callback)](#M-CAT_Engine-Core-Input-InputManager-UnregisterActionPressed-System-String,System-Action{CAT_Engine-Core-Input-InputActionEvent}- 'CAT_Engine.Core.Input.InputManager.UnregisterActionPressed(System.String,System.Action{CAT_Engine.Core.Input.InputActionEvent})')
+  - [UnregisterActionReleased(actionName,callback)](#M-CAT_Engine-Core-Input-InputManager-UnregisterActionReleased-System-String,System-Action{CAT_Engine-Core-Input-InputActionEvent}- 'CAT_Engine.Core.Input.InputManager.UnregisterActionReleased(System.String,System.Action{CAT_Engine.Core.Input.InputActionEvent})')
+  - [UnregisterAxisUpdated(actionName,callback)](#M-CAT_Engine-Core-Input-InputManager-UnregisterAxisUpdated-System-String,System-Action{CAT_Engine-Core-Input-InputActionEvent}- 'CAT_Engine.Core.Input.InputManager.UnregisterAxisUpdated(System.String,System.Action{CAT_Engine.Core.Input.InputActionEvent})')
   - [Update(delta)](#M-CAT_Engine-Core-Input-InputManager-Update-System-Single- 'CAT_Engine.Core.Input.InputManager.Update(System.Single)')
 - [IntVector2](#T-CAT_Engine-Core-Utility-IntVector2 'CAT_Engine.Core.Utility.IntVector2')
   - [GetHashCode()](#M-CAT_Engine-Core-Utility-IntVector2-GetHashCode 'CAT_Engine.Core.Utility.IntVector2.GetHashCode')
@@ -92,11 +125,54 @@
   - [rotation](#F-CAT_Engine-Core-Utility-IsoTransform2-rotation 'CAT_Engine.Core.Utility.IsoTransform2.rotation')
 - [IsoTransform3](#T-CAT_Engine-Core-Utility-IsoTransform3 'CAT_Engine.Core.Utility.IsoTransform3')
   - [rotation](#F-CAT_Engine-Core-Utility-IsoTransform3-rotation 'CAT_Engine.Core.Utility.IsoTransform3.rotation')
+- [Modifiers](#T-CAT_Engine-Core-Input-Modifiers 'CAT_Engine.Core.Input.Modifiers')
+  - [Alt](#F-CAT_Engine-Core-Input-Modifiers-Alt 'CAT_Engine.Core.Input.Modifiers.Alt')
+  - [Control](#F-CAT_Engine-Core-Input-Modifiers-Control 'CAT_Engine.Core.Input.Modifiers.Control')
+  - [None](#F-CAT_Engine-Core-Input-Modifiers-None 'CAT_Engine.Core.Input.Modifiers.None')
+  - [Shift](#F-CAT_Engine-Core-Input-Modifiers-Shift 'CAT_Engine.Core.Input.Modifiers.Shift')
 - [RenderUtility](#T-CAT_Engine-Core-Rendering-Utility-RenderUtility 'CAT_Engine.Core.Rendering.Utility.RenderUtility')
   - [IsoTransformToScreenRect(transform)](#M-CAT_Engine-Core-Rendering-Utility-RenderUtility-IsoTransformToScreenRect-CAT_Engine-Core-Utility-IsoTransform3- 'CAT_Engine.Core.Rendering.Utility.RenderUtility.IsoTransformToScreenRect(CAT_Engine.Core.Utility.IsoTransform3)')
   - [Vec3ToIso(vec3)](#M-CAT_Engine-Core-Rendering-Utility-RenderUtility-Vec3ToIso-Microsoft-Xna-Framework-Vector3- 'CAT_Engine.Core.Rendering.Utility.RenderUtility.Vec3ToIso(Microsoft.Xna.Framework.Vector3)')
 - [SquareNotFoundException](#T-CAT_Engine-Core-Tiles-Exceptions-SquareNotFoundException 'CAT_Engine.Core.Tiles.Exceptions.SquareNotFoundException')
 - [ZStackNotFoundException](#T-CAT_Engine-Core-Tiles-Exceptions-ZStackNotFoundException 'CAT_Engine.Core.Tiles.Exceptions.ZStackNotFoundException')
+
+<a name='T-CAT_Engine-Core-Input-Axis'></a>
+## Axis `type`
+
+##### Namespace
+
+CAT_Engine.Core.Input
+
+##### Summary
+
+Represents an axis with it's associated scale [-1.0, 1.0] and [InputChord](#T-CAT_Engine-Core-Input-InputChord 'CAT_Engine.Core.Input.InputChord') (as keybind associated to the Axis trigger)
+
+<a name='M-CAT_Engine-Core-Input-Axis-#ctor'></a>
+### #ctor() `constructor`
+
+##### Summary
+
+The default axis constructor
+- scale = 0.0f
+- keybinds = null
+
+##### Parameters
+
+This constructor has no parameters.
+
+<a name='F-CAT_Engine-Core-Input-Axis-keybinds'></a>
+### keybinds `constants`
+
+##### Summary
+
+The keybinds associated with the axis
+
+<a name='P-CAT_Engine-Core-Input-Axis-scale'></a>
+### scale `property`
+
+##### Summary
+
+The scale of the axis
 
 <a name='T-CAT_Engine-Core-Tiles-Exceptions-ChunkNotFoundException'></a>
 ## ChunkNotFoundException `type`
@@ -165,12 +241,209 @@ Extremely detailed, per-frame level info. Only enable when hunting a VERY specif
 
 Something unexpected happened but it's not breaking. Use for fallbacks and edge cases.
 
+<a name='T-CAT_Engine-Core-Input-InputActionEvent'></a>
+## InputActionEvent `type`
+
+##### Namespace
+
+CAT_Engine.Core.Input
+
+##### Summary
+
+Represents an Event related to an action input
+
+<a name='M-CAT_Engine-Core-Input-InputActionEvent-#ctor-System-String-'></a>
+### #ctor(actionName) `constructor`
+
+##### Summary
+
+Creates a new InputActionEvent with the action name
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| actionName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The action name linked to the event |
+
+<a name='P-CAT_Engine-Core-Input-InputActionEvent-actionName'></a>
+### actionName `property`
+
+##### Summary
+
+The action name linked to the InputActionEvent
+
+<a name='P-CAT_Engine-Core-Input-InputActionEvent-isConsumed'></a>
+### isConsumed `property`
+
+##### Summary
+
+Indicates wether the event has been consumed or not
+
+<a name='M-CAT_Engine-Core-Input-InputActionEvent-Consume'></a>
+### Consume() `method`
+
+##### Summary
+
+Consumes the targeted event
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='T-CAT_Engine-Core-Input-InputAxisEvent'></a>
+## InputAxisEvent `type`
+
+##### Namespace
+
+CAT_Engine.Core.Input
+
+##### Summary
+
+Represents an Event related to an axis input
+
+<a name='M-CAT_Engine-Core-Input-InputAxisEvent-#ctor-System-String,System-Single-'></a>
+### #ctor(AxisName,axisValue) `constructor`
+
+##### Summary
+
+Default constructor
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| AxisName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The axis name |
+| axisValue | [System.Single](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Single 'System.Single') | The axis value |
+
+<a name='P-CAT_Engine-Core-Input-InputAxisEvent-axisName'></a>
+### axisName `property`
+
+##### Summary
+
+The axis name linked to the InputAxisEvent
+
+<a name='P-CAT_Engine-Core-Input-InputAxisEvent-isConsumed'></a>
+### isConsumed `property`
+
+##### Summary
+
+Indicates wether the event has been consumed or not
+
+<a name='P-CAT_Engine-Core-Input-InputAxisEvent-value'></a>
+### value `property`
+
+##### Summary
+
+The value linked to the InputAxisEvent
+
+<a name='M-CAT_Engine-Core-Input-InputAxisEvent-Consume'></a>
+### Consume() `method`
+
+##### Summary
+
+Consumes the targeted event
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='T-CAT_Engine-Core-Input-InputChord'></a>
+## InputChord `type`
+
+##### Namespace
+
+CAT_Engine.Core.Input
+
+##### Summary
+
+Representation of an input sequence (ex: CTRL + Z, with CTRL being a [modifiers](#F-CAT_Engine-Core-Input-InputChord-modifiers 'CAT_Engine.Core.Input.InputChord.modifiers'), and Z a [Keys](#T-Microsoft-Xna-Framework-Input-Keys 'Microsoft.Xna.Framework.Input.Keys'))
+
+<a name='M-CAT_Engine-Core-Input-InputChord-#ctor'></a>
+### #ctor() `constructor`
+
+##### Summary
+
+InputChord constructor
+
+##### Parameters
+
+This constructor has no parameters.
+
+<a name='M-CAT_Engine-Core-Input-InputChord-#ctor-Microsoft-Xna-Framework-Input-Keys-'></a>
+### #ctor(key) `constructor`
+
+##### Summary
+
+InputChord constructor
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| key | [Microsoft.Xna.Framework.Input.Keys](#T-Microsoft-Xna-Framework-Input-Keys 'Microsoft.Xna.Framework.Input.Keys') | The associated key of the inputChord |
+
+<a name='M-CAT_Engine-Core-Input-InputChord-#ctor-Microsoft-Xna-Framework-Input-Keys,CAT_Engine-Core-Input-Modifiers-'></a>
+### #ctor(key,mods) `constructor`
+
+##### Summary
+
+InputChord constructor
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| key | [Microsoft.Xna.Framework.Input.Keys](#T-Microsoft-Xna-Framework-Input-Keys 'Microsoft.Xna.Framework.Input.Keys') | The associated key of the inputChord |
+| mods | [CAT_Engine.Core.Input.Modifiers](#T-CAT_Engine-Core-Input-Modifiers 'CAT_Engine.Core.Input.Modifiers') | The associated modifiers of the inputChord |
+
+<a name='P-CAT_Engine-Core-Input-InputChord-Key'></a>
+### Key `property`
+
+##### Summary
+
+The associated key
+
+<a name='M-CAT_Engine-Core-Input-InputChord-GetModifier-CAT_Engine-Core-Input-Modifiers-'></a>
+### GetModifier(mod) `method`
+
+##### Summary
+
+Obtains the specified modifier for an InputChord
+
+##### Returns
+
+the status of the modifier as a boolean
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| mod | [CAT_Engine.Core.Input.Modifiers](#T-CAT_Engine-Core-Input-Modifiers 'CAT_Engine.Core.Input.Modifiers') | the modifier to get |
+
+<a name='M-CAT_Engine-Core-Input-InputChord-SetModifier-CAT_Engine-Core-Input-Modifiers,System-Boolean-'></a>
+### SetModifier(mod,value) `method`
+
+##### Summary
+
+Sets the specified modifier (`mod`) to the specified `value`
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| mod | [CAT_Engine.Core.Input.Modifiers](#T-CAT_Engine-Core-Input-Modifiers 'CAT_Engine.Core.Input.Modifiers') | the modifier to edit |
+| value | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | the value to be set |
+
 <a name='T-CAT_Engine-Core-Input-InputManager'></a>
 ## InputManager `type`
 
 ##### Namespace
 
 CAT_Engine.Core.Input
+
+##### Summary
+
+Input Manager that handles input detection, then handles action and axis mappings and dispatches events corresponding to the hit keybind.
 
 <a name='M-CAT_Engine-Core-Input-InputManager-#ctor'></a>
 ### #ctor() `constructor`
@@ -182,6 +455,41 @@ Initialises the InputManager
 ##### Parameters
 
 This constructor has no parameters.
+
+<a name='F-CAT_Engine-Core-Input-InputManager-_actionPressedListeners'></a>
+### _actionPressedListeners `constants`
+
+##### Summary
+
+Priority list for action Pressed events. HIGHEST priority starts at 0, then lessens the higher the value
+
+<a name='F-CAT_Engine-Core-Input-InputManager-_actionReleasedListeners'></a>
+### _actionReleasedListeners `constants`
+
+##### Summary
+
+Priority list for action Released events. HIGHEST priority starts at 0, then lessens the higher the value.
+
+<a name='F-CAT_Engine-Core-Input-InputManager-_axisUpdatedListeners'></a>
+### _axisUpdatedListeners `constants`
+
+##### Summary
+
+Priority list for axisUpdated events. HIGHEST priority starts at 0, then lessens the higher the value.
+
+<a name='P-CAT_Engine-Core-Input-InputManager-_currentState'></a>
+### _currentState `property`
+
+##### Summary
+
+The current state of the keyboard
+
+<a name='P-CAT_Engine-Core-Input-InputManager-_previousState'></a>
+### _previousState `property`
+
+##### Summary
+
+The previous state of the keyboard
 
 <a name='M-CAT_Engine-Core-Input-InputManager-AddActionMapping-System-String,CAT_Engine-Core-Input-InputChord[]-'></a>
 ### AddActionMapping(ActionName,ActionKeybind) `method`
@@ -197,7 +505,7 @@ Adds a list of [InputChord](#T-CAT_Engine-Core-Input-InputChord 'CAT_Engine.Core
 | ActionName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The action name, ex: "Interact", "Menu"... |
 | ActionKeybind | [CAT_Engine.Core.Input.InputChord[]](#T-CAT_Engine-Core-Input-InputChord[] 'CAT_Engine.Core.Input.InputChord[]') | The list of [InputChord](#T-CAT_Engine-Core-Input-InputChord 'CAT_Engine.Core.Input.InputChord') that will trigger the Action |
 
-<a name='M-CAT_Engine-Core-Input-InputManager-AddAxisMapping-System-String,CAT_Engine-Core-Input-Axis-'></a>
+<a name='M-CAT_Engine-Core-Input-InputManager-AddAxisMapping-System-String,CAT_Engine-Core-Input-Axis[]-'></a>
 ### AddAxisMapping(AxisName,AxisKeybind) `method`
 
 ##### Summary
@@ -209,7 +517,7 @@ Adds a list of [InputChord](#T-CAT_Engine-Core-Input-InputChord 'CAT_Engine.Core
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | AxisName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The Axis name, ex: "Interact", "Menu"... |
-| AxisKeybind | [CAT_Engine.Core.Input.Axis](#T-CAT_Engine-Core-Input-Axis 'CAT_Engine.Core.Input.Axis') | The Axis to be added |
+| AxisKeybind | [CAT_Engine.Core.Input.Axis[]](#T-CAT_Engine-Core-Input-Axis[] 'CAT_Engine.Core.Input.Axis[]') | The Axis to be added |
 
 <a name='M-CAT_Engine-Core-Input-InputManager-GetActionMapping-System-String-'></a>
 ### GetActionMapping(ActionName) `method`
@@ -325,8 +633,8 @@ Rebinds a whole inputChord set for a given action
 | ActionName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') |  |
 | newKeys | [CAT_Engine.Core.Input.InputChord[]](#T-CAT_Engine-Core-Input-InputChord[] 'CAT_Engine.Core.Input.InputChord[]') |  |
 
-<a name='M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-InputChord,System-Int32-'></a>
-### RebindAxisMapping(AxisName,newKey,keyIndex) `method`
+<a name='M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-Axis,System-Int32-'></a>
+### RebindAxisMapping(AxisName,newAxis,axisIndex) `method`
 
 ##### Summary
 
@@ -337,11 +645,11 @@ Rebinds a specific inputChord set for a given Axis
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | AxisName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The Axis to edit |
-| newKey | [CAT_Engine.Core.Input.InputChord](#T-CAT_Engine-Core-Input-InputChord 'CAT_Engine.Core.Input.InputChord') | The key that will replace an existing key |
-| keyIndex | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The position of the key in the Axis keybind list |
+| newAxis | [CAT_Engine.Core.Input.Axis](#T-CAT_Engine-Core-Input-Axis 'CAT_Engine.Core.Input.Axis') | The axis that will replace an existing axis |
+| axisIndex | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The position of the axis in the Axis keybind list |
 
-<a name='M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-InputChord[]-'></a>
-### RebindAxisMapping(AxisName,newKeys) `method`
+<a name='M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-Axis[]-'></a>
+### RebindAxisMapping(AxisName,newAxises) `method`
 
 ##### Summary
 
@@ -351,8 +659,53 @@ Rebinds a whole inputChord (keybind) set for a given Axis
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| AxisName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') |  |
-| newKeys | [CAT_Engine.Core.Input.InputChord[]](#T-CAT_Engine-Core-Input-InputChord[] 'CAT_Engine.Core.Input.InputChord[]') |  |
+| AxisName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The axis name to be rebound |
+| newAxises | [CAT_Engine.Core.Input.Axis[]](#T-CAT_Engine-Core-Input-Axis[] 'CAT_Engine.Core.Input.Axis[]') | The list of new axises to be associated with the axis name |
+
+<a name='M-CAT_Engine-Core-Input-InputManager-RegisterActionPressed-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputActionEvent}-'></a>
+### RegisterActionPressed(priority,callback,actionName) `method`
+
+##### Summary
+
+Subscribes an action to the priority list with it's subsequent priority
+The list is also sorted in priority order during this step.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| priority | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The priority level. 0 is the HIGHEST priority, then it goes up. |
+| callback | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The callback function when the action is pressed |
+| actionName | [System.Action{CAT_Engine.Core.Input.InputActionEvent}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Action 'System.Action{CAT_Engine.Core.Input.InputActionEvent}') | The action name |
+
+<a name='M-CAT_Engine-Core-Input-InputManager-RegisterActionReleased-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputActionEvent}-'></a>
+### RegisterActionReleased(actionName,priority,callback) `method`
+
+##### Summary
+
+Subscribes an event to the action released priority list
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| actionName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The action Name |
+| priority | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The priority level. 0 is the HITGHEST priority. |
+| callback | [System.Action{CAT_Engine.Core.Input.InputActionEvent}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Action 'System.Action{CAT_Engine.Core.Input.InputActionEvent}') | The callback |
+
+<a name='M-CAT_Engine-Core-Input-InputManager-RegisterAxisUpdated-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputAxisEvent}-'></a>
+### RegisterAxisUpdated(priority,callback) `method`
+
+##### Summary
+
+Subscribed an event to the axis Updated priority list
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| priority | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The priority. 0 is the HIGHEST priority. |
+| callback | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | the callback. |
 
 <a name='M-CAT_Engine-Core-Input-InputManager-RemoveActionMapping-System-String-'></a>
 ### RemoveActionMapping(ActionName) `method`
@@ -379,6 +732,48 @@ Removes an Axis from the AxisMapping dictionary completely.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | AxisName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The Axis name in the Dictionary |
+
+<a name='M-CAT_Engine-Core-Input-InputManager-UnregisterActionPressed-System-String,System-Action{CAT_Engine-Core-Input-InputActionEvent}-'></a>
+### UnregisterActionPressed(actionName,callback) `method`
+
+##### Summary
+
+Unsubscribes all actions with the same callback from the priority list. (see [](#!-RegisterActionPressed-int, Action<InputActionEvent>- 'RegisterActionPressed(int, Action<InputActionEvent>)') to subscribe instead)
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| actionName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The action name |
+| callback | [System.Action{CAT_Engine.Core.Input.InputActionEvent}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Action 'System.Action{CAT_Engine.Core.Input.InputActionEvent}') | The callback function associated in the priority list. |
+
+<a name='M-CAT_Engine-Core-Input-InputManager-UnregisterActionReleased-System-String,System-Action{CAT_Engine-Core-Input-InputActionEvent}-'></a>
+### UnregisterActionReleased(actionName,callback) `method`
+
+##### Summary
+
+Unsubscribes all events with the same callback from the action released priority list
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| actionName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The action name |
+| callback | [System.Action{CAT_Engine.Core.Input.InputActionEvent}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Action 'System.Action{CAT_Engine.Core.Input.InputActionEvent}') | The callback. |
+
+<a name='M-CAT_Engine-Core-Input-InputManager-UnregisterAxisUpdated-System-String,System-Action{CAT_Engine-Core-Input-InputActionEvent}-'></a>
+### UnregisterAxisUpdated(actionName,callback) `method`
+
+##### Summary
+
+Unsubscribes all events with the same callback from the axis updated priority list
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| actionName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The action name |
+| callback | [System.Action{CAT_Engine.Core.Input.InputActionEvent}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Action 'System.Action{CAT_Engine.Core.Input.InputActionEvent}') | The callback. |
 
 <a name='M-CAT_Engine-Core-Input-InputManager-Update-System-Single-'></a>
 ### Update(delta) `method`
@@ -1200,6 +1595,50 @@ Represents a 3D Transform
 ##### Summary
 
 rotation in degrees, not radiants
+
+<a name='T-CAT_Engine-Core-Input-Modifiers'></a>
+## Modifiers `type`
+
+##### Namespace
+
+CAT_Engine.Core.Input
+
+##### Summary
+
+InputChord modifier keys:
+- None    - No      modifier key
+- Shift
+- Alt
+- Control
+These modifiers can be combined together to make for more advanced modifier keys, example: CTRL + SHIFT + Z
+
+<a name='F-CAT_Engine-Core-Input-Modifiers-Alt'></a>
+### Alt `constants`
+
+##### Summary
+
+Alt modifier key: ALT has to be pressed
+
+<a name='F-CAT_Engine-Core-Input-Modifiers-Control'></a>
+### Control `constants`
+
+##### Summary
+
+Control modifier key: CTRL has to be pressed
+
+<a name='F-CAT_Engine-Core-Input-Modifiers-None'></a>
+### None `constants`
+
+##### Summary
+
+None modifier key: no modifiers
+
+<a name='F-CAT_Engine-Core-Input-Modifiers-Shift'></a>
+### Shift `constants`
+
+##### Summary
+
+Shift modifier key: SHIFT has to be pressed
 
 <a name='T-CAT_Engine-Core-Rendering-Utility-RenderUtility'></a>
 ## RenderUtility `type`
