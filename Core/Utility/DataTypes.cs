@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.Utility
 {
@@ -17,8 +14,8 @@ namespace CAT_Engine.Core.Utility
         public int y;
 
         public IntVector2() { }
-        public IntVector2(int x, int y) 
-        { 
+        public IntVector2(int x, int y)
+        {
             this.x = x;
             this.y = y;
         }
@@ -193,9 +190,9 @@ namespace CAT_Engine.Core.Utility
 
         public IsoTransform3(float x = 0, float y = 0, float z = 0, float rotation = 0, float sx = 1, float sy = 1, float sz = 1)
         {
-            this.position = new(x,y,z);
+            this.position = new(x, y, z);
             this.rotation = rotation;
-            this.scale = new(sx,sy,sz);
+            this.scale = new(sx, sy, sz);
         }
 
         public static IsoTransform3 Identity = new IsoTransform3(0, 0, 0, 0, 1, 1, 1);
