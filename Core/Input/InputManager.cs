@@ -240,7 +240,7 @@ namespace CAT_Engine.Core.Input
         }
 
         /// <summary>
-        /// Unsubscribes all actions with the same callback from the priority list. (see <see cref="RegisterActionPressed(int, Action{InputActionEvent})"/> to subscribe instead)
+        /// Unsubscribes all actions with the same callback from the priority list.
         /// </summary>
         /// <param name="actionName">The action name</param>
         /// <param name="callback">The callback function associated in the priority list.</param>
@@ -317,6 +317,7 @@ namespace CAT_Engine.Core.Input
         /// <summary>
         /// Subscribed an event to the axis Updated priority list
         /// </summary>
+        /// <param name="actionName">The action name.</param>
         /// <param name="priority">The priority. 0 is the HIGHEST priority.</param>
         /// <param name="callback">the callback.</param>
         public void RegisterAxisUpdated(string actionName, int priority, Action<InputAxisEvent> callback)

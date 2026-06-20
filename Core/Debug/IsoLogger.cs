@@ -1,15 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
+#nullable enable annotations
+// Throws a CS8632 compiler warning otherwise... Might not be the best way to fix it, I didn't really understand the docs...
+
 namespace CAT_Engine.Core.Debug
 {
+    /// <summary>
+    /// Provides a Logger with verbosity levels, asserts and 
+    /// </summary>
     public static class IsoLogger
     {
+        /// <summary>
+        /// Represents the currentVerbosity, default is <see cref="ELogVerbosity.VeryVerbose"/>.
+        /// </summary>
         public static ELogVerbosity currentVerbosity = ELogVerbosity.VeryVerbose;
 
+        /// <summary>
+        /// Logging Verbosity Levels
+        /// </summary>
         public enum ELogVerbosity
         {
             /// <summary>Always prints and triggers a debug assertion. Use for unrecoverable errors.</summary>
@@ -28,6 +39,10 @@ namespace CAT_Engine.Core.Debug
             VeryVerbose
         }
 
+        /// <summary>
+        /// Sets the logging verbosity of the Logger
+        /// </summary>
+        /// <param name="newVerbosity">The log verbosity to be set</param>
         public static void SetVerbosity(ELogVerbosity newVerbosity)
         {
             currentVerbosity = newVerbosity;
@@ -54,20 +69,24 @@ namespace CAT_Engine.Core.Debug
         }
 
         /// <summary>
-        /// <inheritdoc cref="Log(string, ELogVerbosity, object?[]?)"/>
+        /// <inheritdoc cref="Log(string, ELogVerbosity, object[])"/>
         /// </summary>
         [Conditional("DEBUG")]
+
         public static void Log(string format, params object?[]? args)
         {
             Log(format, ELogVerbosity.Display, args);
         }
 
         /// <summary>
-        /// Checks for a condition, if the condition is <see cref="false"/> then it will output the message and show a message box with the call stack.
+        /// Checks for a condition, if the condition is true then it will output the message and show a message box with the call stack.
         /// </summary>
-        /// <param name="condition"></param>
-        /// <param name="format"></param>
-        /// <param name="args"></param>
+        /// <param name="condition">Shows a message box with the call stack when true</param>
+        /// <param name="format">The mesage formatting used</param>
+        /// <param name="callerMember">The calling function</param>
+        /// <param name="callerFile">The file where the function is</param>
+        /// <param name="callerLine">The line in the file</param>
+        /// <param name="args">List of arguments.</param>
         public static void Assert(bool condition, string format, [CallerMemberName] string callerMember = "", [CallerFilePath] string callerFile = "", [CallerLineNumber] int callerLine = 0, params object?[]? args)
         {
             string formattedMessage = string.Format(format, args);
@@ -106,3 +125,4 @@ namespace CAT_Engine.Core.Debug
         }
     }
 }
+#nullable restore

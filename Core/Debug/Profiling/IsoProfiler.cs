@@ -1,9 +1,5 @@
-﻿using Microsoft.VisualBasic.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.Debug.Profiling
 {
@@ -12,23 +8,33 @@ namespace CAT_Engine.Core.Debug.Profiling
     /// </summary>
     public class IsoProfileStat
     {
+        /// <summary>
+        /// Number of calls
+        /// </summary>
         public int calls;
+
+        /// <summary>
+        /// Elapsed time
+        /// </summary>
         public TimeSpan totalTime;
     }
 
     /// <summary>
     /// Static profiler that accumulates timing data from <see cref="IsoScopeCycleStat"/> instances.
     /// Call <see cref="Dump"/> to print all recorded stats.
-    /// <param name="name">The name of the stat to record</param>
-    /// <param name="name">The elapsed time to add.</param>
     /// </summary>
     public static class IsoProfiler
     {
         private static Dictionary<string, IsoProfileStat> stats = new();
 
+        /// <summary>
+        /// Records a new entry that associates a name with an elapsed time.
+        /// </summary>
+        /// <param name="name">The name of the stat to record</param>
+        /// <param name="elapsed">The elapsed time to add.</param>
         public static void Record(string name, TimeSpan elapsed)
         {
-            if(!stats.TryGetValue(name, out IsoProfileStat stat))
+            if (!stats.TryGetValue(name, out IsoProfileStat stat))
             {
                 stat = new IsoProfileStat();
                 stats[name] = stat;
@@ -38,11 +44,14 @@ namespace CAT_Engine.Core.Debug.Profiling
             stat.totalTime = elapsed;
         }
 
+        /// <summary>
+        /// Dumps the profiler and logs it's stats
+        /// </summary>
         public static void Dump()
         {
             if (stats.Count == 0) return;
 
-            foreach(var pair in stats)
+            foreach (var pair in stats)
             {
                 IsoLogger.Log("{0}: {1} calls, {2}ms total", IsoLogger.ELogVerbosity.Log, pair.Key, pair.Value.calls, pair.Value.totalTime.TotalMilliseconds);
             }
