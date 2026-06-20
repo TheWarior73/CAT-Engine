@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CAT_Engine.Core.Input
+﻿namespace CAT_Engine.Core.Input
 {
     /// <summary>
     /// Represents an axis with it's associated scale [-1.0, 1.0] and <see cref="InputChord"/> (as keybind associated to the Axis trigger)

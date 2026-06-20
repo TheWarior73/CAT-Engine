@@ -16,7 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-    <ItemGroup>
-		<Compile Remove="Games\**" />
-    </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Games\**" />
+  </ItemGroup>
 </Project>
