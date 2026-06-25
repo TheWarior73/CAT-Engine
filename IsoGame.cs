@@ -44,7 +44,11 @@ namespace CAT_Engine
             inputManager = new InputManager();
 
             #region InputMGR test (to be removed)
+
+            bool isPauseMenuOpen = false;
+
             inputManager.AddActionMapping("Jump", new[] { new InputChord(Keys.Space) });
+            inputManager.AddActionMapping("Pause", new[] { new InputChord(Keys.Tab) }); // escape closes the game as of right now lmao ;( and I can't be bothered to change that (it's like 50 lines down from there, maybe more)
             inputManager.AddActionMapping("Interact", new[] { new InputChord(Keys.F) });
 
             // W = Forward (+1), S = Backward (-1)
@@ -56,10 +60,19 @@ namespace CAT_Engine
             // A = Left (-1), D = Right (+1)
             inputManager.AddAxisMapping("MoveRight", new[] {
                 new Axis { scale = 1.0f, keybinds = new[] { new InputChord(Keys.D) } },
-                new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.S) } }
+                new Axis { scale = -1.0f, keybinds = new[] { new InputChord(Keys.A) } }
             });
 
             // --- 3. SUBSCRIBE THE ISOLOGGER ---
+
+            // Hook up "Pause" Pressed
+            inputManager.RegisterActionPressed("Pause", 0, (e) =>
+            {
+                isPauseMenuOpen = !isPauseMenuOpen;
+                IsoLogger.Log($"ACTION PRESSED: {e.actionName}. isPauseMenuOpen state: {isPauseMenuOpen}", IsoLogger.ELogVerbosity.Warning);
+
+                e.Consume();
+            });
 
             // Hook up "Jump" Pressed
             inputManager.RegisterActionPressed("Jump", 0, (e) =>
@@ -83,6 +96,28 @@ namespace CAT_Engine
             inputManager.RegisterAxisUpdated("MoveRight", 0, (e) =>
             {
                 IsoLogger.Log($"AXIS HOLD: {e.axisName} | Value: {e.value}", IsoLogger.ELogVerbosity.Warning);
+            });
+
+            // --- 4. REGISTER PLAYER (Priority: 100 - Runs Last) ---
+            inputManager.RegisterActionPressed("Interact", 100, (e) =>
+            {
+                // The player should ONLY see this if the menu is closed!
+                IsoLogger.Log("🎮 PLAYER: I interacted with the game world!", IsoLogger.ELogVerbosity.Warning);
+            });
+
+            // --- 5. REGISTER UI MENU (Priority: 0 - Runs First) ---
+            inputManager.RegisterActionPressed("Interact", 0, (e) =>
+            {
+                if (isPauseMenuOpen)
+                {
+                    IsoLogger.Log("🖥️ UI MENU: The menu is open! Consuming the event so the player doesn't move.", IsoLogger.ELogVerbosity.Warning);
+
+                    e.Consume();
+                }
+                else
+                {
+                    IsoLogger.Log("🖥️ UI MENU: Menu is closed. carrying on", IsoLogger.ELogVerbosity.Warning);
+                }
             });
             #endregion
 
