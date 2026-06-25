@@ -54,7 +54,7 @@
   - [RebindAxisMapping(AxisName,newAxises)](#M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-Axis[]- 'CAT_Engine.Core.Input.InputManager.RebindAxisMapping(System.String,CAT_Engine.Core.Input.Axis[])')
   - [RegisterActionPressed(priority,callback,actionName)](#M-CAT_Engine-Core-Input-InputManager-RegisterActionPressed-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputActionEvent}- 'CAT_Engine.Core.Input.InputManager.RegisterActionPressed(System.String,System.Int32,System.Action{CAT_Engine.Core.Input.InputActionEvent})')
   - [RegisterActionReleased(actionName,priority,callback)](#M-CAT_Engine-Core-Input-InputManager-RegisterActionReleased-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputActionEvent}- 'CAT_Engine.Core.Input.InputManager.RegisterActionReleased(System.String,System.Int32,System.Action{CAT_Engine.Core.Input.InputActionEvent})')
-  - [RegisterAxisUpdated(priority,callback)](#M-CAT_Engine-Core-Input-InputManager-RegisterAxisUpdated-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputAxisEvent}- 'CAT_Engine.Core.Input.InputManager.RegisterAxisUpdated(System.String,System.Int32,System.Action{CAT_Engine.Core.Input.InputAxisEvent})')
+  - [RegisterAxisUpdated(actionName,priority,callback)](#M-CAT_Engine-Core-Input-InputManager-RegisterAxisUpdated-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputAxisEvent}- 'CAT_Engine.Core.Input.InputManager.RegisterAxisUpdated(System.String,System.Int32,System.Action{CAT_Engine.Core.Input.InputAxisEvent})')
   - [RemoveActionMapping(ActionName)](#M-CAT_Engine-Core-Input-InputManager-RemoveActionMapping-System-String- 'CAT_Engine.Core.Input.InputManager.RemoveActionMapping(System.String)')
   - [RemoveAxisMapping(AxisName)](#M-CAT_Engine-Core-Input-InputManager-RemoveAxisMapping-System-String- 'CAT_Engine.Core.Input.InputManager.RemoveAxisMapping(System.String)')
   - [UnregisterActionPressed(actionName,callback)](#M-CAT_Engine-Core-Input-InputManager-UnregisterActionPressed-System-String,System-Action{CAT_Engine-Core-Input-InputActionEvent}- 'CAT_Engine.Core.Input.InputManager.UnregisterActionPressed(System.String,System.Action{CAT_Engine.Core.Input.InputActionEvent})')
@@ -74,12 +74,18 @@
   - [OnInitializeWindow(Window)](#M-CAT_Engine-IsoGame-OnInitializeWindow-Microsoft-Xna-Framework-GameWindow- 'CAT_Engine.IsoGame.OnInitializeWindow(Microsoft.Xna.Framework.GameWindow)')
   - [OnUpdate(delta)](#M-CAT_Engine-IsoGame-OnUpdate-System-Single- 'CAT_Engine.IsoGame.OnUpdate(System.Single)')
 - [IsoLogger](#T-CAT_Engine-Core-Debug-IsoLogger 'CAT_Engine.Core.Debug.IsoLogger')
-  - [Assert(condition,format,args)](#M-CAT_Engine-Core-Debug-IsoLogger-Assert-System-Boolean,System-String,System-String,System-String,System-Int32,System-Object[]- 'CAT_Engine.Core.Debug.IsoLogger.Assert(System.Boolean,System.String,System.String,System.String,System.Int32,System.Object[])')
+  - [currentVerbosity](#F-CAT_Engine-Core-Debug-IsoLogger-currentVerbosity 'CAT_Engine.Core.Debug.IsoLogger.currentVerbosity')
+  - [Assert(condition,format,callerMember,callerFile,callerLine,args)](#M-CAT_Engine-Core-Debug-IsoLogger-Assert-System-Boolean,System-String,System-String,System-String,System-Int32,System-Object[]- 'CAT_Engine.Core.Debug.IsoLogger.Assert(System.Boolean,System.String,System.String,System.String,System.Int32,System.Object[])')
   - [Except(format,args)](#M-CAT_Engine-Core-Debug-IsoLogger-Except-System-String,System-Object[]- 'CAT_Engine.Core.Debug.IsoLogger.Except(System.String,System.Object[])')
   - [Log(format,verbosity,args)](#M-CAT_Engine-Core-Debug-IsoLogger-Log-System-String,CAT_Engine-Core-Debug-IsoLogger-ELogVerbosity,System-Object[]- 'CAT_Engine.Core.Debug.IsoLogger.Log(System.String,CAT_Engine.Core.Debug.IsoLogger.ELogVerbosity,System.Object[])')
   - [Log()](#M-CAT_Engine-Core-Debug-IsoLogger-Log-System-String,System-Object[]- 'CAT_Engine.Core.Debug.IsoLogger.Log(System.String,System.Object[])')
+  - [SetVerbosity(newVerbosity)](#M-CAT_Engine-Core-Debug-IsoLogger-SetVerbosity-CAT_Engine-Core-Debug-IsoLogger-ELogVerbosity- 'CAT_Engine.Core.Debug.IsoLogger.SetVerbosity(CAT_Engine.Core.Debug.IsoLogger.ELogVerbosity)')
 - [IsoProfileStat](#T-CAT_Engine-Core-Debug-Profiling-IsoProfileStat 'CAT_Engine.Core.Debug.Profiling.IsoProfileStat')
+  - [calls](#F-CAT_Engine-Core-Debug-Profiling-IsoProfileStat-calls 'CAT_Engine.Core.Debug.Profiling.IsoProfileStat.calls')
+  - [totalTime](#F-CAT_Engine-Core-Debug-Profiling-IsoProfileStat-totalTime 'CAT_Engine.Core.Debug.Profiling.IsoProfileStat.totalTime')
 - [IsoProfiler](#T-CAT_Engine-Core-Debug-Profiling-IsoProfiler 'CAT_Engine.Core.Debug.Profiling.IsoProfiler')
+  - [Dump()](#M-CAT_Engine-Core-Debug-Profiling-IsoProfiler-Dump 'CAT_Engine.Core.Debug.Profiling.IsoProfiler.Dump')
+  - [Record(name,elapsed)](#M-CAT_Engine-Core-Debug-Profiling-IsoProfiler-Record-System-String,System-TimeSpan- 'CAT_Engine.Core.Debug.Profiling.IsoProfiler.Record(System.String,System.TimeSpan)')
   - [Reset()](#M-CAT_Engine-Core-Debug-Profiling-IsoProfiler-Reset 'CAT_Engine.Core.Debug.Profiling.IsoProfiler.Reset')
 - [IsoRenderContextBuilder](#T-CAT_Engine-Core-Rendering-IsoRenderContextBuilder 'CAT_Engine.Core.Rendering.IsoRenderContextBuilder')
   - [Build()](#M-CAT_Engine-Core-Rendering-IsoRenderContextBuilder-Build 'CAT_Engine.Core.Rendering.IsoRenderContextBuilder.Build')
@@ -96,6 +102,9 @@
   - [Destroy()](#M-CAT_Engine-Core-SceneBase-SceneObjects-IsoSceneObject-Destroy 'CAT_Engine.Core.SceneBase.SceneObjects.IsoSceneObject.Destroy')
   - [Dispose()](#M-CAT_Engine-Core-SceneBase-SceneObjects-IsoSceneObject-Dispose 'CAT_Engine.Core.SceneBase.SceneObjects.IsoSceneObject.Dispose')
 - [IsoScopeCycleStat](#T-CAT_Engine-Core-Debug-IsoScopeCycleStat 'CAT_Engine.Core.Debug.IsoScopeCycleStat')
+  - [#ctor(name)](#M-CAT_Engine-Core-Debug-IsoScopeCycleStat-#ctor-System-String- 'CAT_Engine.Core.Debug.IsoScopeCycleStat.#ctor(System.String)')
+  - [calls](#F-CAT_Engine-Core-Debug-IsoScopeCycleStat-calls 'CAT_Engine.Core.Debug.IsoScopeCycleStat.calls')
+  - [Dispose()](#M-CAT_Engine-Core-Debug-IsoScopeCycleStat-Dispose 'CAT_Engine.Core.Debug.IsoScopeCycleStat.Dispose')
 - [IsoTileChunk](#T-CAT_Engine-Core-Tiles-IsoTileChunk 'CAT_Engine.Core.Tiles.IsoTileChunk')
   - [CalculateChunkCoords(globalPos)](#M-CAT_Engine-Core-Tiles-IsoTileChunk-CalculateChunkCoords-CAT_Engine-Core-Utility-IntVector3- 'CAT_Engine.Core.Tiles.IsoTileChunk.CalculateChunkCoords(CAT_Engine.Core.Utility.IntVector3)')
   - [ClearChunk()](#M-CAT_Engine-Core-Tiles-IsoTileChunk-ClearChunk 'CAT_Engine.Core.Tiles.IsoTileChunk.ClearChunk')
@@ -125,6 +134,8 @@
   - [rotation](#F-CAT_Engine-Core-Utility-IsoTransform2-rotation 'CAT_Engine.Core.Utility.IsoTransform2.rotation')
 - [IsoTransform3](#T-CAT_Engine-Core-Utility-IsoTransform3 'CAT_Engine.Core.Utility.IsoTransform3')
   - [rotation](#F-CAT_Engine-Core-Utility-IsoTransform3-rotation 'CAT_Engine.Core.Utility.IsoTransform3.rotation')
+- [IsoUpdateableInterface](#T-CAT_Engine-Core-Interfaces-IsoUpdateableInterface 'CAT_Engine.Core.Interfaces.IsoUpdateableInterface')
+  - [Update(delta)](#M-CAT_Engine-Core-Interfaces-IsoUpdateableInterface-Update-System-Single- 'CAT_Engine.Core.Interfaces.IsoUpdateableInterface.Update(System.Single)')
 - [Modifiers](#T-CAT_Engine-Core-Input-Modifiers 'CAT_Engine.Core.Input.Modifiers')
   - [Alt](#F-CAT_Engine-Core-Input-Modifiers-Alt 'CAT_Engine.Core.Input.Modifiers.Alt')
   - [Control](#F-CAT_Engine-Core-Input-Modifiers-Control 'CAT_Engine.Core.Input.Modifiers.Control')
@@ -191,6 +202,10 @@ Raises an exception because a chunk couldn't be found by the executable.
 ##### Namespace
 
 CAT_Engine.Core.Debug.IsoLogger
+
+##### Summary
+
+Logging Verbosity Levels
 
 <a name='F-CAT_Engine-Core-Debug-IsoLogger-ELogVerbosity-Display'></a>
 ### Display `constants`
@@ -694,7 +709,7 @@ Subscribes an event to the action released priority list
 | callback | [System.Action{CAT_Engine.Core.Input.InputActionEvent}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Action 'System.Action{CAT_Engine.Core.Input.InputActionEvent}') | The callback |
 
 <a name='M-CAT_Engine-Core-Input-InputManager-RegisterAxisUpdated-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputAxisEvent}-'></a>
-### RegisterAxisUpdated(priority,callback) `method`
+### RegisterAxisUpdated(actionName,priority,callback) `method`
 
 ##### Summary
 
@@ -704,8 +719,9 @@ Subscribed an event to the axis Updated priority list
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| priority | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The priority. 0 is the HIGHEST priority. |
-| callback | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | the callback. |
+| actionName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The action name. |
+| priority | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The priority. 0 is the HIGHEST priority. |
+| callback | [System.Action{CAT_Engine.Core.Input.InputAxisEvent}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Action 'System.Action{CAT_Engine.Core.Input.InputAxisEvent}') | the callback. |
 
 <a name='M-CAT_Engine-Core-Input-InputManager-RemoveActionMapping-System-String-'></a>
 ### RemoveActionMapping(ActionName) `method`
@@ -738,7 +754,7 @@ Removes an Axis from the AxisMapping dictionary completely.
 
 ##### Summary
 
-Unsubscribes all actions with the same callback from the priority list. (see [](#!-RegisterActionPressed-int, Action<InputActionEvent>- 'RegisterActionPressed(int, Action<InputActionEvent>)') to subscribe instead)
+Unsubscribes all actions with the same callback from the priority list.
 
 ##### Parameters
 
@@ -926,20 +942,34 @@ Called when the engine updates.
 
 CAT_Engine.Core.Debug
 
-<a name='M-CAT_Engine-Core-Debug-IsoLogger-Assert-System-Boolean,System-String,System-String,System-String,System-Int32,System-Object[]-'></a>
-### Assert(condition,format,args) `method`
+##### Summary
+
+Provides a Logger with verbosity levels, asserts and
+
+<a name='F-CAT_Engine-Core-Debug-IsoLogger-currentVerbosity'></a>
+### currentVerbosity `constants`
 
 ##### Summary
 
-Checks for a condition, if the condition is [](#!-false 'false') then it will output the message and show a message box with the call stack.
+Represents the currentVerbosity, default is [VeryVerbose](#F-CAT_Engine-Core-Debug-IsoLogger-ELogVerbosity-VeryVerbose 'CAT_Engine.Core.Debug.IsoLogger.ELogVerbosity.VeryVerbose').
+
+<a name='M-CAT_Engine-Core-Debug-IsoLogger-Assert-System-Boolean,System-String,System-String,System-String,System-Int32,System-Object[]-'></a>
+### Assert(condition,format,callerMember,callerFile,callerLine,args) `method`
+
+##### Summary
+
+Checks for a condition, if the condition is true then it will output the message and show a message box with the call stack.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| condition | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') |  |
-| format | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') |  |
-| args | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') |  |
+| condition | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | Shows a message box with the call stack when true |
+| format | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The mesage formatting used |
+| callerMember | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The calling function |
+| callerFile | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The file where the function is |
+| callerLine | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The line in the file |
+| args | [System.Object[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object[] 'System.Object[]') | List of arguments. |
 
 <a name='M-CAT_Engine-Core-Debug-IsoLogger-Except-System-String,System-Object[]-'></a>
 ### Except(format,args) `method`
@@ -988,6 +1018,19 @@ Logs to the logger in debug builds and in release will log to a log file.
 
 This method has no parameters.
 
+<a name='M-CAT_Engine-Core-Debug-IsoLogger-SetVerbosity-CAT_Engine-Core-Debug-IsoLogger-ELogVerbosity-'></a>
+### SetVerbosity(newVerbosity) `method`
+
+##### Summary
+
+Sets the logging verbosity of the Logger
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| newVerbosity | [CAT_Engine.Core.Debug.IsoLogger.ELogVerbosity](#T-CAT_Engine-Core-Debug-IsoLogger-ELogVerbosity 'CAT_Engine.Core.Debug.IsoLogger.ELogVerbosity') | The log verbosity to be set |
+
 <a name='T-CAT_Engine-Core-Debug-Profiling-IsoProfileStat'></a>
 ## IsoProfileStat `type`
 
@@ -998,6 +1041,20 @@ CAT_Engine.Core.Debug.Profiling
 ##### Summary
 
 Holds profiling data for a named stat
+
+<a name='F-CAT_Engine-Core-Debug-Profiling-IsoProfileStat-calls'></a>
+### calls `constants`
+
+##### Summary
+
+Number of calls
+
+<a name='F-CAT_Engine-Core-Debug-Profiling-IsoProfileStat-totalTime'></a>
+### totalTime `constants`
+
+##### Summary
+
+Elapsed time
 
 <a name='T-CAT_Engine-Core-Debug-Profiling-IsoProfiler'></a>
 ## IsoProfiler `type`
@@ -1010,6 +1067,31 @@ CAT_Engine.Core.Debug.Profiling
 
 Static profiler that accumulates timing data from [IsoScopeCycleStat](#T-CAT_Engine-Core-Debug-IsoScopeCycleStat 'CAT_Engine.Core.Debug.IsoScopeCycleStat') instances.
 Call [Dump](#M-CAT_Engine-Core-Debug-Profiling-IsoProfiler-Dump 'CAT_Engine.Core.Debug.Profiling.IsoProfiler.Dump') to print all recorded stats.
+
+<a name='M-CAT_Engine-Core-Debug-Profiling-IsoProfiler-Dump'></a>
+### Dump() `method`
+
+##### Summary
+
+Dumps the profiler and logs it's stats
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-CAT_Engine-Core-Debug-Profiling-IsoProfiler-Record-System-String,System-TimeSpan-'></a>
+### Record(name,elapsed) `method`
+
+##### Summary
+
+Records a new entry that associates a name with an elapsed time.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| name | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The name of the stat to record |
+| elapsed | [System.TimeSpan](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.TimeSpan 'System.TimeSpan') | The elapsed time to add. |
 
 <a name='M-CAT_Engine-Core-Debug-Profiling-IsoProfiler-Reset'></a>
 ### Reset() `method`
@@ -1197,12 +1279,43 @@ CAT_Engine.Core.Debug
 
 ##### Summary
 
-A disposable struct that times a scope and reports it to [](#!-Profiler 'Profiler')
+A disposable struct that times a scope and reports it to [IsoProfiler](#T-CAT_Engine-Core-Debug-Profiling-IsoProfiler 'CAT_Engine.Core.Debug.Profiling.IsoProfiler')
 Use with a `using` statement to automatically record elapsed time on scope exit
 
 ```
 using var _ = new ScopeStat("Class.Method");
 ```
+
+<a name='M-CAT_Engine-Core-Debug-IsoScopeCycleStat-#ctor-System-String-'></a>
+### #ctor(name) `constructor`
+
+##### Summary
+
+Default constructor
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| name | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The cycle name |
+
+<a name='F-CAT_Engine-Core-Debug-IsoScopeCycleStat-calls'></a>
+### calls `constants`
+
+##### Summary
+
+Number of calls done during a cycle.
+
+<a name='M-CAT_Engine-Core-Debug-IsoScopeCycleStat-Dispose'></a>
+### Dispose() `method`
+
+##### Summary
+
+Stops the timer and records the elapsed time.
+
+##### Parameters
+
+This method has no parameters.
 
 <a name='T-CAT_Engine-Core-Tiles-IsoTileChunk'></a>
 ## IsoTileChunk `type`
@@ -1595,6 +1708,30 @@ Represents a 3D Transform
 ##### Summary
 
 rotation in degrees, not radiants
+
+<a name='T-CAT_Engine-Core-Interfaces-IsoUpdateableInterface'></a>
+## IsoUpdateableInterface `type`
+
+##### Namespace
+
+CAT_Engine.Core.Interfaces
+
+##### Summary
+
+Interface for updateable components that have to provide update methods.
+
+<a name='M-CAT_Engine-Core-Interfaces-IsoUpdateableInterface-Update-System-Single-'></a>
+### Update(delta) `method`
+
+##### Summary
+
+Update function to allow for the component's update
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| delta | [System.Single](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Single 'System.Single') | Usualy time |
 
 <a name='T-CAT_Engine-Core-Input-Modifiers'></a>
 ## Modifiers `type`
