@@ -4,12 +4,6 @@ using CAT_Engine.Core.SceneBase.SceneObjects.Entity;
 using CAT_Engine.Core.Tiles;
 using CAT_Engine.Core.Tiles.TileObjects;
 using CAT_Engine.Core.Utility;
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CATSandboxGame.Scenes
 {
@@ -23,7 +17,7 @@ namespace CATSandboxGame.Scenes
 
         public override void BeginPlay()
         {
-            TestMap();
+            //TestMap();
             TestEntity();
         }
 
