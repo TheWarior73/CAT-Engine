@@ -51,7 +51,7 @@
   - [RebindActionMapping(ActionName,newKey,keyIndex)](#M-CAT_Engine-Core-Input-InputManager-RebindActionMapping-System-String,CAT_Engine-Core-Input-InputChord,System-Int32- 'CAT_Engine.Core.Input.InputManager.RebindActionMapping(System.String,CAT_Engine.Core.Input.InputChord,System.Int32)')
   - [RebindActionMapping(ActionName,newKeys)](#M-CAT_Engine-Core-Input-InputManager-RebindActionMapping-System-String,CAT_Engine-Core-Input-InputChord[]- 'CAT_Engine.Core.Input.InputManager.RebindActionMapping(System.String,CAT_Engine.Core.Input.InputChord[])')
   - [RebindAxisMapping(AxisName,newAxis,axisIndex)](#M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-Axis,System-Int32- 'CAT_Engine.Core.Input.InputManager.RebindAxisMapping(System.String,CAT_Engine.Core.Input.Axis,System.Int32)')
-  - [RebindAxisMapping(AxisName,newAxises)](#M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-Axis[]- 'CAT_Engine.Core.Input.InputManager.RebindAxisMapping(System.String,CAT_Engine.Core.Input.Axis[])')
+  - [RebindAxisMapping(AxisName,newAxes)](#M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-Axis[]- 'CAT_Engine.Core.Input.InputManager.RebindAxisMapping(System.String,CAT_Engine.Core.Input.Axis[])')
   - [RegisterActionPressed(priority,callback,actionName)](#M-CAT_Engine-Core-Input-InputManager-RegisterActionPressed-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputActionEvent}- 'CAT_Engine.Core.Input.InputManager.RegisterActionPressed(System.String,System.Int32,System.Action{CAT_Engine.Core.Input.InputActionEvent})')
   - [RegisterActionReleased(actionName,priority,callback)](#M-CAT_Engine-Core-Input-InputManager-RegisterActionReleased-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputActionEvent}- 'CAT_Engine.Core.Input.InputManager.RegisterActionReleased(System.String,System.Int32,System.Action{CAT_Engine.Core.Input.InputActionEvent})')
   - [RegisterAxisUpdated(actionName,priority,callback)](#M-CAT_Engine-Core-Input-InputManager-RegisterAxisUpdated-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputAxisEvent}- 'CAT_Engine.Core.Input.InputManager.RegisterAxisUpdated(System.String,System.Int32,System.Action{CAT_Engine.Core.Input.InputAxisEvent})')
@@ -664,7 +664,7 @@ Rebinds a specific inputChord set for a given Axis
 | axisIndex | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The position of the axis in the Axis keybind list |
 
 <a name='M-CAT_Engine-Core-Input-InputManager-RebindAxisMapping-System-String,CAT_Engine-Core-Input-Axis[]-'></a>
-### RebindAxisMapping(AxisName,newAxises) `method`
+### RebindAxisMapping(AxisName,newAxes) `method`
 
 ##### Summary
 
@@ -675,7 +675,7 @@ Rebinds a whole inputChord (keybind) set for a given Axis
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | AxisName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The axis name to be rebound |
-| newAxises | [CAT_Engine.Core.Input.Axis[]](#T-CAT_Engine-Core-Input-Axis[] 'CAT_Engine.Core.Input.Axis[]') | The list of new axises to be associated with the axis name |
+| newAxes | [CAT_Engine.Core.Input.Axis[]](#T-CAT_Engine-Core-Input-Axis[] 'CAT_Engine.Core.Input.Axis[]') | The list of new axises to be associated with the axis name |
 
 <a name='M-CAT_Engine-Core-Input-InputManager-RegisterActionPressed-System-String,System-Int32,System-Action{CAT_Engine-Core-Input-InputActionEvent}-'></a>
 ### RegisterActionPressed(priority,callback,actionName) `method`

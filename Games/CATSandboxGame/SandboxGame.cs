@@ -1,8 +1,10 @@
 ﻿using CAT_Engine;
 using CAT_Engine.Core.Debug;
+using CAT_Engine.Core.Input;
 using CAT_Engine.Core.SceneBase;
 using CATSandboxGame.Scenes;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace CATSandboxGame
 {

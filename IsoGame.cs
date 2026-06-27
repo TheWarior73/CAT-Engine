@@ -26,7 +26,7 @@ namespace CAT_Engine
         private Color graphicsDeviceClearColor = Color.Red;
 
         public static AssetManager assetManager;
-        internal InputManager inputManager;
+        public InputManager inputManager;
 
         //Base functions are sealed as to not disturb the IsoGame engine initialization
         protected sealed override void Initialize()
