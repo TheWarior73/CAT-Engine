@@ -130,10 +130,10 @@ namespace CAT_Engine.Core.Input
         /// Rebinds a whole inputChord (keybind) set for a given Axis
         /// </summary>
         /// <param name="AxisName">The axis name to be rebound</param>
-        /// <param name="newAxises">The list of new axises to be associated with the axis name</param>
-        public void RebindAxisMapping(string AxisName, Axis[] newAxises)
+        /// <param name="newAxes">The list of new axises to be associated with the axis name</param>
+        public void RebindAxisMapping(string AxisName, Axis[] newAxes)
         {
-            _axisMapping[AxisName] = newAxises;
+            _axisMapping[AxisName] = newAxes;
         }
 
         /// <summary>
@@ -333,18 +333,18 @@ namespace CAT_Engine.Core.Input
         /// <summary>
         /// Unsubscribes all events with the same callback from the axis updated priority list
         /// </summary>
-        /// <param name="actionName">The action name</param>
+        /// <param name="axisName">The axis name</param>
         /// <param name="callback">The callback.</param>
-        public void UnregisterAxisUpdated(string actionName, Action<InputActionEvent> callback)
+        public void UnregisterAxisUpdated(string axisName, Action<InputAxisEvent> callback)
         {
-            if (_actionPressedListeners.TryGetValue(actionName, out var targetListeners))
+            if (_axisUpdatedListeners.TryGetValue(axisName, out var targetListeners))
             {
                 targetListeners.RemoveAll(x => x.Callback == callback);
 
                 // Delete the list if emptied by this removal
                 if (targetListeners.Count == 0)
                 {
-                    _actionPressedListeners.Remove(actionName);
+                    _axisUpdatedListeners.Remove(axisName);
                 }
             }
         }
