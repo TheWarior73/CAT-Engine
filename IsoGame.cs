@@ -28,6 +28,10 @@ namespace CAT_Engine
         public static AssetManager assetManager;
         internal InputManager inputManager;
 
+        /// <summary>
+        /// Engine Initialisation
+        /// </summary>
+
         //Base functions are sealed as to not disturb the IsoGame engine initialization
         protected sealed override void Initialize()
         {
@@ -35,8 +39,9 @@ namespace CAT_Engine
 
             SetLocaleDefaults();
 
-            assetManager = new AssetManager();
             Window.Title = "CAT Engine";
+
+            assetManager = new AssetManager();
 
             IsoSceneManager.graphicsDevice = graphics.GraphicsDevice;
             IsoSceneManager.PreInit();
@@ -70,6 +75,7 @@ namespace CAT_Engine
                 Exit();
             }
 
+            // Profiler
             IsoProfiler.Dump();
             IsoProfiler.Reset();
 
