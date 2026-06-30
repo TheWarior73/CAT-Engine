@@ -8,7 +8,7 @@
         /// <summary>
         /// Update function to allow for the component's update
         /// </summary>
-        /// <param name="delta">Usualy time</param>
+        /// <param name="delta">Elapsed time since last update</param>
         public abstract void Update(float delta);
     }
 }

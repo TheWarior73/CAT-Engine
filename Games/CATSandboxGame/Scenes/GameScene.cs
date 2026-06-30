@@ -18,7 +18,7 @@ namespace CATSandboxGame.Scenes
         public override void BeginPlay()
         {
             //TestMap();
-            TestEntity();
+            //TestEntity();
         }
 
         private void TestMap()

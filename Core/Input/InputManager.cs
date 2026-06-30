@@ -202,7 +202,7 @@ namespace CAT_Engine.Core.Input
         /// </summary>
         public InputManager()
         {
-            using var _ = new IsoScopeCycleStat("InputManager.Constructor");
+            using var _ = new IsoScopeCycleStat("InputManager.Init");
 
             _currentState = Keyboard.GetState();
             _previousState = new();
