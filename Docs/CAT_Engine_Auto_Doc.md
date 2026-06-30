@@ -69,6 +69,7 @@
   - [Zero()](#M-CAT_Engine-Core-Utility-IntVector3-Zero 'CAT_Engine.Core.Utility.IntVector3.Zero')
 - [IsoCamera](#T-CAT_Engine-Core-Rendering-IsoCamera 'CAT_Engine.Core.Rendering.IsoCamera')
 - [IsoGame](#T-CAT_Engine-IsoGame 'CAT_Engine.IsoGame')
+  - [Initialize()](#M-CAT_Engine-IsoGame-Initialize 'CAT_Engine.IsoGame.Initialize')
   - [OnAssetManagerReady()](#M-CAT_Engine-IsoGame-OnAssetManagerReady 'CAT_Engine.IsoGame.OnAssetManagerReady')
   - [OnInitializeGame()](#M-CAT_Engine-IsoGame-OnInitializeGame 'CAT_Engine.IsoGame.OnInitializeGame')
   - [OnInitializeWindow(Window)](#M-CAT_Engine-IsoGame-OnInitializeWindow-Microsoft-Xna-Framework-GameWindow- 'CAT_Engine.IsoGame.OnInitializeWindow(Microsoft.Xna.Framework.GameWindow)')
@@ -886,6 +887,17 @@ CAT_Engine.Core.Rendering
 ##### Namespace
 
 CAT_Engine
+
+<a name='M-CAT_Engine-IsoGame-Initialize'></a>
+### Initialize() `method`
+
+##### Summary
+
+Engine Initialisation.
+
+##### Parameters
+
+This method has no parameters.
 
 <a name='M-CAT_Engine-IsoGame-OnAssetManagerReady'></a>
 ### OnAssetManagerReady() `method`
