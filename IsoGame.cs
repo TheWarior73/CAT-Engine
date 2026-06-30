@@ -26,7 +26,7 @@ namespace CAT_Engine
         private Color graphicsDeviceClearColor = Color.Red;
 
         public static AssetManager assetManager;
-        internal InputManager inputManager;
+        public InputManager inputManager;
 
         /// <summary>
         /// Engine Initialisation

@@ -25,5 +25,17 @@
             scale = 0.0f;
             keybinds = null;
         }
+
+        public Axis(float scale, InputChord[] chords)
+        {
+            this.scale = scale;
+            keybinds = chords;
+        }
+
+        public Axis(float scale, InputChord chord)
+        {
+            this.scale = scale;
+            keybinds = new InputChord[] { chord };
+        }
     }
 }
