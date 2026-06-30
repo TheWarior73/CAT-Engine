@@ -1,5 +1,4 @@
 ﻿using CAT_Engine.Core.Debug;
-using CAT_Engine.Core.Interfaces;
 using CAT_Engine.Core.Rendering;
 using CAT_Engine.Core.Rendering.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,11 +13,23 @@ namespace CAT_Engine.Core.SceneBase
      */
     public static class IsoSceneManager
     {
+        /// <summary>
+        /// The rendered scene
+        /// </summary>
         public static IsoScene activeScene { get; private set; } = null;
+
+        /// <summary>
+        /// The camera used as viewpoint
+        /// </summary>
         public static IsoCamera activeCamera { get; private set; } = null;
+
         internal static SpriteBatch spriteBatch { get; set; } = null;
         internal static GraphicsDevice graphicsDevice { get; set; } = null;
-        public static List<IsoScene> scenes {  get; private set; } = new List<IsoScene>();
+
+        /// <summary>
+        /// List os scenes loaded into the manager.
+        /// </summary>
+        public static List<IsoScene> scenes { get; private set; } = new List<IsoScene>();
 
         /// <summary>
         /// Current Render Interface, reason we are using the interface is because the Scene Manager should not care if this is 
@@ -49,6 +60,11 @@ namespace CAT_Engine.Core.SceneBase
             scenes.Add(scene);
         }
 
+        /// <summary>
+        /// Loads a scene as the active scene and unloads the currently active scene at the same time.
+        /// </summary>
+        /// <typeparam name="T">The scene to be loaded</typeparam>
+        /// <returns>the active scene Instance</returns>
         public static T LoadScene<T>() where T : IsoScene
         {
             if (activeScene != null)
@@ -58,7 +74,7 @@ namespace CAT_Engine.Core.SceneBase
             }
 
             T sceneInstance = CreateScene<T>();
-            
+
             sceneInstance.Load();
 
             activeScene = sceneInstance;
@@ -66,6 +82,10 @@ namespace CAT_Engine.Core.SceneBase
             return sceneInstance;
         }
 
+        /// <summary>
+        /// Loads a scene as the active scene and unloads the currently active scene at the same time.
+        /// </summary>
+        /// <param name="scene">The scene to be loaded</param>
         public static void LoadScene(IsoScene scene)
         {
             if (activeScene != null)
@@ -78,11 +98,18 @@ namespace CAT_Engine.Core.SceneBase
             activeScene = scene;
         }
 
+        /// <summary>
+        /// Changes the active camera to the specified one
+        /// </summary>
+        /// <param name="camera">Camera to be set as active</param>
         public static void SetActiveCamera(IsoCamera camera)
         {
             activeCamera = camera;
         }
 
+        /// <summary>
+        /// Renders the <see cref="activeScene"/> to the screen
+        /// </summary>
         public static void RenderActiveScene()
         {
             if (activeRenderer == null)
@@ -105,6 +132,10 @@ namespace CAT_Engine.Core.SceneBase
             activeRenderer.Render(context);
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="delta"><inheritdoc/></param>
         public static void Update(float delta)
         {
             if (activeScene == null) return;

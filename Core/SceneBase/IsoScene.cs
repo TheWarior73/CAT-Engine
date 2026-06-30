@@ -4,28 +4,34 @@ using CAT_Engine.Core.SceneBase.SceneObjects;
 using CAT_Engine.Core.SceneBase.SceneObjects.Entity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CAT_Engine.Core.SceneBase
 {
-    /**
-     * Isometric Scene to represent almost anything in a game
-     */ 
+    /// <summary>
+    /// Represents an Isometric Scene with objects, tiles, etc...
+    /// </summary>
     public abstract class IsoScene : IsoUpdateableInterface
     {
-        //Only the engine can create scenes directly
+        /// <summary>
+        /// The engine is the only actor that can create Scenes, this token is there to handle Scene creation
+        /// </summary>
         public class SceneToken
         {
             private SceneToken() { }
             internal static readonly SceneToken Instance = new SceneToken();
         }
 
+        /// <summary>
+        /// Creates an IsoScene from a <see cref="SceneToken"/>
+        /// </summary>
+        /// <param name="token">The token</param>
         protected IsoScene(SceneToken token) { }
 
         private List<IsoRenderableObjectInterface> renderableObjects = new();
 
+        /// <summary>
+        /// List of objects in the scene.
+        /// </summary>
         protected List<IsoSceneObject> sceneObjects = new();
 
         internal virtual void Load()
@@ -40,16 +46,28 @@ namespace CAT_Engine.Core.SceneBase
         public virtual void BeginPlay() { }
         public virtual void EndPlay() { }
 
+        /// <summary>
+        /// Adds a renderable Object to the <see cref="renderableObjects"/> list
+        /// </summary>
+        /// <param name="newRenderable">The renderable object</param>
         protected void AddRenderableObject(IsoRenderableObjectInterface newRenderable)
         {
             renderableObjects.Add(newRenderable);
         }
 
+        /// <summary>
+        /// Removes a renderable Object from the <see cref="renderableObjects"/> list
+        /// </summary>
+        /// <param name="renderable"></param>
         protected void RemoveRenderableObject(IsoRenderableObjectInterface renderable)
         {
             renderableObjects.Remove(renderable);
         }
 
+        /// <summary>
+        /// Provides the <see cref="renderableObjects"/> list
+        /// </summary>
+        /// <returns>The list</returns>
         public virtual List<IsoRenderableObjectInterface> GetRenderableObjects()
         {
             return renderableObjects;
@@ -58,7 +76,7 @@ namespace CAT_Engine.Core.SceneBase
         //Spawners
 
         /// <summary>
-        /// Spawns an Entity of type and adds it to the scene <see cref="T"/>
+        /// Spawns an Entity of type and adds it to the scene.
         /// </summary>
         /// <typeparam name="T">The Entity's Type</typeparam>
         /// <returns></returns>
@@ -109,6 +127,10 @@ namespace CAT_Engine.Core.SceneBase
             sceneObjects.Remove(o);
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="delta"><inheritdoc/></param>
         public virtual void Update(float delta)
         {
             for (int i = 0; i < sceneObjects.Count; i++)
